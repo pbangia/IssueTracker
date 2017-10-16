@@ -1,4 +1,5 @@
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import com.mongodb.*;
 import org.mockito.ArgumentCaptor;
@@ -56,8 +57,27 @@ public class AuthenticationTest {
         DBCursor index = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(index);
         when(index.hasNext()).thenReturn(true);
-        
+
         assertFalse(auth.register(u));
 
+    }
+
+    //Must set up mongoDB server first on your device
+    @Ignore
+    @Test
+    public void testRealDatabase(){
+
+        try {
+            AuthenticationService a = new AuthenticationService();
+            a.register("realUsername","realPassword");
+
+            DBCursor indexes = a.getDB().getCollection("users").find();
+            for (DBObject user: indexes){
+                System.out.println(user);
+            }
+
+        }catch (Exception e){
+
+        }
     }
 }

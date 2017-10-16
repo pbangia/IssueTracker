@@ -57,4 +57,8 @@ public class AuthenticationService {
         return dbCollection.find(searchQuery).hasNext();
 
     }
+
+    public DB getDB(){
+        return db;
+    }
 }
