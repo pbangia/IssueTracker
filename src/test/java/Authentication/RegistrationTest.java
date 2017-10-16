@@ -1,3 +1,5 @@
+package Authentication;
+
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
 import org.junit.Before;
@@ -6,18 +8,20 @@ import org.junit.Rule;
 import org.junit.Test;
 import com.mongodb.*;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
+import models.*;
 
 /**
  * Created by priyankitbangia on 15/10/17.
  */
-public class AuthenticationTest {
+public class RegistrationTest {
     private User u;
-    private AuthenticationService auth;
+    private RegistrationService auth;
     private DBCollection dbCollection;
 
     @Rule
@@ -37,7 +41,7 @@ public class AuthenticationTest {
         doReturn(db).when(connection).getDB(anyString());
         doReturn(dbCollection).when(db).getCollection(anyString());
 
-        auth = spy(new AuthenticationService(connection));
+        auth = Mockito.spy(new RegistrationService(connection));
     }
 
     @Test
@@ -102,7 +106,7 @@ public class AuthenticationTest {
     public void testRealDatabase(){
 
         try {
-            AuthenticationService a = new AuthenticationService();
+            RegistrationService a = new RegistrationService();
             a.register("realUsername","realPassword", "ADMIN");
 
             DBCursor indexes = a.getDB().getCollection("users").find();
