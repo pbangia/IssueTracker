@@ -4,6 +4,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
+import org.apache.commons.lang3.EnumUtils;
 
 import java.net.UnknownHostException;
 
@@ -35,27 +36,32 @@ public class AuthenticationService {
 
 
     public boolean register(User user) {
-        return register(user.getUsername(), user.getPassword());
+        return register(user.getUsername(), user.getPassword(), user.getRole().toString());
     }
 
-    public boolean register(String username, String password) {
+    public boolean register(String username, String password, String role) {
 
-        validateDetails(username, password);
+        validateDetails(username, password, role);
 
         BasicDBObject document = new BasicDBObject();
         document.put("username", username);
         document.put("password", password);
+        document.put("role", role);
         return (dbCollection.insert(document).getError() == null);
 
     }
 
-    private void validateDetails(String username, String password) {
+    private void validateDetails(String username, String password, String role) {
         if (password.length() < 8) {
             throw new PasswordFormatException("Password needs to be at least 8 characters");
         }
 
         if (checkExistingUsers(username)) {
             throw new UserRegistrationException("Username already exists");
+        }
+
+        if (!EnumUtils.isValidEnum(UserRole.class, role)) {
+            throw new UserRegistrationException("Role not supported");
         }
     }
 

@@ -28,6 +28,7 @@ public class AuthenticationTest {
         u = mock(User.class);
         when(u.getUsername()).thenReturn("testUsername");
         when(u.getPassword()).thenReturn("testPassword");
+        when(u.getRole()).thenReturn(UserRole.ADMIN);
 
         MongoClient connection = mock(MongoClient.class);
         DB db = mock(DB.class);
@@ -50,7 +51,8 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void userCanRegisterIfNewUser(){
+    public void developerCanRegisterIfNewUser(){
+        when(u.getRole()).thenReturn(UserRole.DEVELOPER);
 
         //return false when query to check db for already existing name is run
         DBCursor queriedUsers = mock(DBCursor.class);
@@ -66,7 +68,22 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void userCanNotRegisterIfAlreadyExists(){
+    public void adminCanRegisterIfNewUser(){
+        //return false when query to check db for already existing name is run
+        DBCursor queriedUsers = mock(DBCursor.class);
+        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
+        when(queriedUsers.hasNext()).thenReturn(false);
+
+        //return a result for when db checks if write was successful
+        when(dbCollection.insert(any(BasicDBObject.class))).thenReturn(mock(WriteResult.class));
+
+        //expect true on successful registration
+        assertTrue(auth.register(u));
+
+    }
+
+    @Test
+    public void userCannotRegisterIfAlreadyExists(){
         //return true when query to check db for already existing name is run
         DBCursor index = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(index);
@@ -86,7 +103,7 @@ public class AuthenticationTest {
 
         try {
             AuthenticationService a = new AuthenticationService();
-            a.register("realUsername","realPassword");
+            a.register("realUsername","realPassword", "ADMIN");
 
             DBCursor indexes = a.getDB().getCollection("users").find();
             for (DBObject user: indexes){
