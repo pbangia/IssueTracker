@@ -4,6 +4,7 @@
 public class User {
 
     private String password;
+
     private String username;
 
     public User(String username, String password) {
@@ -13,5 +14,9 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
