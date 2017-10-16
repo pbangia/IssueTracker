@@ -7,6 +7,8 @@ import org.junit.Test;
 import com.mongodb.*;
 import org.junit.rules.ExpectedException;
 
+import java.net.UnknownHostException;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -110,8 +112,10 @@ public class AuthenticationTest {
                 System.out.println(user);
             }
 
-        }catch (Exception e){
-
+        }catch (UserRegistrationException e){
+            System.out.println("User is already registered in real db");
+        }catch (UnknownHostException e){
+            e.printStackTrace();
         }
     }
 }
