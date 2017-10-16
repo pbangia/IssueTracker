@@ -1,10 +1,11 @@
+import exceptions.PasswordFormatException;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import com.mongodb.*;
-import org.mockito.ArgumentCaptor;
+import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -18,6 +19,8 @@ public class AuthenticationTest {
     private AuthenticationService auth;
     private DBCollection dbCollection;
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setUpUserAuthenticationMockObjects(){
@@ -33,6 +36,16 @@ public class AuthenticationTest {
         doReturn(dbCollection).when(db).getCollection(anyString());
 
         auth = spy(new AuthenticationService(connection));
+    }
+
+    @Test
+    public void shouldThrowFormatPasswordExceptionIfPasswordLengthLessThan8() {
+        when(u.getPassword()).thenReturn("1234567");
+
+        exception.expect(PasswordFormatException.class);
+        exception.expectMessage("Password needs to be at least 8 characters");
+
+        auth.register(u);
     }
 
     @Test
