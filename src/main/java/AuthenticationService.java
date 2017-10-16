@@ -3,6 +3,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import exceptions.PasswordFormatException;
+import exceptions.UserRegistrationException;
 
 import java.net.UnknownHostException;
 
@@ -38,21 +39,24 @@ public class AuthenticationService {
     }
 
     public boolean register(String username, String password) {
+
+        validateDetails(username, password);
+
         BasicDBObject document = new BasicDBObject();
         document.put("username", username);
         document.put("password", password);
+        return (dbCollection.insert(document).getError() == null);
 
+    }
+
+    private void validateDetails(String username, String password) {
         if (password.length() < 8) {
             throw new PasswordFormatException("Password needs to be at least 8 characters");
         }
 
         if (checkExistingUsers(username)) {
-            System.out.println("Already exists");
-            return false;
+            throw new UserRegistrationException("Username already exists");
         }
-
-        return (dbCollection.insert(document).getError() == null);
-
     }
 
     public boolean checkExistingUsers(String username) {

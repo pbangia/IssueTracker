@@ -1,4 +1,5 @@
 import exceptions.PasswordFormatException;
+import exceptions.UserRegistrationException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -71,7 +72,10 @@ public class AuthenticationTest {
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(index);
         when(index.hasNext()).thenReturn(true);
 
-        assertFalse(auth.register(u));
+        exception.expect(UserRegistrationException.class);
+        exception.expectMessage("Username already exists");
+
+        auth.register(u);
 
     }
 
