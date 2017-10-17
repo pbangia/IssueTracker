@@ -55,7 +55,7 @@ public class LoginTest {
     }
 
     @Test
-    public void adminCanLoginIfUserExist(){
+    public void userCanLoginIfUserExist(){
         //return false when query to check db for already existing name is run
         DBCursor queriedUsers = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
@@ -94,5 +94,20 @@ public class LoginTest {
         exception.expectMessage("Password is incorrect");
         
         auth.login("testUsername", "testPassword1");
+    }
+    
+    @Test
+    public void userCanSucessfullyLogOutIfCurrentlyLogin() {
+    	DBCursor queriedUsers = mock(DBCursor.class);
+        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
+        when(queriedUsers.hasNext()).thenReturn(true);
+        when(queriedUsers.next()).thenReturn(document);
+        
+        //return a result for when db checks if write was successful
+        when(dbCollection.insert(any(BasicDBObject.class))).thenReturn(mock(WriteResult.class));
+
+        //expect true on successful registration
+        assertTrue(auth.logout("testUsername"));
+        assertTrue(UserStatus.LOGOUT.equals(auth.checkStatus("testUsername")));
     }
 }
