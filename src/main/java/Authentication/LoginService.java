@@ -7,6 +7,8 @@ import com.mongodb.MongoClient;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
 import models.UserRole;
+import models.UserStatus;
+
 import org.apache.commons.lang3.EnumUtils;
 import models.User;
 
@@ -36,5 +38,13 @@ public class LoginService {
         //get collection from db
         dbCollection = db.getCollection("users");
 
+    }
+    
+    public boolean login(String username, String password) {
+    	return true;
+    }
+    
+    public UserStatus checkStatus(String username) {
+    	return UserStatus.LOGIN;
     }
 }

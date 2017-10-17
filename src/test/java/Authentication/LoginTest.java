@@ -1,20 +1,30 @@
 package Authentication;
 
-import exceptions.PasswordFormatException;
-import exceptions.UserRegistrationException;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import com.mongodb.*;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-import models.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.WriteResult;
+
+import exceptions.PasswordMismatchException;
+import exceptions.UsernameNotExistException;
+import models.UserRole;
+import models.UserStatus;
 
 /**
  * Created by priyankitbangia on 17/10/17.
@@ -67,7 +77,7 @@ public class LoginTest {
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
         when(queriedUsers.hasNext()).thenReturn(false);
         
-        exception.expect(UernameNotExistException.class);
+        exception.expect(UsernameNotExistException.class);
         exception.expectMessage("Username not exists");
         
         auth.login("testUsername1", "testPassword");
