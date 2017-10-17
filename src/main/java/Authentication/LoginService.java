@@ -48,6 +48,10 @@ public class LoginService {
     	document.put("status", UserStatus.LOGIN);
     	return (dbCollection.insert(document).getError() == null);
     }
+	
+	public boolean logout(String username) {
+		return true;
+	}
 
 	public UserStatus checkStatus(String username) {
 		DBObject document = getUser(username);
