@@ -50,7 +50,14 @@ public class LoginService {
     }
 	
 	public boolean logout(String username) {
-		return true;
+		DBObject document = getUser(username); 
+		System.out.println(document.get("status"));
+		if (UserStatus.LOGIN.equals(document.get("status"))) {
+			document.put("status", UserStatus.LOGOUT);	
+		} else {
+			return false;
+		}
+    	return (dbCollection.insert(document).getError() == null);
 	}
 
 	public UserStatus checkStatus(String username) {

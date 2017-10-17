@@ -56,6 +56,7 @@ public class LoginTest {
 
     @Test
     public void userCanLoginIfUserExist(){
+    	document.put("status", UserStatus.LOGOUT);
         //return false when query to check db for already existing name is run
         DBCursor queriedUsers = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
@@ -72,6 +73,7 @@ public class LoginTest {
     
     @Test
     public void shouldThrowUserNotExistExceptionIfUsernameNotExist() {
+    	document.put("status", UserStatus.LOGOUT);
     	//return false when query to check db for already existing name is run
         DBCursor queriedUsers = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
@@ -85,6 +87,7 @@ public class LoginTest {
     
     @Test
     public void shouldThrowPasswordMismatchExceptionIfPasswordIsIncorrect() {
+    	document.put("status", UserStatus.LOGOUT);
     	DBCursor queriedUsers = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
         when(queriedUsers.hasNext()).thenReturn(true);
@@ -98,6 +101,7 @@ public class LoginTest {
     
     @Test
     public void userCanSucessfullyLogOutIfCurrentlyLogin() {
+    	document.put("status", UserStatus.LOGIN);
     	DBCursor queriedUsers = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
         when(queriedUsers.hasNext()).thenReturn(true);
