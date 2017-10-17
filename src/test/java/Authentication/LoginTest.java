@@ -59,7 +59,7 @@ public class LoginTest {
         //return false when query to check db for already existing name is run
         DBCursor queriedUsers = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
-        when(queriedUsers.hasNext()).thenReturn(true).thenReturn(false);
+        when(queriedUsers.hasNext()).thenReturn(true);
         when(queriedUsers.next()).thenReturn(document);
         //return a result for when db checks if write was successful
         when(dbCollection.insert(any(BasicDBObject.class))).thenReturn(mock(WriteResult.class));
@@ -87,10 +87,12 @@ public class LoginTest {
     public void shouldThrowPasswordMismatchExceptionIfPasswordIsIncorrect() {
     	DBCursor queriedUsers = mock(DBCursor.class);
         when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
-        when(queriedUsers.hasNext()).thenReturn(false);
+        when(queriedUsers.hasNext()).thenReturn(true);
         when(queriedUsers.next()).thenReturn(document);
         
         exception.expect(PasswordMismatchException.class);
         exception.expectMessage("Password is incorrect");
+        
+        auth.login("testUsername", "testPassword1");
     }
 }
