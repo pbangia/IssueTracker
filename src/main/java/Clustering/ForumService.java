@@ -1,5 +1,7 @@
 package Clustering;
 
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import models.Cluster;
 import models.ForumPost;
 import weka.clusterers.ClusterEvaluation;
@@ -13,7 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
 
 /**
  * Created by priyankitbangia on 18/10/17.
@@ -21,13 +25,15 @@ import java.util.List;
 public class ForumService {
     Instances data;
     ArrayList<ForumPost> posts = new ArrayList<>();
+    ClusterEvaluation eval;
+    double[] assignments;
+    ArrayList<Cluster> clusters;
 
     public ForumService(){
-
+        loadIssueList();
     }
 
     public List<String> getIssueTitles() {
-        loadIssueList();
 
         ArrayList<String> titles = new ArrayList<>();
         for (ForumPost post: posts) titles.add(post.getTitle());
@@ -47,5 +53,30 @@ public class ForumService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getRelatedIssues(){
+
+        //run cluster algorithm
+        clusterPosts();
+
+        return "";
+    }
+
+    private void clusterPosts() {
+        try {
+            StringToWordVector s = new StringToWordVector();
+            s.setInputFormat(data);
+            data = Filter.useFilter(data, s);
+            DBSCAN dbscan = new DBSCAN();
+            dbscan.setEpsilon(1);
+            dbscan.setMinPoints(1);
+            dbscan.buildClusterer(data);
+            eval = new ClusterEvaluation();
+            eval.setClusterer(dbscan);
+            eval.evaluateClusterer(data);
+            System.out.println(eval.clusterResultsToString());
+
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }
