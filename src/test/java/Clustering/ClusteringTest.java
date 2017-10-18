@@ -53,7 +53,7 @@ public class ClusteringTest {
     public void showListOfIssueTitles(){
         ForumService forum = new ForumService();
         List<String> issues = forum.getIssueTitles();
-        assertEquals(10,issues.size());
+        assertEquals(11,issues.size());
         System.out.println(issues);
 
     }
