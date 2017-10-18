@@ -1,12 +1,14 @@
 package models;
 
+import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by priyankitbangia on 18/10/17.
  */
-public class Cluster {
+public class Cluster implements Serializable {
 
 
 

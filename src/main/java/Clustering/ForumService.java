@@ -60,7 +60,27 @@ public class ForumService {
         //run cluster algorithm
         clusterPosts();
 
-        return "";
+        //create cluster array
+        clusters = new ArrayList<>();
+        for (int i=0; i<eval.getNumClusters(); i++){
+            clusters.add(new Cluster(i));
+        }
+
+        //perform mapping between cluster assignment and forum posts
+        assignments = eval.getClusterAssignments();
+        for (int i = 0; i<assignments.length; i++){
+            int clusterNum = (int) assignments[i];
+            clusters.get(clusterNum).setId(clusterNum);
+            clusters.get(clusterNum).addForumPost(posts.get(i));
+        }
+
+        System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
+        System.out.println("All clusters (with forum post IDs): "+clusters.toString());
+
+//        String json = new Gson().toJson(clusters, new TypeToken<ArrayList<Cluster>>(){}.getType());
+//        System.out.println(json);
+
+        return clusters.toString();
     }
 
     private void clusterPosts() {

@@ -2,12 +2,13 @@ package models;
 
 import weka.core.Instance;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by priyankitbangia on 18/10/17.
  */
-public class ForumPost {
+public class ForumPost implements Serializable {
 
 
     private int questionID;
