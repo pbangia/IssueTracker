@@ -13,6 +13,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class ClusteringTest {
     private User u;
     private LoginService auth;
     private DBCollection dbCollection;
+    private ForumService forum;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -49,11 +51,19 @@ public class ClusteringTest {
         doReturn(dbCollection).when(db).getCollection(anyString());
 
         auth = Mockito.spy(new LoginService(connection));
+
+        forum = new ForumService();
+    }
+
+    @Test
+    public void clusterRelatedForumPosts(){
+        String relatedPosts = forum.getRelatedIssues();
+        assertEquals(getExpectedIDs(), relatedPosts);
+        //assertEquals("[44330, 44330]", Arrays.toString(relatedPosts.get(0)));
     }
 
     @Test
     public void showListOfIssueTitles(){
-        ForumService forum = new ForumService();
         ArrayList<String> testList = getTestList();
 
         List<String> issues = forum.getIssueTitles();
@@ -79,5 +89,9 @@ public class ClusteringTest {
         titles.add("Xero Interface with PMS system");
         titles.add("xero-php API, how to structure query");
         return titles;
+    }
+
+    public String getExpectedIDs() {
+        return "[[44330, 44330], [44331], [44332], [44333], [44334], [44335], [44336], [44337], [44338], [44339]]";
     }
 }
