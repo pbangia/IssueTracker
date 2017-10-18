@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -52,9 +54,30 @@ public class ClusteringTest {
     @Test
     public void showListOfIssueTitles(){
         ForumService forum = new ForumService();
-        List<String> issues = forum.getIssueTitles();
-        assertEquals(11,issues.size());
-        System.out.println(issues);
+        ArrayList<String> testList = getTestList();
 
+        List<String> issues = forum.getIssueTitles();
+
+        assertEquals(testList.size(),issues.size());
+        Iterator expected = testList.iterator();
+        for (String actualIssue: issues){
+            assertEquals(expected.next(), actualIssue);
+        }
+    }
+
+    public ArrayList<String> getTestList() {
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add("xero-php API, how to structure query");
+        titles.add("Delivery Address on Invoice");
+        titles.add("Getting zero dollar value categories included in Profit and Loss Report");
+        titles.add("Link Manual Journal Entry Transactions to an Invoice or Bill");
+        titles.add("Delete ALL data and start again?");
+        titles.add("Hi there,I am unable to login with my login credentials today.Can I know what could be the reason?");
+        titles.add("Invoice");
+        titles.add("Private authentication problem");
+        titles.add("link api to a xero instance");
+        titles.add("Xero Interface with PMS system");
+        titles.add("xero-php API, how to structure query");
+        return titles;
     }
 }
