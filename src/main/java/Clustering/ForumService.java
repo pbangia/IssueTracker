@@ -2,6 +2,8 @@ package Clustering;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.mongodb.*;
+import com.mongodb.util.JSON;
 import models.Cluster;
 import models.ForumPost;
 import weka.clusterers.ClusterEvaluation;
@@ -13,9 +15,9 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -29,8 +31,25 @@ public class ForumService {
     double[] assignments;
     ArrayList<Cluster> clusters;
 
-    public ForumService(){
+    private MongoClient connection;
+    private DB db;
+    private DBCollection dbCollection;
+
+    public ForumService() throws UnknownHostException {
+        this(new MongoClient("localhost", 27017));
+    }
+
+    public ForumService(MongoClient newConnection) {
+
         loadIssueList();
+        //connect to mongodb
+        connection = newConnection;
+
+        //get db
+        db = this.connection.getDB("testdb");
+
+        //get collection from db
+        dbCollection = db.getCollection("clusters");
     }
 
     public List<String> getIssueTitles() {

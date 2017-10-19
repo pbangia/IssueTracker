@@ -1,9 +1,7 @@
 package Clustering;
 
 import Authentication.LoginService;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import models.User;
 import models.UserRole;
 import org.junit.Before;
@@ -12,6 +10,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -52,14 +51,21 @@ public class ClusteringTest {
 
         auth = Mockito.spy(new LoginService(connection));
 
-        forum = new ForumService();
+        try {
+            forum = new ForumService();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void clusterRelatedForumPosts(){
+        //TODO: Use mock objects and change return result to proper objects
         String relatedPosts = forum.getRelatedIssues();
         assertEquals(getExpectedIDs(), relatedPosts);
         //assertEquals("[44330, 44330]", Arrays.toString(relatedPosts.get(0)));
+
+
     }
 
     @Test
