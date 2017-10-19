@@ -96,10 +96,27 @@ public class ForumService {
         System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
         System.out.println("All clusters (with forum post IDs): "+clusters.toString());
 
+        //TODO: split saving clusters below into another unit test
+        saveClusters();
+        DBCursor indexes = dbCollection.find();
+        for (DBObject cluster: indexes){
+            System.out.println(cluster);
+        }
+
 //        String json = new Gson().toJson(clusters, new TypeToken<ArrayList<Cluster>>(){}.getType());
 //        System.out.println(json);
 
         return clusters.toString();
+    }
+
+    public void saveClusters() {
+
+        for (ForumPost f: posts){
+            Gson gson = new Gson();
+            BasicDBObject obj = (BasicDBObject)JSON.parse(gson.toJson(f));
+            dbCollection.insert(obj);
+        }
+
     }
 
     private void clusterPosts() {
