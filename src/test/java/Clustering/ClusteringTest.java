@@ -49,7 +49,7 @@ public class ClusteringTest {
         doReturn(db).when(connection).getDB(anyString());
         doReturn(dbCollection).when(db).getCollection(anyString());
 
-        auth = Mockito.spy(new LoginService(connection));
+       // auth = Mockito.spy(new LoginService(connection));
 
         try {
             forum = new ForumService();
@@ -98,6 +98,7 @@ public class ClusteringTest {
     }
 
     public String getExpectedIDs() {
+        List<String[]> idList = new ArrayList<>();
         return "[[44330, 44330], [44331], [44332], [44333], [44334], [44335], [44336], [44337], [44338], [44339]]";
     }
 }

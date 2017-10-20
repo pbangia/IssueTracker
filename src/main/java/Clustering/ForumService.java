@@ -1,11 +1,10 @@
 package Clustering;
 
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import com.mongodb.*;
-import com.mongodb.util.JSON;
 import models.Cluster;
 import models.ForumPost;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.DBSCAN;
 import weka.core.Instances;
@@ -32,8 +31,9 @@ public class ForumService {
     ArrayList<Cluster> clusters;
 
     private MongoClient connection;
-    private DB db;
-    private DBCollection dbCollection;
+    private Datastore ds;
+    //private DB db;
+    //private DBCollection dbCollection;
 
     public ForumService() throws UnknownHostException {
         this(new MongoClient("localhost", 27017));
@@ -46,10 +46,14 @@ public class ForumService {
         connection = newConnection;
 
         //get db
-        db = this.connection.getDB("testdb");
+        //db = this.connection.getDB("testdb");
 
         //get collection from db
-        dbCollection = db.getCollection("clusters");
+        //dbCollection = db.getCollection("clusters");
+
+        Morphia morphia = new Morphia();
+        ds = morphia.createDatastore(connection, "testdb");
+        morphia.map(Cluster.class);
     }
 
     public List<String> getIssueTitles() {
@@ -89,7 +93,7 @@ public class ForumService {
         assignments = eval.getClusterAssignments();
         for (int i = 0; i<assignments.length; i++){
             int clusterNum = (int) assignments[i];
-            clusters.get(clusterNum).setId(clusterNum);
+            clusters.get(clusterNum).setClusterID(clusterNum);
             clusters.get(clusterNum).addForumPost(posts.get(i));
         }
 
@@ -98,25 +102,17 @@ public class ForumService {
 
         //TODO: split saving clusters below into another unit test
         saveClusters();
-        DBCursor indexes = dbCollection.find();
-        for (DBObject cluster: indexes){
-            System.out.println(cluster);
-        }
-
-//        String json = new Gson().toJson(clusters, new TypeToken<ArrayList<Cluster>>(){}.getType());
-//        System.out.println(json);
-
         return clusters.toString();
     }
 
     public void saveClusters() {
+        ds.save(clusters);
+    }
 
+    public void saveForumPosts() {
         for (ForumPost f: posts){
-            Gson gson = new Gson();
-            BasicDBObject obj = (BasicDBObject)JSON.parse(gson.toJson(f));
-            dbCollection.insert(obj);
+            ds.save(f);
         }
-
     }
 
     private void clusterPosts() {

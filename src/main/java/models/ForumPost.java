@@ -1,5 +1,8 @@
 package models;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 import weka.core.Instance;
 
 import java.io.Serializable;
@@ -8,10 +11,12 @@ import java.util.Date;
 /**
  * Created by priyankitbangia on 18/10/17.
  */
-public class ForumPost implements Serializable {
+@Entity(value = "forumposts")
+public class ForumPost {
 
-
+    @Id
     private int questionID;
+
     private String title;
     private String date;
     private String author;

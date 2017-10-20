@@ -49,6 +49,12 @@ mockito-all -->
             <artifactId>json</artifactId>
             <version>20170516</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mongodb.morphia/morphia -->
+        <dependency>
+            <groupId>org.mongodb.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
     </dependencies>
 

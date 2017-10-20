@@ -1,31 +1,35 @@
 package models;
 
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by priyankitbangia on 18/10/17.
  */
+@Entity(value = "clusters")
 public class Cluster implements Serializable {
 
 
+    @Id
+    private int clusterID;
 
-    private int id;
     Set<ForumPost> posts = new HashSet<>();
 
     public Cluster(int id){
-        this.id = id;
+        this.clusterID = id;
     }
 
     public void addForumPost(ForumPost post){
-        post.setClusterID(id);
+        post.setClusterID(clusterID);
         posts.add(post);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setClusterID(int id) {
+        this.clusterID = id;
     }
 
     public Set<ForumPost> getPosts(){
