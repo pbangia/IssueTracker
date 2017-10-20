@@ -17,6 +17,8 @@ public class Cluster implements Serializable {
     @Id
     private int clusterID;
     Set<Integer> postIDs = new HashSet<>();
+    Set<String> usersAffected = new HashSet<>();
+    private int numPosts;
     private String title;
     private String summary;
     private int numUsers;
@@ -30,6 +32,16 @@ public class Cluster implements Serializable {
 
     public void addForumPost(int postID){
         postIDs.add(postID);
+        numPosts=postIDs.size();
+
+    }
+
+    public void addForumPost(int postID, String author){
+        postIDs.add(postID);
+        numPosts=postIDs.size();
+        usersAffected.add(author);
+        numUsers=usersAffected.size();
+
     }
 
     public void setClusterID(int id) {
