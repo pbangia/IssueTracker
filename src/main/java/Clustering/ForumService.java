@@ -78,7 +78,7 @@ public class ForumService {
         }
     }
 
-    public String getRelatedIssues(){
+    public List<Cluster> getRelatedIssues(){
 
         //run cluster algorithm
         clusterPosts();
@@ -94,15 +94,16 @@ public class ForumService {
         for (int i = 0; i<assignments.length; i++){
             int clusterNum = (int) assignments[i];
             clusters.get(clusterNum).setClusterID(clusterNum);
-            clusters.get(clusterNum).addForumPost(posts.get(i));
+            clusters.get(clusterNum).addForumPost(posts.get(i).getQuestionID());
         }
 
         System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
         System.out.println("All clusters (with forum post IDs): "+clusters.toString());
 
         //TODO: split saving clusters below into another unit test
-        saveClusters();
-        return clusters.toString();
+//        saveForumPosts();
+//        saveClusters();
+        return clusters;
     }
 
     public void saveClusters() {

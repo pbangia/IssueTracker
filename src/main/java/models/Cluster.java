@@ -17,27 +17,26 @@ public class Cluster implements Serializable {
     @Id
     private int clusterID;
 
-    Set<ForumPost> posts = new HashSet<>();
+    Set<Integer> postIDs = new HashSet<>();
 
     public Cluster(int id){
         this.clusterID = id;
     }
 
-    public void addForumPost(ForumPost post){
-        post.setClusterID(clusterID);
-        posts.add(post);
+    public void addForumPost(int postID){
+        postIDs.add(postID);
     }
 
     public void setClusterID(int id) {
         this.clusterID = id;
     }
 
-    public Set<ForumPost> getPosts(){
-        return posts;
+    public Set<Integer> getPostIDs(){
+        return postIDs;
     }
 
     @Override
     public String toString(){
-        return posts.toString();
+        return postIDs.toString();
     }
 }

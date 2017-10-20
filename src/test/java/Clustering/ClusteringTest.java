@@ -2,26 +2,23 @@ package Clustering;
 
 import Authentication.LoginService;
 import com.mongodb.*;
+import models.Cluster;
 import models.User;
 import models.UserRole;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
+import org.mockito.internal.util.collections.Sets;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by priyankitbangia on 18/10/17.
@@ -31,6 +28,8 @@ public class ClusteringTest {
     private LoginService auth;
     private DBCollection dbCollection;
     private ForumService forum;
+
+    Set<Integer> postIDs = new HashSet<>();
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -60,11 +59,21 @@ public class ClusteringTest {
 
     @Test
     public void clusterRelatedForumPosts(){
-        //TODO: Use mock objects and change return result to proper objects
-        String relatedPosts = forum.getRelatedIssues();
-        assertEquals(getExpectedIDs(), relatedPosts);
-        //assertEquals("[44330, 44330]", Arrays.toString(relatedPosts.get(0)));
+        List<HashSet<Integer>> expectedIDs = getExpectedIDs();
 
+        //TODO: Use mock objects and change return result to proper objects
+        List<Cluster> clusters = forum.getRelatedIssues();
+
+        //Check equal number of clusters
+        assertEquals(expectedIDs.size(), clusters.size());
+
+        //check posts within clusters
+        for (int i=0; i<clusters.size(); i++){
+            Set<Integer> actual = clusters.get(i).getPostIDs();
+            Set<Integer> expected = expectedIDs.get(i);
+            assertEquals(expected.size(), actual.size());
+            assertTrue(actual.containsAll(expected));
+        }
 
     }
 
@@ -97,8 +106,18 @@ public class ClusteringTest {
         return titles;
     }
 
-    public String getExpectedIDs() {
-        List<String[]> idList = new ArrayList<>();
-        return "[[44330, 44330], [44331], [44332], [44333], [44334], [44335], [44336], [44337], [44338], [44339]]";
+    public List<HashSet<Integer>> getExpectedIDs() {
+        List<HashSet<Integer>> idList = new ArrayList<>();
+        idList.add(new HashSet<Integer>(Arrays.asList(44330)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44331)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44332)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44333)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44334)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44335)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44336)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44337)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44338)));
+        idList.add(new HashSet<Integer>(Arrays.asList(44339)));
+        return idList;
     }
 }
