@@ -3,6 +3,9 @@ package Authentication;
 import app.IssueTracker;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
+import exceptions.EmptyUsernameException;
+import exceptions.InvalidUsernameException;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -67,6 +70,33 @@ public class RegistrationTest {
 
         auth.register(u);
     }
+     
+    @Test
+    public void shouldThrowUsernameCannotBeEmptyExceptionIfUserNameIsEmpty() {
+        User u = mock(User.class);
+        when(u.getUsername()).thenReturn("");
+        when(u.getPassword()).thenReturn(TEST_PASSWORD);
+        when(u.getRole()).thenReturn(ADMIN);
+
+        exception.expect(EmptyUsernameException.class);
+        exception.expectMessage("User name can not be Empty");
+     
+        auth.register(u);
+    }
+    
+    @Test
+    public void shouldThrowInvalidUsernameExceptionIfUserNameIsInvalid() {
+        User u = mock(User.class);
+        when(u.getUsername()).thenReturn("testUsername");
+        when(u.getPassword()).thenReturn("1234567");
+        when(u.getRole()).thenReturn(ADMIN);
+        when(u.getUsername()).thenReturn("Sam@#$");
+
+        exception.expect(InvalidUsernameException.class);
+        exception.expectMessage("Invalid Username");
+     
+        auth.register(u);
+    }
 
     @Test
     public void developerCanRegisterIfNewUser(){
@@ -122,7 +152,7 @@ public class RegistrationTest {
 
         auth.register(TEST_USERNAME, TEST_PASSWORD,"invalid role");
     }
-
+    
     //Must set up mongoDB server first on your device
     @Ignore
     @Test

@@ -4,6 +4,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+
+import exceptions.EmptyUsernameException;
+import exceptions.InvalidUsernameException;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
 import exceptions.UsernameNotExistException;
@@ -14,6 +17,7 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 import java.net.UnknownHostException;
+import java.util.regex.Pattern;
 
 /**
  * Created by priyankitbangia on 15/10/17.
@@ -49,14 +53,24 @@ public class RegistrationService {
         if (password.length() < 8) {
             throw new PasswordFormatException("Password needs to be at least 8 characters");
         }
+        
+        if (username == "") {
+            throw new EmptyUsernameException("User name can not be Empty");
+        }
+
+        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+        if (p.matcher(username).find()) {
+            throw new InvalidUsernameException("Invalid Username");
+        }
 
         if (findUser(username)!=null) {
             throw new UserRegistrationException("Username already exists");
         }
-
+        
         if (!EnumUtils.isValidEnum(UserRole.class, role)) {
             throw new UserRegistrationException("Role not supported");
         }
+        
     }
 
     public User findUser(String username) {
