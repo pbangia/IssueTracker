@@ -6,9 +6,12 @@ import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
+import exceptions.UsernameNotExistException;
 import models.UserRole;
 import org.apache.commons.lang3.EnumUtils;
 import models.User;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 
 import java.net.UnknownHostException;
 
@@ -18,41 +21,28 @@ import java.net.UnknownHostException;
 public class RegistrationService {
 
     private MongoClient connection;
-    private DB db;
-    private DBCollection dbCollection;
+    private Datastore ds;
 
     public RegistrationService() throws UnknownHostException {
         //connect to mongodb
-        this(new MongoClient("localhost", 27017));
+        this(new MongoClient("localhost", 27017), new Morphia());
     }
 
-    public RegistrationService(MongoClient newConnection) {
+    public RegistrationService(MongoClient newConnection, Morphia dbMapper) {
         //connect to mongodb
         connection = newConnection;
-
-        //get db
-        db = this.connection.getDB("testdb");
-
-        //get collection from db
-        dbCollection = db.getCollection("users");
-
+        ds = dbMapper.createDatastore(connection, "testdb");
     }
 
-
-    public boolean register(User user) {
+    public User register(User user) {
         return register(user.getUsername(), user.getPassword(), user.getRole().toString());
     }
 
-    public boolean register(String username, String password, String role) {
-
+    public User register(String username, String password, String role) {
         validateDetails(username, password, role);
-
-        BasicDBObject document = new BasicDBObject();
-        document.put("username", username);
-        document.put("password", password);
-        document.put("role", role);
-        return (dbCollection.insert(document).getError() == null);
-
+        User newUser = new User(username, password, UserRole.valueOf(role.toUpperCase()));
+        ds.save(newUser);
+        return newUser;
     }
 
     private void validateDetails(String username, String password, String role) {
@@ -60,7 +50,7 @@ public class RegistrationService {
             throw new PasswordFormatException("Password needs to be at least 8 characters");
         }
 
-        if (checkExistingUsers(username)) {
+        if (findUser(username)!=null) {
             throw new UserRegistrationException("Username already exists");
         }
 
@@ -69,14 +59,12 @@ public class RegistrationService {
         }
     }
 
-    public boolean checkExistingUsers(String username) {
-        BasicDBObject searchQuery = new BasicDBObject();
-        searchQuery.put("username", username);
-        return dbCollection.find(searchQuery).hasNext();
-
+    public User findUser(String username) {
+        return ds.find(User.class).field("_id").equal(username).get();
     }
 
-    public DB getDB(){
-        return db;
+
+    public Datastore getDataStore(){
+        return ds;
     }
 }

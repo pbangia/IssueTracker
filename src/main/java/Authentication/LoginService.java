@@ -11,7 +11,17 @@ import com.mongodb.MongoClient;
 
 import exceptions.PasswordMismatchException;
 import exceptions.UsernameNotExistException;
+import models.User;
+import models.UserRole;
 import models.UserStatus;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.query.FieldEnd;
+import org.mongodb.morphia.query.Query;
+
+import static models.UserStatus.LOGIN;
+import static models.UserStatus.LOGOUT;
 
 /**
  * Created by priyankitbangia on 17/10/17.
@@ -19,61 +29,52 @@ import models.UserStatus;
 public class LoginService {
 
 	private MongoClient connection;
-	private DB db;
-	private DBCollection dbCollection;
+	private Datastore ds;
 
 	public LoginService() throws UnknownHostException {
 		// connect to mongodb
-		this(new MongoClient("localhost", 27017));
+		this(new MongoClient("localhost", 27017), new Morphia());
 	}
 
-	public LoginService(MongoClient newConnection) {
-		// connect to mongodb
+	public LoginService(MongoClient newConnection, Morphia dbMapper) {
 		connection = newConnection;
-
-		// get db
-		db = this.connection.getDB("testdb");
-
-		// get collection from db
-		dbCollection = db.getCollection("users");
-
+		ds = dbMapper.createDatastore(connection, "testdb");
 	}
 
 	public boolean login(String username, String password) {
-		DBObject document = getUser(username);  	
-    	if (!password.equals(document.get("password"))) {
+    	User user = getUser(username);
+
+		if (!password.equals(user.getPassword())) {
     		throw new PasswordMismatchException("Password is incorrect");
     	}
-    	
-    	document.put("status", UserStatus.LOGIN);
-    	return (dbCollection.insert(document).getError() == null);
+
+    	user.setStatus(LOGIN);
+		ds.save(user);
+		return true;
     }
 	
 	public boolean logout(String username) {
-		DBObject document = getUser(username); 
-		System.out.println(document.get("status"));
-		if (UserStatus.LOGIN.equals(document.get("status"))) {
-			document.put("status", UserStatus.LOGOUT);	
-		} else {
-			return false;
+		User user = getUser(username);
+		if (LOGIN.equals(user.getStatus())) {
+			user.setStatus(LOGOUT);
+			ds.save(user);
+			return true;
 		}
-    	return (dbCollection.insert(document).getError() == null);
+		return false;
 	}
 
 	public UserStatus checkStatus(String username) {
-		DBObject document = getUser(username);
-		return (UserStatus) document.get("status");
+		User user = getUser(username);
+		return user.getStatus();
 	}
 	
-	private DBObject getUser(String username) {
-		BasicDBObject searchQuery = new BasicDBObject();
-        searchQuery.put("username", username);
-        DBCursor cursor = dbCollection.find(searchQuery);
-    	
-    	if (!cursor.hasNext()) {
-    		throw new UsernameNotExistException("Username not exists");
-    	}
-    	
-    	return cursor.next();
+	private User getUser(String username) {
+		User user1 = findUser(username);
+		if (user1 == null) throw new UsernameNotExistException("Username not exists");
+    	return user1;
+	}
+
+	public User findUser(String username) {
+		return ds.find(User.class).field("_id").equal(username).get();
 	}
 }
