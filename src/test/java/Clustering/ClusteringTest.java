@@ -120,4 +120,21 @@ public class ClusteringTest {
         idList.add(new HashSet<Integer>(Arrays.asList(44339)));
         return idList;
     }
+
+    @Test
+    public void testNumberUsersAndPosts(){
+        Cluster c = new Cluster(53200);
+        c.addForumPost(1000, "author 1");
+        c.addForumPost(1001, "author 1");
+        c.addForumPost(1002, "author 2");
+        c.addForumPost(1003, "author 3");
+        c.addForumPost(1004, "author 4");
+
+        doReturn(c).when(forum).getCluster(53200);
+
+        Cluster returned = forum.getCluster(53200);
+        assertEquals(4, returned.getNumUsers());
+        assertEquals(5, returned.getNumPosts());
+    }
+
 }
