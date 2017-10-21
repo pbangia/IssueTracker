@@ -143,4 +143,25 @@ public class ClusteringTest {
         assertEquals(5, returned.getNumPosts());
     }
 
+    @Test
+    public void clusterSizeIncreasesWhenNewForumPostAddedToCluster(){
+//        Cluster c = new Cluster(53200);
+//        c.addForumPost(1000, "author 1");
+        Cluster c = new Cluster(53200);
+        doReturn(c).when(forum).getCluster(53200);
+
+        Cluster cluster = forum.getCluster(53200);
+        assertEquals(0, cluster.getNumUsers());
+        assertEquals(0, cluster.getNumPosts());
+
+        cluster.addForumPost(53201, "author 1");
+        assertEquals(1, cluster.getNumUsers());
+        assertEquals(1, cluster.getNumPosts());
+
+    }
+
+    @Test
+    public void throwExceptionWhenAddPostToClusterIfNotAdmin(){
+
+    }
 }

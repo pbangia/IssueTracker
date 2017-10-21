@@ -34,10 +34,10 @@ public class ForumService {
     //private DBCollection dbCollection;
 
     public ForumService() throws UnknownHostException {
-        this(new MongoClient("localhost", 27017));
+        this(new MongoClient("localhost", 27017), new Morphia());
     }
 
-    public ForumService(MongoClient newConnection) {
+    public ForumService(MongoClient newConnection, Morphia dbMapper) {
 
         loadIssueList();
         //connect to mongodb
@@ -49,9 +49,8 @@ public class ForumService {
         //get collection from db
         //dbCollection = db.getCollection("clusters");
 
-        Morphia morphia = new Morphia();
-        ds = morphia.createDatastore(connection, "testdb");
-        morphia.map(Cluster.class);
+        ds = dbMapper.createDatastore(connection, "testdb");
+        //dbMapper.map(Cluster.class);
     }
 
     public List<String> getIssueTitles() {
@@ -131,5 +130,9 @@ public class ForumService {
             System.out.println(eval.clusterResultsToString());
 
         } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    public Cluster getCluster(int i) {
+        return clusters.get(i);
     }
 }
