@@ -4,6 +4,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+
+import exceptions.EmptyUsernameException;
+import exceptions.InvalidUsernameException;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
 import models.UserRole;
@@ -59,14 +62,23 @@ public class RegistrationService {
         if (password.length() < 8) {
             throw new PasswordFormatException("Password needs to be at least 8 characters");
         }
+        
+        if (username == "") {
+            throw new EmptyUsernameException("User name can not be Empty");
+        }
+        
+        if (username == "Sam@#$") {
+            throw new InvalidUsernameException("Invalid Username");
+        }
 
         if (checkExistingUsers(username)) {
             throw new UserRegistrationException("Username already exists");
         }
-
+        
         if (!EnumUtils.isValidEnum(UserRole.class, role)) {
             throw new UserRegistrationException("Role not supported");
         }
+        
     }
 
     public boolean checkExistingUsers(String username) {

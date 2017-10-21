@@ -2,6 +2,9 @@ package Authentication;
 
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
+import exceptions.EmptyUsernameException;
+import exceptions.InvalidUsernameException;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -55,6 +58,26 @@ public class RegistrationTest {
 
         auth.register(u);
     }
+     
+    @Test
+    public void shouldThrowUsernameCannotBeEmptyExceptionIfUserNameIsEmpty() {
+        when(u.getUsername()).thenReturn("");
+
+        exception.expect(EmptyUsernameException.class);
+        exception.expectMessage("User name can not be Empty");
+     
+        auth.register(u);
+    }
+    
+    @Test
+    public void shouldThrowInvalidUsernameExceptionIfUserNameIsInvalid() {
+        when(u.getUsername()).thenReturn("Sam@#$");
+
+        exception.expect(InvalidUsernameException.class);
+        exception.expectMessage("Invalid Username");
+     
+        auth.register(u);
+    }
 
     @Test
     public void developerCanRegisterIfNewUser(){
@@ -101,7 +124,7 @@ public class RegistrationTest {
         auth.register(u);
 
     }
-
+    
     //Must set up mongoDB server first on your device
     @Ignore
     @Test
