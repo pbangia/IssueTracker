@@ -4,7 +4,8 @@ import Authentication.LoginService;
 import Authentication.RegistrationService;
 import Clustering.ForumService;
 import com.mongodb.MongoClient;
-import models.Cluster;
+import exceptions.InvalidAuthStateException;
+import models.User;
 import models.UserStatus;
 import org.mongodb.morphia.Morphia;
 
@@ -18,9 +19,9 @@ public class IssueTracker {
     private ForumService forumService;
     private LoginService loginService;
     private RegistrationService registrationService;
-    //private User currentUser;
+    private User currentUser;
 
-    public IssueTracker() throws UnknownHostException{
+    public IssueTracker() throws UnknownHostException {
         this(new MongoClient("localhost", 27017), new Morphia());
     }
 
@@ -31,7 +32,14 @@ public class IssueTracker {
         registrationService = new RegistrationService(connection, morphia);
     }
 
-    public ForumService getForumService() { return forumService; }
+    public ForumService getForumService() {
+        currentUser = loginService.getCurrentUser();
+        if (currentUser == null) {
+            throw new InvalidAuthStateException("No user currently logged in");
+        }
+        forumService.setAccessPrivilege(currentUser.getRole());
+        return forumService;
+    }
 
     public void setForumService(ForumService forumService) {
         this.forumService = forumService;
