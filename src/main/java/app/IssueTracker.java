@@ -1,6 +1,7 @@
 package app;
 
 import Authentication.LoginService;
+import Authentication.RegistrationService;
 import Clustering.ForumService;
 import com.mongodb.MongoClient;
 import models.Cluster;
@@ -16,6 +17,7 @@ public class IssueTracker {
 
     private ForumService forumService;
     private LoginService loginService;
+    private RegistrationService registrationService;
     //private User currentUser;
 
     public IssueTracker() throws UnknownHostException{
@@ -26,12 +28,10 @@ public class IssueTracker {
 
         forumService = new ForumService(connection, morphia);
         loginService = new LoginService(connection, morphia);
+        registrationService = new RegistrationService(connection, morphia);
     }
 
-    public ForumService getForumService() {
-        //if (loginService.u)
-        return forumService;
-    }
+    public ForumService getForumService() { return forumService; }
 
     public void setForumService(ForumService forumService) {
         this.forumService = forumService;
@@ -61,5 +61,9 @@ public class IssueTracker {
 
     public void authenticate(String username, String password) {
         //currentUser = loginService.login(username,password);
+    }
+
+    public RegistrationService getRegistrationService() {
+        return registrationService;
     }
 }
