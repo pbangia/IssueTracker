@@ -14,7 +14,9 @@ import weka.core.converters.ArffLoader;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -35,6 +37,7 @@ public class ForumService {
     private MongoClient connection;
     private Datastore ds;
     private UserRole accessPrivilege;
+    private String FILE_NAME = "sample.arff";
     //private DB db;
     //private DBCollection dbCollection;
 
@@ -43,7 +46,7 @@ public class ForumService {
     }
 
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
-        loadIssueList();
+        data = loadIssueList(FILE_NAME);
         posts = getAllPosts();
 
         connection = newConnection;
@@ -65,14 +68,13 @@ public class ForumService {
         return posts;
     }
 
-    public void loadIssueList() {
+    public Instances loadIssueList(String filename) {
+        Instances instances = null;
         try {
-            ArffLoader loader = new ArffLoader();
-            loader.setSource(new File("sample.arff"));
-            data = loader.getDataSet();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            instances =  new Instances(new BufferedReader(new FileReader(filename)));
+        } catch (IOException e) { e.printStackTrace(); }
+
+        return instances;
     }
 
     public Map<Integer, Cluster> getRelatedIssues(){
