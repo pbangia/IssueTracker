@@ -37,6 +37,11 @@ public class ForumService {
         this(new MongoClient("localhost", 27017), new Morphia());
     }
 
+
+    public ForumService(MongoClient connection) {
+        this(connection, new Morphia());
+    }
+
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
 
         loadIssueList();

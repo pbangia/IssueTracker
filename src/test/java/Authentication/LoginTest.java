@@ -1,16 +1,20 @@
 package Authentication;
 
+import static models.UserStatus.LOGIN;
+import static models.UserStatus.LOGOUT;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+import app.IssueTracker;
+import models.User;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import com.mongodb.BasicDBObject;
@@ -25,6 +29,10 @@ import exceptions.PasswordMismatchException;
 import exceptions.UsernameNotExistException;
 import models.UserRole;
 import models.UserStatus;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+
+import java.net.UnknownHostException;
 
 /**
  * Created by priyankitbangia on 17/10/17.
@@ -33,25 +41,24 @@ public class LoginTest {
     private DBObject document;
     private LoginService auth;
     private DBCollection dbCollection;
+    IssueTracker issueTracker;
+    Datastore ds;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Before
-    public void setUpUserAuthenticationMockObjects(){
-    	document = new BasicDBObject();
-        document.put("username", "testUsername");
-        document.put("password", "testPassword");
-        document.put("role", UserRole.ADMIN);
-        document.put("status", UserStatus.LOGOUT);
+    public void setUpUserAuthenticationMockObjects() throws UnknownHostException {
         MongoClient connection = mock(MongoClient.class);
-        DB db = mock(DB.class);
-        dbCollection = mock(DBCollection.class);
+        Morphia morphia = mock(Morphia.class);
+        ds = mock(Datastore.class);
 
-        doReturn(db).when(connection).getDB(anyString());
-        doReturn(dbCollection).when(db).getCollection(anyString());
+        when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
-        auth = Mockito.spy(new LoginService(connection));
+        issueTracker = new IssueTracker(connection, morphia);
+
+        auth = Mockito.spy(issueTracker.getLoginService());
+
     }
 
     @Test

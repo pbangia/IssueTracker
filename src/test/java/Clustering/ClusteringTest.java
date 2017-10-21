@@ -1,10 +1,9 @@
 package Clustering;
 
 import Authentication.LoginService;
+import app.IssueTracker;
 import com.mongodb.*;
-import models.Cluster;
-import models.ForumPost;
-import models.User;
+import models.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,6 +15,7 @@ import org.mongodb.morphia.Morphia;
 import weka.clusterers.ClusterEvaluation;
 import weka.core.Instance;
 
+import java.net.UnknownHostException;
 import java.util.*;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -35,12 +35,13 @@ public class ClusteringTest {
     private ForumService forum;
 
     Set<Integer> postIDs = new HashSet<>();
+    IssueTracker issueTracker;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Before
-    public void setUpUserAuthenticationMockObjects(){
+    public void setUpUserAuthenticationMockObjects() throws UnknownHostException{
 
 
 //        MongoClient connection = mock(MongoClient.class);
@@ -58,7 +59,9 @@ public class ClusteringTest {
 
         when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
-        forum = spy(new ForumService(connection,morphia));
+        issueTracker = new IssueTracker();
+        forum = spy(issueTracker.getForumService());
+
     }
 
     public ArrayList<ForumPost> populatePosts(){
@@ -184,6 +187,16 @@ public class ClusteringTest {
 
     @Test
     public void throwExceptionWhenAddPostToClusterIfNotAdmin(){
-
+//
+//        //when(issueTracker.checkUserLoggedIn("username")).thenReturn(UserStatus.LOGIN);
+//        //when(issueTracker.checkCurrentUserRole()).thenReturn(UserRole.DEVELOPER);
+//
+//
+//        IssueTracker issueTracker = new IssueTracker();
+//        issueTracker.authenticate("username","password");
+//        ForumService f = issueTracker.getForumService();
+//
+//        Cluster c = issueTracker.getForumService().getCluster(5);
+//        c.addForumPost(1,"author");
     }
 }
