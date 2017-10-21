@@ -6,6 +6,7 @@ import com.mongodb.*;
 import exceptions.InvalidAuthStateException;
 import models.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,6 +20,8 @@ import weka.core.Instance;
 import java.net.UnknownHostException;
 import java.util.*;
 
+import static models.UserRole.ADMIN;
+import static models.UserRole.DEVELOPER;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -45,24 +48,16 @@ public class ClusteringTest {
     public void setUpUserAuthenticationMockObjects() throws UnknownHostException{
 
 
-//        MongoClient connection = mock(MongoClient.class);
-//        DB db = mock(DB.class);
-//        dbCollection = mock(DBCollection.class);
-//
-//        doReturn(db).when(connection).getDB(anyString());
-//        doReturn(dbCollection).when(db).getCollection(anyString());
-//
-//       // auth = Mockito.spy(new LoginService(connection));
-
         MongoClient connection = mock(MongoClient.class);
         Morphia morphia = mock(Morphia.class);
         Datastore ds = mock(Datastore.class);
 
         when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
-        issueTracker = new IssueTracker();
+        issueTracker = new IssueTracker(connection, morphia);
         LoginService auth = mock(LoginService.class);
-        User u = mock(User.class);
+
+        u = mock(User.class);
         when(auth.getCurrentUser()).thenReturn(u);
 
         issueTracker.setLoginService(auth);
@@ -192,8 +187,23 @@ public class ClusteringTest {
 
     @Test
     public void throwExceptionWhenAddPostToClusterIfNotAdmin(){
+        when(forum.getAccessPrivilege()).thenReturn(DEVELOPER);
+
         exception.expect(InvalidAuthStateException.class);
         exception.expectMessage("Only admins have permission to modify clusters");
+
+        Cluster c = spy(new Cluster(0));
+        doReturn(c).when(forum).getCluster(0);
+        ForumPost f = mock(ForumPost.class);
+        when(f.getAuthor()).thenReturn("author");
+        when(f.getQuestionID()).thenReturn(0);
+
+        forum.addForumPostToCluster(f, 0);
+    }
+
+    @Test
+    public void userIsAbleToAddPostsToClusterIfAdmin(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
 
         Cluster c = spy(new Cluster(0));
         doReturn(c).when(forum).getCluster(0);
