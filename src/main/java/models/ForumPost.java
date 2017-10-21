@@ -46,6 +46,10 @@ public class ForumPost {
 
     }
 
+    public ForumPost(int id) {
+        questionID=id;
+    }
+
     @Override
     public String toString(){
         return Integer.toString(questionID);

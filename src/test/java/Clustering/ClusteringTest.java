@@ -3,20 +3,25 @@ package Clustering;
 import Authentication.LoginService;
 import com.mongodb.*;
 import models.Cluster;
+import models.ForumPost;
 import models.User;
-import models.UserRole;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.internal.util.collections.Sets;
+import org.mockito.AdditionalAnswers;
+import org.mockito.Mockito;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import weka.clusterers.ClusterEvaluation;
+import weka.core.Instance;
 
-import java.net.UnknownHostException;
 import java.util.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -36,25 +41,26 @@ public class ClusteringTest {
 
     @Before
     public void setUpUserAuthenticationMockObjects(){
-        u = mock(User.class);
-        when(u.getUsername()).thenReturn("testUsername");
-        when(u.getPassword()).thenReturn("testPassword");
-        when(u.getRole()).thenReturn(UserRole.ADMIN);
+
+
+//        MongoClient connection = mock(MongoClient.class);
+//        DB db = mock(DB.class);
+//        dbCollection = mock(DBCollection.class);
+//
+//        doReturn(db).when(connection).getDB(anyString());
+//        doReturn(dbCollection).when(db).getCollection(anyString());
+//
+//       // auth = Mockito.spy(new LoginService(connection));
 
         MongoClient connection = mock(MongoClient.class);
-        DB db = mock(DB.class);
-        dbCollection = mock(DBCollection.class);
+        Morphia morphia = mock(Morphia.class);
+        Datastore ds = mock(Datastore.class);
 
-        doReturn(db).when(connection).getDB(anyString());
-        doReturn(dbCollection).when(db).getCollection(anyString());
+        when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
-       // auth = Mockito.spy(new LoginService(connection));
+        forum = spy(new ForumService(connection,morphia));
+    }
 
-        try {
-            forum = new ForumService();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
@@ -62,7 +68,7 @@ public class ClusteringTest {
         List<HashSet<Integer>> expectedIDs = getExpectedIDs();
 
         //TODO: Use mock objects and change return result to proper objects
-        List<Cluster> clusters = forum.getRelatedIssues();
+        Map<Integer, Cluster> clusters = forum.getRelatedIssues();
 
         //Check equal number of clusters
         assertEquals(expectedIDs.size(), clusters.size());

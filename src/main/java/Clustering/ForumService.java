@@ -15,9 +15,7 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -26,9 +24,9 @@ import java.util.List;
 public class ForumService {
     Instances data;
     ArrayList<ForumPost> posts = new ArrayList<>();
-    ClusterEvaluation eval;
+    private ClusterEvaluation eval;
     double[] assignments;
-    ArrayList<Cluster> clusters;
+    Map<Integer, Cluster> clusters;
 
     private MongoClient connection;
     private Datastore ds;
@@ -78,23 +76,25 @@ public class ForumService {
         }
     }
 
-    public List<Cluster> getRelatedIssues(){
+    public Map<Integer, Cluster> getRelatedIssues(){
 
         //run cluster algorithm
         clusterPosts();
 
         //create cluster array
-        clusters = new ArrayList<>();
+        clusters = new HashMap<>();
         for (int i=0; i<eval.getNumClusters(); i++){
-            clusters.add(new Cluster(i));
+            clusters.put(i , new Cluster(i));
         }
 
         //perform mapping between cluster assignment and forum posts
         assignments = eval.getClusterAssignments();
         for (int i = 0; i<assignments.length; i++){
             int clusterNum = (int) assignments[i];
+
             clusters.get(clusterNum).setClusterID(clusterNum);
-            clusters.get(clusterNum).addForumPost(posts.get(i).getQuestionID());
+            clusters.get(clusterNum).addForumPost(posts.get(i).getQuestionID(), posts.get(i).getAuthor());
+
         }
 
         System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
@@ -116,7 +116,7 @@ public class ForumService {
         }
     }
 
-    private void clusterPosts() {
+    public void clusterPosts() {
         try {
             StringToWordVector s = new StringToWordVector();
             s.setInputFormat(data);

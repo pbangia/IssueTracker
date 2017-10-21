@@ -13,18 +13,17 @@ import java.util.Set;
 @Entity(value = "clusters")
 public class Cluster implements Serializable {
 
-
     @Id
     private int clusterID;
     Set<Integer> postIDs = new HashSet<>();
     Set<String> usersAffected = new HashSet<>();
     private int numPosts;
-    private String title;
-    private String summary;
+    private String title = "placeholder title";
+    private String summary = "placeholder summary";
     private int numUsers;
-    private String context;
-    private Set<String> assigneeIDs;
-    private String status;
+    private String context = "placeholder summary";
+    private Set<String> assigneeIDs = new HashSet<>();
+    private IssueStatus status = IssueStatus.OPEN;
 
     public Cluster(int id){
         this.clusterID = id;
@@ -33,7 +32,6 @@ public class Cluster implements Serializable {
     public void addForumPost(int postID){
         postIDs.add(postID);
         numPosts=postIDs.size();
-
     }
 
     public void addForumPost(int postID, String author){
@@ -92,16 +90,26 @@ public class Cluster implements Serializable {
         this.assigneeIDs = assigneeIDs;
     }
 
-    public String getStatus() {
+    public IssueStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(IssueStatus status) {
         this.status = status;
+    }
+
+    public int getClusterID() {
+        return clusterID;
     }
 
     @Override
     public String toString(){
         return postIDs.toString();
     }
+
+    public int getNumPosts() {
+        return numPosts;
+    }
+
+    public enum IssueStatus { OPEN, CLOSED, IN_PROGRESS };
 }
