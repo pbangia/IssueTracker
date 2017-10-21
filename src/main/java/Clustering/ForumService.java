@@ -37,31 +37,15 @@ public class ForumService {
         this(new MongoClient("localhost", 27017), new Morphia());
     }
 
-
-    public ForumService(MongoClient connection) {
-        this(connection, new Morphia());
-    }
-
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
-
         loadIssueList();
         posts = getPosts();
 
-        //connect to mongodb
         connection = newConnection;
-
-        //get db
-        //db = this.connection.getDB("testdb");
-
-        //get collection from db
-        //dbCollection = db.getCollection("clusters");
-
         ds = dbMapper.createDatastore(connection, "testdb");
-        //dbMapper.map(Cluster.class);
     }
 
     public List<String> getIssueTitles() {
-
         ArrayList<String> titles = new ArrayList<>();
         for (ForumPost post: posts) titles.add(post.getTitle());
         return titles;

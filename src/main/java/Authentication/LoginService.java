@@ -29,7 +29,6 @@ import static models.UserStatus.LOGOUT;
 public class LoginService {
 
 	private MongoClient connection;
-	//private DBCollection dbCollection;
 	private Datastore ds;
 
 	public LoginService() throws UnknownHostException {
@@ -37,26 +36,12 @@ public class LoginService {
 		this(new MongoClient("localhost", 27017), new Morphia());
 	}
 
-	public LoginService(MongoClient connection) {
-		this(connection, new Morphia());
-	}
-
 	public LoginService(MongoClient newConnection, Morphia dbMapper) {
-		// connect to mongodb
 		connection = newConnection;
-
-		// get db
-		//db = this.connection.getDB("testdb");
-
-		// get collection from db
-		//dbCollection = db.getCollection("users");
-
 		ds = dbMapper.createDatastore(connection, "testdb");
-
 	}
 
 	public boolean login(String username, String password) {
-
     	User user = getUser(username);
 
 		if (!password.equals(user.getPassword())) {
@@ -69,22 +54,17 @@ public class LoginService {
     }
 	
 	public boolean logout(String username) {
-		//DBObject document = getUser(username);
 		User user = getUser(username);
 		if (LOGIN.equals(user.getStatus())) {
 			user.setStatus(LOGOUT);
 			ds.save(user);
 			return true;
 		}
-
 		return false;
-
 	}
 
 	public UserStatus checkStatus(String username) {
-		//DBObject document = getUser(username);
 		User user = getUser(username);
-		//return (UserStatus) document.get("status");
 		return user.getStatus();
 	}
 	

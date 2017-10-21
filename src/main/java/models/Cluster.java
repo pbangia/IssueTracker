@@ -29,11 +29,6 @@ public class Cluster implements Serializable {
         this.clusterID = id;
     }
 
-    public void addForumPost(int postID){
-        postIDs.add(postID);
-        numPosts=postIDs.size();
-    }
-
     public void addForumPost(int postID, String author){
         postIDs.add(postID);
         numPosts=postIDs.size();

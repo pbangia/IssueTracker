@@ -26,9 +26,7 @@ public class ForumPost {
 
     private int clusterID;
 
-    public ForumPost(){
-
-    }
+    public ForumPost(){}
 
     public ForumPost(Instance rawData){
         questionID = (int)rawData.value(0);

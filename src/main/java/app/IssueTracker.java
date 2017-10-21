@@ -54,11 +54,6 @@ public class IssueTracker {
         return;
     }
 
-    public Cluster getCluster(int i) {
-        //
-        return forumService.getCluster(i);
-    }
-
     public void authenticate(String username, String password) {
         //currentUser = loginService.login(username,password);
     }
