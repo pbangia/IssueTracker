@@ -29,7 +29,6 @@ import static models.UserStatus.LOGOUT;
 public class LoginService {
 
 	private MongoClient connection;
-	private DB db;
 	//private DBCollection dbCollection;
 	private Datastore ds;
 

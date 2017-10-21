@@ -38,9 +38,7 @@ import java.net.UnknownHostException;
  * Created by priyankitbangia on 17/10/17.
  */
 public class LoginTest {
-    private DBObject document;
     private LoginService auth;
-    private DBCollection dbCollection;
     IssueTracker issueTracker;
     Datastore ds;
 

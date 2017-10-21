@@ -1,5 +1,6 @@
 package Authentication;
 
+import app.IssueTracker;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
 import org.junit.Before;
@@ -8,47 +9,58 @@ import org.junit.Rule;
 import org.junit.Test;
 import com.mongodb.*;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.net.UnknownHostException;
 
+import static models.UserRole.ADMIN;
+import static models.UserStatus.LOGIN;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import models.*;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 
 /**
  * Created by priyankitbangia on 15/10/17.
  */
 public class RegistrationTest {
-    private User u;
     private RegistrationService auth;
-    private DBCollection dbCollection;
+    Datastore ds;
+    IssueTracker issueTracker;
+    private String TEST_USERNAME = "testUsername";
+    private String TEST_PASSWORD = "testPassword";
+    private String TEST_ROLE_ADMIN = "ADMIN";
+    private String TEST_ROLE_DEV = "DEVELOPER";
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setUpUserAuthenticationMockObjects(){
-        u = mock(User.class);
-        when(u.getUsername()).thenReturn("testUsername");
-        when(u.getPassword()).thenReturn("testPassword");
-        when(u.getRole()).thenReturn(UserRole.ADMIN);
 
         MongoClient connection = mock(MongoClient.class);
-        DB db = mock(DB.class);
-        dbCollection = mock(DBCollection.class);
+        Morphia morphia = mock(Morphia.class);
+        ds = mock(Datastore.class);
 
-        doReturn(db).when(connection).getDB(anyString());
-        doReturn(dbCollection).when(db).getCollection(anyString());
+        when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
-        auth = Mockito.spy(new RegistrationService(connection));
+        issueTracker = new IssueTracker(connection, morphia);
+
+        auth = Mockito.spy(issueTracker.getRegistrationService());
+
     }
 
     @Test
     public void shouldThrowFormatPasswordExceptionIfPasswordLengthLessThan8() {
+        User u = mock(User.class);
+        when(u.getUsername()).thenReturn("testUsername");
         when(u.getPassword()).thenReturn("1234567");
+        when(u.getRole()).thenReturn(ADMIN);
 
         exception.expect(PasswordFormatException.class);
         exception.expectMessage("Password needs to be at least 8 characters");
@@ -58,48 +70,57 @@ public class RegistrationTest {
 
     @Test
     public void developerCanRegisterIfNewUser(){
-        when(u.getRole()).thenReturn(UserRole.DEVELOPER);
 
-        //return false when query to check db for already existing name is run
-        DBCursor queriedUsers = mock(DBCursor.class);
-        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
-        when(queriedUsers.hasNext()).thenReturn(false);
+        doReturn(null).when(auth).findUser(TEST_USERNAME);
 
-        //return a result for when db checks if write was successful
-        when(dbCollection.insert(any(BasicDBObject.class))).thenReturn(mock(WriteResult.class));
+        assertTrue(auth.register(TEST_USERNAME, TEST_PASSWORD,TEST_ROLE_DEV)!=null);
 
-        //expect true on successful registration
-        assertTrue(auth.register(u));
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(ds).save(userCaptor.capture());
 
+        User capturedUser = userCaptor.getValue();
+        assertEquals(capturedUser.getUsername(), TEST_USERNAME);
+        assertEquals(capturedUser.getPassword(), TEST_PASSWORD);
+        assertEquals(capturedUser.getRole().toString(), TEST_ROLE_DEV);
     }
 
     @Test
     public void adminCanRegisterIfNewUser(){
-        //return false when query to check db for already existing name is run
-        DBCursor queriedUsers = mock(DBCursor.class);
-        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
-        when(queriedUsers.hasNext()).thenReturn(false);
 
-        //return a result for when db checks if write was successful
-        when(dbCollection.insert(any(BasicDBObject.class))).thenReturn(mock(WriteResult.class));
+        doReturn(null).when(auth).findUser(TEST_USERNAME);
 
-        //expect true on successful registration
-        assertTrue(auth.register(u));
+        assertTrue(auth.register(TEST_USERNAME, TEST_PASSWORD,TEST_ROLE_ADMIN)!=null);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(ds).save(userCaptor.capture());
+
+        User capturedUser = userCaptor.getValue();
+        assertEquals(capturedUser.getUsername(), TEST_USERNAME);
+        assertEquals(capturedUser.getPassword(), TEST_PASSWORD);
+        assertEquals(capturedUser.getRole().toString(), TEST_ROLE_ADMIN);
 
     }
 
     @Test
     public void userCannotRegisterIfAlreadyExists(){
-        //return true when query to check db for already existing name is run
-        DBCursor index = mock(DBCursor.class);
-        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(index);
-        when(index.hasNext()).thenReturn(true);
 
         exception.expect(UserRegistrationException.class);
         exception.expectMessage("Username already exists");
 
-        auth.register(u);
+        User u = mock(User.class);
+        doReturn(u).when(auth).findUser(TEST_USERNAME);
 
+        auth.register(TEST_USERNAME, TEST_PASSWORD,TEST_ROLE_ADMIN);
+    }
+
+    @Test
+    public void userCannotRegisterIfRoleNotAdminOrDeveloper(){
+
+        exception.expect(UserRegistrationException.class);
+        exception.expectMessage("Role not supported");
+        doReturn(null).when(auth).findUser(TEST_USERNAME);
+
+        auth.register(TEST_USERNAME, TEST_PASSWORD,"invalid role");
     }
 
     //Must set up mongoDB server first on your device
@@ -108,18 +129,15 @@ public class RegistrationTest {
     public void testRealDatabase(){
 
         try {
-            RegistrationService a = new RegistrationService();
-            a.register("realUsername","realPassword", "ADMIN");
-
-            DBCursor indexes = a.getDB().getCollection("users").find();
-            for (DBObject user: indexes){
-                System.out.println(user);
-            }
-
+            RegistrationService r = new RegistrationService();
+            r.register("realUsername","realPassword", "ADMIN");
+            User u = r.getDataStore().find(User.class).field("_id").equal("realUsername").get();
+            System.out.println(u.getUsername());
         }catch (UserRegistrationException e){
             System.out.println("User is already registered in real db");
         }catch (UnknownHostException e){
             e.printStackTrace();
         }
     }
+
 }
