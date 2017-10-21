@@ -1,8 +1,10 @@
 package Clustering;
 
 import com.mongodb.*;
+import exceptions.InvalidAuthStateException;
 import models.Cluster;
 import models.ForumPost;
+import models.UserRole;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import weka.clusterers.ClusterEvaluation;
@@ -17,6 +19,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
 
+import static models.UserRole.ADMIN;
+
 
 /**
  * Created by priyankitbangia on 18/10/17.
@@ -30,6 +34,7 @@ public class ForumService {
 
     private MongoClient connection;
     private Datastore ds;
+    private UserRole accessPrivilege;
     //private DB db;
     //private DBCollection dbCollection;
 
@@ -129,5 +134,20 @@ public class ForumService {
 
     public Cluster getCluster(int i) {
         return clusters.get(i);
+    }
+
+    public void setAccessPrivilege(UserRole accessPrivilege) {
+        this.accessPrivilege = accessPrivilege;
+    }
+
+    public void addForumPostToCluster(ForumPost forumPost, int i) {
+        if (getAccessPrivilege()!= ADMIN) {
+            throw new InvalidAuthStateException("Only admins have permission to modify clusters");
+        }
+        getCluster(i).addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
+    }
+
+    public UserRole getAccessPrivilege() {
+        return accessPrivilege;
     }
 }
