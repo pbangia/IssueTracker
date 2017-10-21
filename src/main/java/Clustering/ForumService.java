@@ -40,6 +40,8 @@ public class ForumService {
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
 
         loadIssueList();
+        posts = getPosts();
+
         //connect to mongodb
         connection = newConnection;
 
@@ -60,16 +62,20 @@ public class ForumService {
         return titles;
     }
 
-    private void loadIssueList() {
+    public ArrayList<ForumPost> getPosts(){
+        ArrayList<ForumPost> posts = new ArrayList<>();
+        for (int i=0; i<data.numInstances();i++){
+            ForumPost post = new ForumPost(data.instance(i));
+            posts.add(post);
+        }
+        return posts;
+    }
+
+    public void loadIssueList() {
         try {
             ArffLoader loader = new ArffLoader();
             loader.setSource(new File("sample.arff"));
             data = loader.getDataSet();
-
-            for (int i=0; i<data.numInstances();i++){
-                ForumPost post = new ForumPost(data.instance(i));
-                posts.add(post);
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -61,10 +61,32 @@ public class ClusteringTest {
         forum = spy(new ForumService(connection,morphia));
     }
 
+    public ArrayList<ForumPost> populatePosts(){
+        ArrayList<ForumPost> posts = new ArrayList<>();
+        posts.add(new ForumPost(44330));
+        posts.add(new ForumPost(44331));
+        posts.add(new ForumPost(44332));
+        posts.add(new ForumPost(44333));
+        posts.add(new ForumPost(44334));
+        posts.add(new ForumPost(44335));
+        posts.add(new ForumPost(44336));
+        posts.add(new ForumPost(44337));
+        posts.add(new ForumPost(44338));
+        posts.add(new ForumPost(44339));
+        posts.add(new ForumPost(44330));
+        return posts;
     }
 
     @Test
     public void clusterRelatedForumPosts(){
+
+//        when(forum.eval.getNumClusters()).thenReturn(10);
+//        when(forum.eval.getClusterAssignments()).thenReturn(new double[]{0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 , 8.0, 9.0, 0.0});
+//        doNothing().when(forum).clusterPosts();
+//        doReturn(populatePosts()).when(forum).getPosts();
+//        System.out.println(forum.posts.size());
+//        forum.posts = forum.getPosts();
+
         List<HashSet<Integer>> expectedIDs = getExpectedIDs();
 
         //TODO: Use mock objects and change return result to proper objects
