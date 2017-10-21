@@ -3,6 +3,7 @@ package Clustering;
 import Authentication.LoginService;
 import app.IssueTracker;
 import com.mongodb.*;
+import exceptions.InvalidAuthStateException;
 import models.*;
 import org.junit.Before;
 import org.junit.Rule;
@@ -60,6 +61,11 @@ public class ClusteringTest {
         when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
         issueTracker = new IssueTracker();
+        LoginService auth = mock(LoginService.class);
+        User u = mock(User.class);
+        when(auth.getCurrentUser()).thenReturn(u);
+
+        issueTracker.setLoginService(auth);
         forum = spy(issueTracker.getForumService());
 
     }
@@ -170,8 +176,7 @@ public class ClusteringTest {
 
     @Test
     public void clusterSizeIncreasesWhenNewForumPostAddedToCluster(){
-//        Cluster c = new Cluster(53200);
-//        c.addForumPost(1000, "author 1");
+
         Cluster c = new Cluster(53200);
         doReturn(c).when(forum).getCluster(53200);
 
@@ -187,16 +192,15 @@ public class ClusteringTest {
 
     @Test
     public void throwExceptionWhenAddPostToClusterIfNotAdmin(){
-//
-//        //when(issueTracker.checkUserLoggedIn("username")).thenReturn(UserStatus.LOGIN);
-//        //when(issueTracker.checkCurrentUserRole()).thenReturn(UserRole.DEVELOPER);
-//
-//
-//        IssueTracker issueTracker = new IssueTracker();
-//        issueTracker.authenticate("username","password");
-//        ForumService f = issueTracker.getForumService();
-//
-//        Cluster c = issueTracker.getForumService().getCluster(5);
-//        c.addForumPost(1,"author");
+        exception.expect(InvalidAuthStateException.class);
+        exception.expectMessage("Only admins have permission to modify clusters");
+
+        Cluster c = spy(new Cluster(0));
+        doReturn(c).when(forum).getCluster(0);
+        ForumPost f = mock(ForumPost.class);
+        when(f.getAuthor()).thenReturn("author");
+        when(f.getQuestionID()).thenReturn(0);
+
+        forum.addForumPostToCluster(f, 0);
     }
 }
