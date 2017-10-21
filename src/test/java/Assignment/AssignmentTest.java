@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -27,7 +28,10 @@ import org.mongodb.morphia.Morphia;
 import com.mongodb.MongoClient;
 
 import app.IssueTracker;
+import exceptions.AdminCannotBeenAssignedException;
 import exceptions.DeveloperAlreadyAssignedException;
+import exceptions.IssueAlreadyClosedException;
+import exceptions.PermissionDeniedException;
 import models.Cluster;
 import models.Cluster.IssueStatus;
 import models.User;
@@ -106,10 +110,10 @@ public class AssignmentTest {
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.CLOSED);
     	
-    	assign.assignIssue(u, c, developer);
-    	   	
     	exception.expect(IssueAlreadyClosedException.class);
         exception.expectMessage("The issue has already been closed");
+    	
+    	assign.assignIssue(u, c, developer);
     }
     
     @Test
@@ -123,10 +127,10 @@ public class AssignmentTest {
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
     	
-    	assign.assignIssue(u, c, developer);
-    	   	
     	exception.expect(PermissionDeniedException.class);
         exception.expectMessage("You do not have the permission to perform this operation");
+    	
+    	assign.assignIssue(u, c, developer);
     }
     
     @Test
@@ -139,12 +143,12 @@ public class AssignmentTest {
     	//mock an open issue
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.IN_PROGRESS);
-    	when(c.getAssigneeIDs()).thenReturn(new HashSet<String>(Arrays.asList(developer.getUsername())));
+    	doReturn(new HashSet<String>(Arrays.asList(developer.getUsername()))).when(c).getAssigneeIDs();
+    		   	
+	    exception.expect(DeveloperAlreadyAssignedException.class);
+        exception.expectMessage("The developer has already been assigned to the issue");
     	
     	assign.assignIssue(u, c, developer);
-    	   	
-    	exception.expect(DeveloperAlreadyAssignedException.class);
-        exception.expectMessage("The developer has already been assigned to the issue");
     }
     
     @Test
@@ -158,9 +162,9 @@ public class AssignmentTest {
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
     	
-    	assign.assignIssue(u, c, admin);
-    	   	
     	exception.expect(AdminCannotBeenAssignedException.class);
         exception.expectMessage("An administrator cannot been assigned to an issue");
+    	
+    	assign.assignIssue(u, c, admin);
     }
 }
