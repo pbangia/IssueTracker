@@ -6,16 +6,14 @@ import com.mongodb.*;
 import exceptions.InvalidAuthStateException;
 import models.*;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.AdditionalAnswers;
-import org.mockito.Mockito;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import weka.clusterers.ClusterEvaluation;
-import weka.core.Instance;
+import weka.clusterers.DBSCAN;
+import weka.core.Instances;
 
 import java.net.UnknownHostException;
 import java.util.*;
@@ -82,20 +80,26 @@ public class ClusteringTest {
     }
 
     @Test
-    public void clusterRelatedForumPosts(){
+    public void clusterRelatedForumPosts() throws Exception {
 
-//        when(forum.eval.getNumClusters()).thenReturn(10);
-//        when(forum.eval.getClusterAssignments()).thenReturn(new double[]{0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 , 8.0, 9.0, 0.0});
-//        doNothing().when(forum).clusterPosts();
-//        doReturn(populatePosts()).when(forum).getPosts();
-//        System.out.println(forum.posts.size());
-//        forum.posts = forum.getPosts();
+        DBSCAN dbscan = mock(DBSCAN.class);
+        doNothing().when(dbscan).setMinPoints(anyInt());
+        doNothing().when(dbscan).setEpsilon(anyInt());
+        doNothing().when(dbscan).buildClusterer(any(Instances.class)); // Throws generic exception
+        when(forum.getDBSCAN()).thenReturn(dbscan);
+
+        ClusterEvaluation eval = spy(new ClusterEvaluation());
+        when(forum.getEval()).thenReturn(eval);
+        //doNothing().when(eval).setClusterer(dbscan);
+        doNothing().when(eval).evaluateClusterer(any(Instances.class)); // Throws generic exception
+
+        doReturn(10).when(eval).getNumClusters();
+        doReturn(new double[]{0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 , 8.0, 9.0, 0.0}).when(eval).getClusterAssignments();
+        doReturn(populatePosts()).when(forum).getAllPosts();
+        forum.posts = forum.getAllPosts();
 
         List<HashSet<Integer>> expectedIDs = getExpectedIDs();
-
-        //TODO: Use mock objects and change return result to proper objects
         Map<Integer, Cluster> clusters = forum.getRelatedIssues();
-
         //Check equal number of clusters
         assertEquals(expectedIDs.size(), clusters.size());
 

@@ -28,7 +28,7 @@ import static models.UserRole.ADMIN;
 public class ForumService {
     Instances data;
     ArrayList<ForumPost> posts = new ArrayList<>();
-    private ClusterEvaluation eval;
+    public ClusterEvaluation eval;
     double[] assignments;
     Map<Integer, Cluster> clusters;
 
@@ -44,7 +44,7 @@ public class ForumService {
 
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
         loadIssueList();
-        posts = getPosts();
+        posts = getAllPosts();
 
         connection = newConnection;
         ds = dbMapper.createDatastore(connection, "testdb");
@@ -56,7 +56,7 @@ public class ForumService {
         return titles;
     }
 
-    public ArrayList<ForumPost> getPosts(){
+    public ArrayList<ForumPost> getAllPosts(){
         ArrayList<ForumPost> posts = new ArrayList<>();
         for (int i=0; i<data.numInstances();i++){
             ForumPost post = new ForumPost(data.instance(i));
@@ -120,11 +120,11 @@ public class ForumService {
             StringToWordVector s = new StringToWordVector();
             s.setInputFormat(data);
             data = Filter.useFilter(data, s);
-            DBSCAN dbscan = new DBSCAN();
+            DBSCAN dbscan = getDBSCAN();
             dbscan.setEpsilon(1);
             dbscan.setMinPoints(1);
             dbscan.buildClusterer(data);
-            eval = new ClusterEvaluation();
+            eval = getEval();
             eval.setClusterer(dbscan);
             eval.evaluateClusterer(data);
             System.out.println(eval.clusterResultsToString());
@@ -149,5 +149,13 @@ public class ForumService {
 
     public UserRole getAccessPrivilege() {
         return accessPrivilege;
+    }
+
+    public DBSCAN getDBSCAN() {
+        return new DBSCAN();
+    }
+
+    public ClusterEvaluation getEval() {
+        return new ClusterEvaluation();
     }
 }
