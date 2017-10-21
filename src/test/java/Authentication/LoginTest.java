@@ -63,62 +63,51 @@ public class LoginTest {
 
     @Test
     public void userCanLoginIfUserExist(){
-    	document.put("status", UserStatus.LOGOUT);
-        //return false when query to check db for already existing name is run
-        DBCursor queriedUsers = mock(DBCursor.class);
-        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
-        when(queriedUsers.hasNext()).thenReturn(true);
-        when(queriedUsers.next()).thenReturn(document);
-        //return a result for when db checks if write was successful
-        when(dbCollection.insert(any(BasicDBObject.class))).thenReturn(mock(WriteResult.class));
+        User u = mock(User.class);
+        when(u.getPassword()).thenReturn("testPassword");
+        doReturn(u).when(auth).findUser("testUsername");
 
-        //expect true on successful registration
         assertTrue(auth.login("testUsername", "testPassword"));
-        assertTrue(UserStatus.LOGIN.equals(auth.checkStatus("testUsername")));
-
+        verify(u).setStatus(LOGIN);
+        verify(ds).save(u);
     }
     
     @Test
     public void shouldThrowUserNotExistExceptionIfUsernameNotExist() {
-    	document.put("status", UserStatus.LOGOUT);
-    	//return false when query to check db for already existing name is run
-        DBCursor queriedUsers = mock(DBCursor.class);
-        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
-        when(queriedUsers.hasNext()).thenReturn(false);
+
+        doReturn(null).when(auth).findUser("incorrect_username");
         
         exception.expect(UsernameNotExistException.class);
         exception.expectMessage("Username not exists");
         
-        auth.login("testUsername1", "testPassword");
+        auth.login("incorrect_username", "testPassword");
     }
     
     @Test
     public void shouldThrowPasswordMismatchExceptionIfPasswordIsIncorrect() {
-    	document.put("status", UserStatus.LOGOUT);
-    	DBCursor queriedUsers = mock(DBCursor.class);
-        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
-        when(queriedUsers.hasNext()).thenReturn(true);
-        when(queriedUsers.next()).thenReturn(document);
-        
+
+        User u = mock(User.class);
+        when(u.getUsername()).thenReturn("testUsername");
+        when(u.getPassword()).thenReturn("testPassword");
+        doReturn(u).when(auth).findUser("testUsername");
+
         exception.expect(PasswordMismatchException.class);
         exception.expectMessage("Password is incorrect");
         
-        auth.login("testUsername", "testPassword1");
+        auth.login("testUsername", "incorrect_password");
     }
     
     @Test
     public void userCanSucessfullyLogOutIfCurrentlyLogin() {
-    	document.put("status", UserStatus.LOGIN);
-    	DBCursor queriedUsers = mock(DBCursor.class);
-        when(dbCollection.find(any(BasicDBObject.class))).thenReturn(queriedUsers);
-        when(queriedUsers.hasNext()).thenReturn(true);
-        when(queriedUsers.next()).thenReturn(document);
-        
-        //return a result for when db checks if write was successful
-        when(dbCollection.insert(any(BasicDBObject.class))).thenReturn(mock(WriteResult.class));
 
-        //expect true on successful registration
+        User u = mock(User.class);
+        when(u.getStatus()).thenReturn(LOGIN);
+        doReturn(u).when(auth).findUser(anyString());
+        doReturn(null).when(ds).save(any(User.class));
+
         assertTrue(auth.logout("testUsername"));
-        assertTrue(UserStatus.LOGOUT.equals(auth.checkStatus("testUsername")));
+        verify(u).setStatus(LOGOUT);
+        verify(ds).save(u);
+
     }
 }
