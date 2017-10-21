@@ -1,0 +1,1083 @@
+@relation postSentences
+
+@attribute sentence_id numeric
+@attribute content string
+@attribute category_id numeric
+@attribute question_id numeric
+
+@data
+
+954,"URGENTI am absolutely appalled at the service provided by Xero.",0,140029
+955,"I have been asking for a call, and nobody will call.",1,140029
+956,"Xero claims, they are happy to call you.",0,140029
+957,"I disagree.",0,140029
+958,"I have asked 3 times now, and you will not.",0,140029
+959,"Please call 07740306490 and help my bookkeeper.",0,140029
+960,"Thank you",4,140029
+961,"Hello,  I need to set up a Dishonoured Payment account in my chart of accounts to record the fraudulent "receive money" transaction from our customer and the bank retrieval "spend money" transaction.",0,125719
+962,"Can anyone please help with where I set this account up in my chart of accounts.",3,125719
+963,"thanksKathryn",4,125719
+964,"When I import bills in Purchases it works fine but it doesn't update the cost in Inventory.",1,134108
+965,"Is this by design or is there a way to allow this.",3,134108
+966,"Otherwise I have to manually maintain my inventory costs.",0,134108
+967,"I have read what I can and searched the forum but can't find any info on this",0,134108
+968,"Anyone know an answer?",3,134108
+969,"Thanks, Richard",4,134108
+970,"Hi All,I use Box (www.box.com) extensively for cloud based storage.",0,136387
+971,"It would be great if there was an option to Export a PDF of any report to your Box account from the Export Button (Currently there are options for PDF, Excel and Google Docs only).",0,136387
+972,"Now I have to export to PDF, Save to my desktop then drag into Box.",1,136387
+973,"I know you can publish reports in Xero, but I generally only publish final documents, not reports I use for working papers etc.",0,136387
+974,"Hi all.",0,129000
+975,"I'm looking for something that will use my client list out of Xero.",0,129000
+976,"I need it to do email merge...",0,129000
+977,"Anyone recommend anything?",3,129000
+978,"I'm trying to find a definitive answer but had no luck.",0,137078
+979,"My employer wants me to be able to pay employees direct from zero without accessing online banking.",0,137078
+980,"It doesn't seem to be an option.",1,137078
+981,"Can anyone confirm?",3,137078
+982,"If you are a user of Xero and Fergus, tell us how you are getting on and your experience so far.",0,138758
+983,"Any tips?",3,138758
+984,"Intuitive job management software designed for tradesmen by tradesmen. ",0,138758
+985,"Quotes, schedules, invoices, timesheets, GPS tracking and seamless integration, check out .",0,138758
+986,"Has anyone out in the Xero Community done a large scale change to their chart of accounts?",3,126491
+987,"We are planning a large change, and just curious to see how others might have tackled it.",0,126491
+988,"I wanted to keep an original "copy/backup" of our data up to 12/31/2015 and then roll over a new copy/database for 2016 and make the changes there.",0,126491
+989,"However, Xero doesn't work similarly to QB, where you can download a copy of the database and store.",0,126491
+990,"It was suggested to do a major upload of the new GL codes, however - that seems fraught with issues and potential overwriting, and less out of our control, if you are switching codes one by one.",1,126491
+991,"Thoughts?",4,126491
+992,"If you are a user of Xero and Zenoti, tell us how you are getting on and your experience so far.",0,138412
+993,"Any tips?",3,138412
+994,"A cloud-based, all-in-one software solution used by spas, salons and medi-spas to manage and grow their business.",0,138412
+995,"For more information, check out .",0,138412
+996,"If you are a user of Xero and EMAC, tell us how you are getting on and your experience so far.",0,138540
+997,"Any tips?",3,138540
+998,"Intelligent real time job management and billing tool to keep track of jobs, quotes, monitor profit margins as well as add labour time and materials.",0,138540
+999,"For more information, check out .",0,138540
+1000,"If you are a user of Xero and e360, tell us how you are getting on and your experience so far.",0,138744
+1001,"Any tips?",3,138744
+1002,"e360 is an integrated website platform for SME's including Content Management, Ecommerce, Email Marketing, CRM, Reports, API & Xero integration, check out .",0,138744
+1003,"I have to post in journals for a client payroll but the site won't allow me.",1,127310
+1004,"The charter of accounts shows 'wages payable' as locked and automatically updated through the software's pay run facility(which we are not using).",0,127310
+1005,"Is there any way to unlock this?",3,127310
+1006,"Xero currently isn't recording the expense part of salary sacrifice transactions correctly.",1,133835
+1007,"At present the pre sacrifice amounts allocated to gross wages.",0,133835
+1008,"I would expect the sacrificed amount should be allocated to the appropriate expense.",0,133835
+1009,"For example where there is a gross wage of $1200 and $200 sacrificed for superannuation the gross wage of $1200 goes to wages expense and none of the sacrifice to superannuation expense.",0,133835
+1010,"This means each month/quarter/year manual journals are needed to correct the allocation.",0,133835
+1011,"This becomes more important with other types of salary sacrifice, such as motor vehicles where GST applies.",0,133835
+1012,"It would be good to add an expense account to pre tax deduction pay items that auto posts the debit to the appropriate expense and credit to the wages expense account.",0,133835
+1013,"Alternatively if we have the option for the account in the payroll item to be more than just a liability account as is presently the case.",0,133835
+1014,"This would at least allow the credit entry to be allocated against wages.",0,133835
+1015,"This would then shows correct gross wages and allow the salary sacrifice expense to be managed separately.",0,133835
+1016,"Hi guys!",0,135171
+1017,"I have a New Zealand Invoice (I am in Australia) that I have just paid via Forex (so in AUD into a Forex bank account here in Australia).",0,135171
+1018,"How on earth do I enter that into Xero?",3,135171
+1019,"Any advice would be appreciated!",4,135171
+1020,"We are a builder and have a large number of small invoices from wholesalers.",0,125631
+1021,"These we pay in two or more large payments.",0,125631
+1338,"Thanks",4,137883
+1022,"However they often do not match exactly to a certain number of invoices, can you part allocate a payment to an invoice, leaving a remaining balance to clear off with the next invoice.",3,125631
+1023,"i cannot find any option to process an employee leaver and therefore produce a P45 document?",1,138036
+1024,"any help much appreciated",4,138036
+1025,"I like to run my eye down the account transaction to make sure that ever transaction has an invoice attachment.",0,136169
+1026,"The problem is if you create a bill and reconcile it, it doesn't register that there is an attachment unless you click on the invoice in the description.",1,136169
+1027,"Having to go through two or three windows to make sure every transaction has an attachment can take a lot of time.",0,136169
+1028,"Is there a way for the account transaction page to register the bill that has been reconciled with that transaction has an attachment?",3,136169
+1029,"Thanks",4,136169
+1030,"I have just used payroll for the first time, and on my first pay run, the PAYG YTD is double the amount it should be.",1,136875
+1031,"It is the first pay so it should be the same as 'This Pay' column.",0,136875
+1032,"What have I don't wrong, or how can i fix this.",3,136875
+1033,"Many thanks",4,136875
+1034,"We have off-site staff with debit cards.",0,134325
+1035,"We have set them up as Users with the  "Invoice Only- Invoice=Purchases Only" user role.",0,134325
+1036,"They need to be able to access Spend Money in order to take pictures of their receipts and code to gl accounts for their debit card purchases.",0,134325
+1037,"The mobile app is not showing the + (plus) sign to access spend money.",1,134325
+1038,"We obviously do not want to provide greater levels of access to the staff.",0,134325
+1039,"Is anyone using the mobile app/Spend Money with off-site staff and what User role have you had to assign to accomplish this?",3,134325
+1040,"Hi,our year end was 31st December 2016.",0,125724
+1041,"I have a conversion balance in opening stock from 31st December 2015.",0,125724
+1042,"No other adjustments to stock have been made for the year 2016 so it has a YTD value of 0.00.",0,125724
+1043,"We don't use the inventory within Xero as it doesn't suit our business needs.",0,125724
+1044,"I have a figure for closing stock and am not sure where to journal the figures from / to.",0,125724
+1045,"My logic would be to leave the opening stock figure as it is.",0,125724
+1046,"Then credit my direct costs and debit closing stock with our closing stock figure?",3,125724
+1047,"I'm a bit confused with how to handle this in Xero.",0,125724
+1048,"Sage seemed more straightforward :/",0,125724
+1049,"Any advice would be appreciated.",4,125724
+1050,"Many thanks",4,125724
+1051,"Hi, Got a serious issue this morning when trying to open old files uploaded in AP by receipt bank.",0,140153
+1052,"I don't know what happened but since the big file rollout but I cannot open, view nor download most of old files uploaded by receipt-bank.",1,140153
+1053,"Also tried in chrome and nothing.",0,140153
+1054,"Scary.",0,140153
+1055,"Please confirm you guys are working on this to fix it ASAP.",3,140153
+1056,"Thanks.",4,140153
+1057,"Otherwise, I just love the new file feature !",0,140153
+1058,"keep up the good work",4,140153
+1059,"I have searched the FAQs but can't find the instructions.",0,127017
+1060,"Can anyone please help?",3,127017
+1061,"Thanks.",4,127017
+1062,"Can the batch payment report please list the payments in the order they are in the batch?",3,128073
+1063,"I sorted a batch by supplier, however the PDF has them listed in a seemingly random order.",1,128073
+1064,"I provide the original invoices with the payment batch for tick off and it is easier if they are sorted alphabetically.",0,128073
+1065,"If you are a user of Xero and Progressclaim.com, tell us how you are getting on and your experience so far.",0,138438
+1066,"Any tips?",3,138438
+1067,"Progressclaim.com, submit construction progress claims online, from any device, in seconds.",0,138438
+1068,"Xero invoices created instantly with professional and compliant claims documentation attachedFor more information, check out .",0,138438
+1069,"How do I set up an account for Discounts received from suppliers and what type please.",3,127996
+1070,"Has anybody had experience accounting for Groupon deal payments in Xero?",3,126511
+1071,"'Hi All,It would appear that when I run reports such as profit & loss that it calculates the sales etc when the invoice was dated and not when payment is received.",1,126094
+1072,"Is it possible to change the settings so that the sale is added into the period when payment is received?",3,126094
+1073,"Any help would be appreciated.",4,126094
+1074,"Cheers",4,126094
+1075,"Hiya, new to Xero and having a few issues, can anyone please advise me:I have bank fed and reconciled my accounts so that they balance.",0,126263
+1076,"Do I now need to add in company receipts and invoices paid to bills, or am I just repeating the process that reconciling does??",3,126263
+1077,"if so what is the point in having "Bills you need to pay"",3,126263
+1078,"Thanks in advance",4,126263
+1079,"We love to hear how business owners are working with their accountant or bookkeeper beyond traditional compliance work.",0,128987
+1080,"Share stories of what you've been doing with your advisors now you're collaborating together on Xero.",3,128987
+1081,"When trying to edit invoices and quotes, the "reference number" on the invoice/quote keeps coming up as the invoice number.",0,135470
+1082,"e.g. Invoice No. - INV-0019Reference should be - "customers name"but it comes up as INV-0019I went onto the .docx file but it shows the <<invoiceNumber>> where the invoice number is and <<reference>> where reference is.",1,135470
+1083,"Any ideas?",3,135470
+1084,"This Xero  shows the process of entering receipts.",0,134177
+1085," It starts with the mobile app, and then moves to the browser and at 50 seconds says "just like the mobile app fill in the expense".",0,134177
+1086,"Except from what I can see, it's not just like the mobile app.",0,134177
+1087,"In the mobile app the user can assign expenses just as I'd expect any expense app to work, by assigning them to a category ("meals")  also to the account it was paid from, i.e. a company credit card or by the employee etc.",0,134177
+1088,"In the browser I see no way to select the account the expense was paid from, and therefore no way for the approver to know how the transaction was even paid for.",1,134177
+1089,"Or for that matter for Xero to know where to assign the transaction?",1,134177
+1090,"What am I missing??",3,134177
+1091,"Thanks",4,134177
+1092,"I can't find a way to nominate an Bank account as closed (so no new transactions) but keep it in the system until the end of financial year.",1,128850
+1093,"Has anyone done this??",3,128850
+1094,"regards Ian",4,128850
+1095,"I have a new situation.",0,134767
+1096,"A contractor who I normally pay had an invoice owing to me (she pays a base rent when doesn't bring in any income).",0,134767
+1097,"She had not paid by the time her next "payment" from me was made so I deducted the "monies owing" (invoice amount) from the bill amount I paid her.",0,134767
+1098,"This means that I now have 2 items to deal with:1.  the original invoice she owed eg. $500 looks like its still owing2.  the payment I made to her looks like a part payment of a bill -ie I created the bill as usual for her consulting fees -then deducted what she owed me.",1,134767
+1099,"So bill $2000 -I paid her $1500.",0,134767
+1100,"Any ideas on how to rectify?",3,134767
+1101,"I am working with a client who originally set up their company file in September and added some transactions to the end of the year but did not really start using Xero until January 1, 2012.",0,136639
+1102,"If I change the conversion date to 12/31/11 what happens to the prior transactions?",3,136639
+1103,"Does Xero ignore them?",3,136639
+1104,"Do we need to void them?",3,136639
+1105,"Just trying to figure out the most efficient way to do this.",0,136639
+1106,"If you are a user of Xero and Receipt Bank, tell us how you are getting on and your experience so far.",0,138800
+1107,"Any tips?",3,138800
+1108,"Receipt Bank converts those annoying bits of paper ï¿½ receipts and invoices - into Xero data, check out .",0,138800
+1109,"It would be great if we could copy an existing standard invoice to a new repeating template.",0,135170
+1110,"Does anyone know of an App that will allow me to raise invoices in a foreign language?",3,138959
+1111,"We need to send out invoices in Japanese and would love to be able to do this without a separate task to duplicate the invoice details.",0,138959
+1112,"Hi there,I've successfully been doing payroll for a couple of months, but in December I have a strange occurrence.",0,137358
+1113,"I set the payment up automatically in my bank account so it was paid over the holidays.",0,137358
+1114,"I then reconciled when it came through into Xero.",0,137358
+1115,"But now in my payroll report it shows a deficit for December with the value in brackets.",1,137358
+1116,"Does anyone have any thoughts on why this might be?",3,137358
+1117,"I thought it might be a coding issue but that seems to be fine.",0,137358
+1118,"The bank account statements match correctly.",0,137358
+1119,"Any help would be greatly appreciated!",4,137358
+1120,"ThanksAndy",4,137358
+1121,"Hi teamCan you please advise whether we need to:> Do a monthly accrual journal for the employer kiwisaver contribution (say 3%) on top of the monthly holiday pay accrual journal",3,138085
+1122,"Many thanksBharat",4,138085
+1123,"I'm doing a work around for expense claims.",0,128401
+1124,"I want to import a bill that is on a csv file.",0,128401
+1125,"It has several receipts, some of which have different tax rates and all of which will be in different accounts.",0,128401
+1126,"It's not clear how to do this when you import a bill using a csv file.",1,128401
+1127,"Thanks",4,128401
+1128,"Hi all,I'm in Canada, and my business is able to file GST using the "quick method".",0,125442
+1129,"In short, this method is designed to reduce administrative work for small businesses and allows them to pay GST calculated using an approximation of tax owed, based on sales, rather than based on the actual amount collected/paid.",0,125442
+1130,"So, for example, I have a sales tax account that says I owe the government $1,000 but the quick method means I only actually owe them $900.",0,125442
+1131,"How can I make an adjustment to my accounts to show that my sales tax owing has reduced by $100?",3,125442
+1132,"I tried to do a manual journal, but that doesn't work as a manual journal must have equal credits and debits.",0,125442
+1133,"Thanks,-Peter",4,125442
+1134,"We have a client who uses Farmlands pre the merger of the the 2 firms.",0,127243
+1135,"Can we set up in Xero Using the CRT Co-Op bank feeds form",3,127243
+1136,"When sending out payslips to clients, is it possible to add a second email address (CC'd) that is copied in on each email, we have had a few instances where we have sent Payslips to our clients from Xero and they have confirmed none receipt?",3,133500
+1137,"If we can't add the option of a cc'd email address, is it possible to utilise a function that is available for invoices when completed - status is shown as sent and then viewed?",3,133500
+1138,"Hi,We are a high volume store that processes over a hundred transactions per day.",0,128766
+1139,"The amount that are paid via EFTPOS show up in the bank as a single transaction (one for each EFTPOS machine).",0,128766
+1140,"Obviously, banked cash shows up as a single deposit.",0,128766
+1141,"The problem is, I want to be able to enter sales separated by department of the store, as our expenses are recorded.",1,128766
+1142,"The way we did this with Reckon was an EFT Clearing account, and an Undeposited Funds account, which we then entered a manual journal weekly that credited Sales accounts and debited these two clearing accounts.",0,128766
+1143,"When the money hit the bank, this was credited as coming from these clearing accounts.",0,128766
+1144,"I was wondering if there was a better way of doing this in Xero, as it is a lot of manual data entry every week for every store!",3,128766
+1145,"Thanks for your input!",4,128766
+1146,"Jonathon.",4,128766
+1147,"I know that this has likely been asked elsewhere, but I am curious to know whether or not sales invoices and purchase invoices can be partly auto-filled based on previous entries?",3,127873
+1148,"And, if this is possible, can this feature be switched on and off.",3,127873
+1149,"Thanks",4,127873
+1150,"Why not have as a standard tax code 'Purchases for private use or not income tax deductible'?",3,125842
+1151,"This would allow 'entertainment expenses' and 'motor vehicle private use' for example to be set to this tax code thereby automatically populating G15.",0,125842
+1152,"Also note the word 'deductible' is currently spelt incorrectly on Xero's GST Calc W'sheet!",0,125842
+1153,"If you are a user of Xero and Tanda, tell us how you are getting on and your experience so far.",0,138792
+1154,"Any tips?",3,138792
+1155,"Pay staff correctly for the time they work.",0,138792
+1156,"Manage rostering, time clock attendance & award interpretation with Xero payroll.",0,138792
+1157,"Get the most from your workforce.",0,138792
+1158,"For more information, check out .",0,138792
+1159,"Hi allJust wondering how I would generate a report for sales that lists the marketing link we have put in?",3,128408
+1160,"Eg I want to see what Marketing Produced ho much sales.",0,128408
+1161,"I have already been entering the Marketing option in all invoices.",0,128408
+1162,"Thanks in advance for you help.",4,128408
+1163,"Hope",4,128408
+1164,"I'm just getting started with Xero and have a few questions.",0,126708
+1165,"I converted my books from Quickbooks.",0,126708
+1166,"#1 - How is the statement balance calculated in Xero?",3,126708
+1167,"My Xero balance is spot on with my bank account, but the statement balance is some number that has never been a statement ending balance or a daily balance in my checking account.",1,126708
+1168,"I tried following the steps if the two balances don't match, but nothing has worked. ",0,126708
+1169,"I figure if I understand how it comes up with it I may be able to tweak some things.",0,126708
+1170,"#2 - Reconciliation seems to encompass much more than I'm used to.",0,126708
+1171,"To me a reconciliation is when you match all your entered transactions with an end of month statement to make sure you have entered everything correctly.",0,126708
+1172,"I don't see a way to do this in Xero.",1,126708
+1173,"Xero seems to only reconcile transactions with daily downloads from the bank.",1,126708
+1174,"Is there a way to reconcile with a bank statement as well?",3,126708
+1175,"If you are a user of Movemybooks, tell us how you are getting on and your experience so far.",0,138786
+1176,"Any tips?",3,138786
+1177,"Sage & Quickbooks to Xero data conversions - the quickest and easiest way to get your clients moved to Xero by UK software version specialists, check out .",0,138786
+1178,"Employees listed by surname first not Christian name",1,133921
+1179,"It would be useful if the customised dates chosen in Settings were picked up when generating statements.",0,136143
+1180,"At the moment the due date functionality is only active in generating invoices.",1,136143
+1181,"I am looking for a fast and easy way to pay a 1099 contractor on a monthly basis.",3,137635
+1182,"Our company partnered with an artist to create an app and I am looking for a simple way to pay the artist their share of app sales every month.",0,137635
+1183,"It would be really nice if it could be run with the payroll, since I already do that on a monthly basis.",0,137635
+1184,"Thank you",4,137635
+1185,"If you are a user of Xero and iKentoo, tell us how you are getting on and your experience so far.",0,138261
+1186,"Any tips?",3,138261
+1187,"iKentoo is an enterprise iPad based hospitality POS, which links seamlessly to Xero, and is trusted by over 3000 restaurants and bars worldwide.",0,138261
+1188,"For more information, check out .",0,138261
+1189,"If you are a user of Xero and Hubdoc, tell us how you are getting on and your experience so far.",0,138592
+1190,"Any tips?",3,138592
+1191,"Paperwork on auto-pilot.",0,138592
+1192,"Receipts, bills and statements - all in one place - automatically synced to Xero.",0,138592
+1193,"For more information, check out .",0,138592
+1194,"Hi all,I would like to record all outbound payments within Xero.",0,125276
+1195,"I was hoping to record payments in Xero as and when we pay by bacs or card payment over the phone.",0,125276
+1196,"This works fine when we have been invoiced.",0,125276
+1197,"However, we are on proforma invoicing with some of our suppliers.",0,125276
+1198,"In these instances we tend to pay the proforma, await the invoice before processing into Xero.",0,125276
+1199,"We then spend too long allocating payments as there can be a time before the invoice ends up in Xero.",1,125276
+1200,"I envisaged some sort of merging proforma and invoice together but I don't really know what is the correct practice with managing these types of transactions.",0,125276
+1201,"Any help would be much appreciated.",4,125276
+1202,"Thanks,Richard",4,125276
+1203,"Bought 100 Widgets at $10 each on credit card 1, created a bill for $1,000Upon inspection, 10 widgets were damaged, and returned to the supplier.",0,125999
+1204,"They issued a refund to a different credit card.",0,125999
+1205,"Credit card 1 shows $1000 expense Credit card 2 shows -$100 ('income')I discovered a Bill couldn't be used for a negative value.",0,125999
+1206,"I understand that a credit note can be created, but since the inventory has been reduced already I think applying the credit note might not work?",3,125999
+1207,"Wondering if an invoice for the 10 widgets with a credit note is the answer?",3,125999
+1208,"Or just an invoice?",3,125999
+1209,"Or something else entirely?",3,125999
+1210,"Thanks in advance for any ideas.",4,125999
+1211,"Hello,Still getting to grips with Xero.",0,126919
+1212,"I am doing my my first pay run and the PAYE, Employee NIC and Employer NIC have correctly deducted from the final amount in 'Step 2. Enter Employee Payments' however, when clicking through to 'Step 3. Review' they are  as 'Other payments'.",1,126919
+1213,"I have tried changing options but have had no success yet.",0,126919
+1214,"I have classed the 3 pay items above as paid to a contact I created called HMRC - is this correct?",3,126919
+1215,"Any help appreciated.",4,126919
+1216,"My business fixes turf machinery like mowers ect. and we carry a lot of stock eg. bearings, belts ect. We need a simple barcoding system that we scan when it arrives and then scans when we've used it and transfers the data to Xero.",0,138948
+1217,"We've tried stuff like Dear and Unlimited and it just doesn't work.",1,138948
+1218,"Open to suggestions.",4,138948
+1219,"Where can you view the postings of the payroll journal?",3,138016
+1220,"i have an employee who is over the age limit for super and now suddenly its telling me i have to pay them",1,137349
+1221,"I have a new client that has been using Xero for over a year.",0,125316
+1222,"He has some old, unmatched bank transactions from a previous year - so irrelevant - and wants them to just go away.",0,125316
+1223,"Could someone please explain how to delete them.",3,125316
+1224,"Thank you",4,125316
+1225,"Hi I'm setting this up for the first time today.",0,136557
+1226,"I've chosen my conversion date to be 1/1/13 so I can start the new year off correctly.",0,136557
+1227,"Now I'm confused because I'm setting up my bank feed and I'm being asked to choose which transactions to import - all available or starting on a certain date.",1,136557
+1228,"Is it wrong to import transactions before Jan 1?",3,136557
+1229,"Thanks.",4,136557
+1230,"One of our employees has accrued excessive leave.",0,137276
+1231,"The Accrual issue is sorted but now i need to remove the excess accrued hours from their leave balance but I cannot figure out how to do this.",1,137276
+1232,"Thanks",4,137276
+1233,"HiLooking for recommendations for a POS system that sends sales to Xero from my clients cash register in his shop.",0,138841
+1234,"My client sells pet foods so has different tax rates and needs to identify these for VAT purposes.",0,138841
+1235,"Currently my client has a POS system that scans the barcode of the goods and feeds these direct to sage.",0,138841
+1236,"Ideal is to have something very similar to this so as not to disrupt their business unnecessarily",0,138841
+1237,"Working in both the UK and Ireland we have staff i both locations.",0,133559
+1238,"The full payroll features for the UK should be extended to included using Xero within Ireland.",1,133559
+1239,"We have a client who sends a fixed price purchase order which is then used for a quarter.",0,126417
+1240,"Is there a way to track how much of a client's PO has been billed through Xero?",3,126417
+1241,"I was looking at the quote feature but not sure how this would fit the bill...",1,126417
+1242,"I have a private loan, registered under 900 ï¿½ Loan in the chart of accounts.",0,126047
+1243,"There's no interest on the loan.",0,126047
+1244,"Question 1Company capital from loan",0,126047
+1245,"One part of this loan is to pay a third-party to set up the company.",0,126047
+1246,"The other part (let's say 50% to keep it simple) is capital to be put into the company.",0,126047
+1247,"Should this be registered in conversion balances under "881 - Owner A Funds Introduced"?",3,126047
+1248,"Question 2Paying back the loan",0,126047
+1249,"I would like to budget a payback of the loan, over X number of months, but I'm unsure where to put it.",1,126047
+1250,"I'm going over the "Overall budget" but I can't seem to find any sensible place to budget for the payback.",1,126047
+1251,"Thank you so much in advance for your kind help!",4,126047
+1252,"Hi community,I'm new to Xero (and very much new to accounting as well, oh the joys).",0,136009
+1253,"I have setup my PayPal feed and it has imported all the transaction lines correctly.",0,136009
+1254,"However the transaction lines pull in the gross value which excludes the paypal fees.",1,136009
+1255,"How do i show that i have had a fee on certain transactions in Xero?",3,136009
+1256,"What i done on my previous system was every month tally up the paypal fees and add an entry of that value.",0,136009
+1257,"What is recommended?",3,136009
+1258,"Hi everyoneI appreciate that this basic question might be beyond the scope of the forum, but I'm trying to inform HMRC of the fact that this is the end of year PAYE submission.",0,125493
+1259,"There's a KB article on the Xero site which in turn sends me to a YouTube video from the HMRC about ticking a box on a page in the HMRC portal to tell them that the most recent submission was the last of the year, but I can't see that anywhere.",1,125493
+1260,"Given that the video is a bit old, am I to assume that Xero will inform HMRC that this PAYE submission is the last of the year?",3,125493
+1261,"I'm confused as to how that last piece of the puzzle works.",0,125493
+1262,"I've done my PAYE reconciling and worked through the list of check points in the Xero article.",0,125493
+1263,"There's only me on the payroll so I can't imagine that anything can go too wrong.",0,125493
+1264,"ThanksOlly",4,125493
+1265,"Good morning,I wanted to give some feedback on one of the connected apps Veeqo.",0,138890
+1266,"This is an inventory management company and having investigated all of the apps this one came out the best for price and features.",0,138890
+1267,"Unfortunately Veeqo is massively let down by the lack of customer service and knowledge that the staff have.",1,138890
+1268,"We have had many issues since we started to use Veeqo and these have been addressed by the staff.",0,138890
+1269,"However, it is incredibly time consuming to get a response, impossible to speak to someone by phone, and became evident that although we went through several induction sessions to discuss the workings of our business Veeqo had not understood our requirements.",0,138890
+1270,"The planned meetings we had with various members of staff were regularly late commencing and on occasion did not happen at all.",1,138890
+1271,"The response to this was "These thing happen in business"Finally when I tried to submit a complaint it proved impossible to speak to a manger and after over a week of constant e-mails from us we finally receive a response that accepts no responsibility and no solution.",0,138890
+1272,"I have worked with many Xero connected apps and as a rule they have all been successful, the companies have been helpful and staff incredibly knowledgeable and forthcoming.",0,138890
+1273,"Most importantly I have always been able to get hold of someone if there have been any issues.",0,138890
+1274,"We have now moved to a new Inventory control system (slightly more expensive) and have already seen a massive improvement in service.",0,138890
+1275,"I am positive as with most things people have had positive experiences with Veeqo however I wanted to provide feedback for anyone else who is looking for an Inventory add on.",0,138890
+1276,"Thanks",4,138890
+1277,"Hello,As my employees do not know the business' nor my twelve month plan.",0,137507
+1278,"I prefer that a face to face discussion with myself takes place in the future in regards putting in for leave.",0,137507
+1279,"Once we have agreed and discussed all the pros and cons then I would like to enter it in to the Leave section.",0,137507
+1280,"At the moment It has given them to much control to discuss and organise their lives around each other without knowing any fundamentals of what is expected at those times of the business and without and consultation.",1,137507
+1281,"Way to much chit chat already about the Easter break.",1,137507
+1282,"After the fact puts me in an awkward situation, and it was never like that until these portals arrived.",0,137507
+1283,"I would like pop up options for admin that has a block effect in this case.",0,137507
+1284,"That says "Your employer ass per company policy will need to speak to you before holiday/Leave entry times are requested".",0,137507
+1285,"Thank you Fabian",4,137507
+1286,"In California - and perhaps other states - goods which are purchased for resale are exempt from Sales Tax on that purchase.",0,126360
+1287,"However some vendors charge tax at the time of sale because they aren't set up to handle resale customers.",0,126360
+1288,"In this case, the sales taxes paid on goods for resale may be used as an offset against sales tax liability (the forwarding of sales taxes collected on goods sold to the taxing authority).",0,126360
+1289,"How should I set up Xero so when I pay sales taxes on goods purchased for resale I can see those amounts on my sales tax report and properly deduct them from my sales tax liability?",3,126360
+1290,"We are considering using Xero as a replacement for our existing bespoke system.",0,128513
+1291,"The guidelines suggest Xero is suitable for 200-500 invoice per month.",0,128513
+1292,"Has anybody any experience of posting more invoices and what happens!",3,128513
+1293,"Hi all, I have two basic questions that I was unable to locate in a search:",0,125471
+1294,"1.) When importing goods from overseas, I am reconciling the transaction at this point without GST.",0,125471
+1295,"Do I record this as 'No Tax' or 'Tax Exclusive'?",3,125471
+1296,"2.) I am paying the GST as the goods arrive into NZ customs thus there is a separate transaction for the GST alone.",0,125471
+1297,"How do I reconcile this?",3,125471
+1298,"Can I reconcile this as the 820 GST Liability?",3,125471
+1299,"Thanks in advance from a small business owner :)",4,125471
+1300,"How do I split or apportion depreciation expense over various teams using the Auto-Depreciate feature in the FAR?",3,127153
+1301,"It seems you can only allocate one team when setting up the asset in the FAR",0,127153
+1302,"Xero has not been prompting for any payroll tax because my s-corp has not paid any payroll this year (yet) to its employee (myself self employed).",0,128193
+1303,"I am in state of Virginia, USA.",0,128193
+1304,"Do I need to file a form, pay business state and federal income tax on a quarterly/monthly basis for what my corporation has been generating income every month?",3,128193
+1305,"Or will it be due annually when filed if owed?",3,128193
+1306,"A client of mine has been using the new discount feature on sales invoices which is a really handy feature, the problem is that the discount does not appear in the standard .docx template.",1,136590
+1307,"We have not modified this template in any way so I would have expected this to show up as a line item somewhere.",0,136590
+1308,"Discounts do show up on the regular (non .docx) branding theme.",0,136590
+1309,"Am I missing something or do Xero need to modify their .docx documents to present discounting?",3,136590
+1310,"Many thanksSean",4,136590
+1311,"I am trying to find a way to separate the invoices and packing slips, so that when I use "Print PDF" it prints both, but when I email I can just email the invoice and not the packing slip.",1,128792
+1312,"I am getting some confused customers wondering why they get a copy of the packing slip everytime I email the invoice.",0,128792
+1313,"Hi there,We have some staff paid monthly and one staff member in particular has a few leave requests throughout the month.",0,137363
+1314,"Each leave period shows as a separate line on his payslip.",0,137363
+1315,"The payslip looks messy with the multiple leave lines with nothing to differentiate them apart from the number of hours taken and even some of those figures are the same.",1,137363
+1316,"Is there a way to just make it show as one line or to get details of the leave dates added?",3,137363
+1317,"Thanks,Candice",4,137363
+1318,"Hello everyoneWe have done our payroll on Xero for the first time in April 2015.",0,137990
+1319,"We noticed that the Employment Allowance is not deducted from the PAYE due payable to HMRC automatically.",1,137990
+1320,"Xero noted that we need to make a journal entry to be able to claim this.",0,137990
+1321,"The relevant boxes have been ticked as required.",0,137990
+1322,"How do we do this and how do we know the exact amount to be deducted.",3,137990
+1323,"Any comments is greatly appreciated.",4,137990
+1324,"Many kind regardsSylet",4,137990
+1325,"Hi,When renting our office we paid a security deposit.",0,127493
+1326,"How do i record that in Xero so that we get reminded at the end of the lease to collect it.",3,127493
+1327,"We would like to set up a control.",0,127493
+1328,"Best,",4,127493
+1329,"Hi there,We have just migrated over to Xero from Free Agent, and have noticed we have a tonne of sales invoices listed under our "awaiting payment" tab, that aren't marked as "sent".",0,135426
+1330,"However, when I go into the invoice detail it says "awaiting payment"",1,135426
+1331,"Can I therefore assume that these HAVE been sent (even though its' not marked as such) and that I don't need to resend these again?",3,135426
+1332,"FYI these mainly seem to relate to recurring invoices.",0,135426
+1333,"I've also checked under "history and notes" section, but it's not listed here either.",0,135426
+1334,"Any info gratefully received!",4,135426
+1335,"If employees do not have hours in this payrun should I delete the timesheet for them before I process the payrun?",3,137883
+1336,"If I leave them intact (I haven't input to them), the pay run generates a small payment for them due to tax refund.",1,137883
+1337,"In Sage, I would have set these to 'On Hold' this week.",0,137883
+1339,"Hi,Our Employees, like many other companies in Australia, can accrue a maximum of 76 hours personal leave, once they have reached the 76 we should be able to set a ceiling so it accrues no further.",0,136911
+1340,"Resetting to 0 annually doesn't work as an employee who hasn't taken any time off is still entitled to their 76 hours.",1,136911
+1341,"Example: Jim has been working for Company A for 14 months, he hasn't had any time off for personal/carers leave, he gets sick and needs 3 days off so his personal leave balance should reflect 53.2 hours and start accruing again at the weekly rate of 1.4615 until it again reaches 76 hours.",0,136911
+1342,"Without a ceiling the accrual is not reflective of actual entitlements and we need to manually go back through the last 12 months for an employee and see how many hours they have taken and subtract that from amount accrued in that period and add the balance accrued before that period.",1,136911
+1343,"Or we need to make a manual adjustment every week for employees who have reached the maximum.",1,136911
+1344,"It's all very messy and could be easily fixed with a settable ceiling.",0,136911
+1345,"Hi,My inventory items don't show in bills.",1,134413
+1346,"They show in invoices on the customer side and in the inventory list itself but they're not available for use in bills - there's nothing there at all.",1,134413
+1347,"Anyone got any ideas on this one please?",3,134413
+1348,"RegardsDave",4,134413
+1349,"HelloMy client just change from MYOB to XERO but I am a new XERO'S user, so I am a bit confuse about how to manage some accounts.",0,128373
+1350,"My client has 2 businesses and he pays bills from any of the businesses' accounts, so we are managing it as a inter-companies loans.",0,128373
+1351,"In MYOB we had set up a credit car account for the inter-companies loan.",0,128373
+1352,"When the company paid other's company bills, we did spend money from the bank account and increase the loan account balance.",0,128373
+1353,"When the other company's paid an expense of this company then we transfer the money to the credit card and decrease the balance.",0,128373
+1354,"When we received a payment in this account that was other company's service we did a receive money and decrease the balance.",0,128373
+1355,"We did something similar with ATO Integrated account.",0,128373
+1356,"We created a credit card account, then spend money when we need to enter the GST, PYG, interest etc and transfer money when the payments were done.",0,128373
+1357,"I was able to reconciled it with the ATO statements.",0,128373
+1358,"Could I work in the same way in XERO or it looks as a messy books if the  credit card accounts are not reconciled (in the Loan case)?",3,128373
+1359,"How best does one offset an equal debtor and creditor balance that is due to/from the same entity?",3,127746
+1360,"I want to sell a fixed asset to an entity at Net Book Value to a connected party.",0,127746
+1361,"Having followed the help section this will raise a sales invoice (@ nil profit) and raise a trade debtor.",0,127746
+1362,"That same party will also bill me separately a management fee for the same amount.",0,127746
+1363,"This means there will be no cash or VAT impact on either party.",0,127746
+1364,"However it does leave me with a Trade Creditor and a Trade Debtor of equal amounts.",1,127746
+1365,"How best do I offset these to keep my Xero accounts clean?",3,127746
+1366,"As background info - I'm winding down a company and want to clear out the balance sheet.",0,127746
+1367,"https://community.xero.com/business/discussion/37280114/Kinda similar to this chap..I too have only JUST started using Xero ( and this is my first kinda of accounting software as Im VERY new to this.)Ok..",0,134977
+1368,"I've done my best to go through as much as possible on the software and Ive jumped on in and attempted to swim along.",0,134977
+1369,"However, i THEN found out / noticed I needed to enter in starting balances etc etc to begin with and I basically didnt do this...",0,134977
+1370,"1/ Ive basically done the following.",0,134977
+1371,"I've imported my HSBC cvs bank statements from July  1 2014 to Jun 30th - Our Financial Year 2/ I've reconciled the statements with the sales and purchases and naturally a report has been produced...",0,134977
+1372,"3/ Everything seemed to me seemed ok on the reports4/ My accountant has access to this now, to make life easier (which is what swung me toward using the software as I like the mobile functionality of which I KNOW i can pass on and teach to my colleagues within the business just to help streamline things on a daily basis and stay completely upto date.",0,134977
+1373,"5/ My accountant has informed me of my balances (from my previous accounting year) though I was going on my bank statement itself 6/ So I entered them into "Conversion Balance" section but apparently still things are not right?",1,134977
+1374,"Am I doing something wrong ?",3,134977
+1375,"should I start again (id rather not as I've reconciled things in details, even giving descriptions on many itemsalso, my Xero Balanced don't seem to match up eitherI hope someone can help me as I really don't want to be now going back to excel as this looks like great software.",0,134977
+1376,"Hope this makes sense!!",4,134977
+1377,"Hi there,What information do I need to work out whether a 3rd party software will link into Xero?",3,139606
+1378,"I am look at a lease management software, which as a feature has an accounting link allowing information to be exchanged (especially accounts payable).",0,139606
+1379,"Regards,Patrick",4,139606
+1380,"Trying to post payroll this afternoon, and when I went to approve the timesheets I get the error message"An error has occured. Your Payslip may be out of sync. Try again in a moment."",1,138130
+1381,"I have been re-trying for an hour now.",0,138130
+1382,"I have logged a support request but the response time to that is potentially 24hrs, and I would like to pay the staff today.",0,138130
+1383,"Has anyone come across this error and a potential fix/workaround.",3,138130
+1384,"Hello,I am looking for either a business owner or accountant who is familiar with and knows in detail the pro's and con's of how certain programs work with Xero and can offer advice on a possible solution.",0,139038
+1385,"I am starting a new business in the UK and i want to sell both retail online and wholesale in person.",0,139038
+1386,"I have picked Xero as my accounts package, Shopify as my online solution and i am wondering if i can run my business on just that or if i need a inventory app also.",3,139038
+1451,"Now under my Settings -> Superannuation, I got 2 super funds that I added in.",0,136854
+1387,"Here are the key issues: I import 100% from overseas with long lead times, so working out costings and creating purchase orders and Invoices months in advance is a question.",0,139038
+1388,"Is Xero a good program as central data file for products?",3,139038
+1389,"Does this info flow to shopify or do i need to duplicate data?",3,139038
+1390,"Are the basic apps for shopify any good for linking to Ebay and Amazon?",3,139038
+1391,"I dont have a warehouse or staff, i plan to contract out all logistics to a 3PL.",0,139038
+1392,"I have been looking at inventory apps such as Deer, Unleashed, Trade Gecko or Cin7.",0,139038
+1393,"Cost is a factor but it would be great to talk to someone who has used any of these with Xero and offer advice.",0,139038
+1394,"Many ThanksNathan",4,139038
+1395,"Right, sick of Xero payroll.",0,140003
+1396,"Can anyone please recommend a payroll add-on that is not too expensive?",3,140003
+1397,"Thank you",4,140003
+1398,"For small business clients, there should be option for calculating depreciation and disposal and addition for pooled assets.",0,128480
+1399,"Rules are quite different from normal diminishing value method hence we have to prepare manual work-paper to calculate depreciation and have to post it manually",1,128480
+1400,"Xero Payroll does not calculate wages based on the employees start date.",1,133937
+1401,"If your employee starts halfway through a pay run/ pay period, a manual adjustment of their hours and tax will need to be done.",1,133937
+1402,"For example:",0,133937
+1403,"1. We use a monthy pay cycle that ends 28th of each month",0,133937
+1404,"2. We have setup a new employee, set the start date as 5th November 2012",0,133937
+1405,"3. We have setup employee with annual salary, based of 40 hours work week.",0,133937
+1406,"4. When we do a pay run, xero calculates the employee worked 23 days worth of hours, instead of 18.",0,133937
+1407,"It has thus NOT taken into account their start date, but used the entire month.",0,133937
+1408,"I can work around the problem by adjusting the number of hours after doing a pay run, but this is clearly undesirable and error prone (especially as wage costs are a large part of our business and getting these wrong is costly)",0,133937
+1409,"Hi I have a case of new fixed asset, where 03 payments were made on different dates to buy the same item.",0,127511
+1410,"01- Downpayment - paid thru Debit Card on 1st of May",0,127511
+1411,"02- 1st partial payment - paid thru Credit Card on 15th of May",0,127511
+1412,"03- Final payment - paid thru EFT on 20th of May",0,127511
+1413,"Under fixed assets these three transactions are appearing as 03 different assets.",1,127511
+1414,"How do I combine them into 01 Asset.",3,127511
+1415,"Appreciate any reference or solution.",4,127511
+1416,"Regards",4,127511
+1417,"Hi.",0,134704
+1418,"I'm switching my bank account to The Co-operative Bank UK and I see there's a feed available for (Personal Banking) which I need.",0,134704
+1419,"Every time I try to set up the feed, Xero tells me that the access to my online banking is locked.",1,134704
+1420,"On contacting The Co-operative Bank they tell me they have updated their online banking system so that the questions that Xero asks will no longer be acceptable.",0,134704
+1421,"Could you look into this please as I really need to set this feed up as soon as possible?",3,134704
+1422,"It seems the questions you need to ask are different and I do know the answers!",0,134704
+1423,"Many thanks.",4,134704
+1424,"Hey Guys,I recently added some funds into my business account as my cash flow was running low and then within a few weeks, transfered the same amount back to my personal account.",0,127502
+1425,"How do I account for this on Xero as the transaction appear on the  bank feeds.",3,127502
+1426,"Thanks,Ket",4,127502
+1427,"I used some convenience checks from a credit card to pay some vendors.",0,126366
+1428,"Xero excludes ALL credit card transactions and PayPal transactions.",0,126366
+1429,"After some research, it appears as though these transactions do no meet the definition of "purchase card transaction" and as such would not be reported by the PSE (Payment Settlement Entity i.e. the credit card company) on a form 1099-K.",0,126366
+1430,"Seems like Xero needs to add a check box somewhere that would allow these transactions to flow into the 1099 query report.http://www.marcumllp.com/blog-tax-and-business/new-form-1099-k-filing-requirement-for-merchant-card-and-third-party-network-payments",1,126366
+1431,"This link is about federal agencies, but Q-32 I think still applies and explains it: https://www.irs.gov/Government-Entities/Federal,-State-&-Local-Governments/Federal-Agency-Frequently-Asked-Questions",0,126366
+1432,"Any ideas on a work around until Xero fixes this?",3,126366
+1433,"Or am I wrong?",3,126366
+1434,"Hi there,Lets say I want to record the costs of a meal with a potential client.",0,126442
+1435,"How would I go about it?",3,126442
+1436,"With the flat chart of accounts, I cant create a food sub account to the biz Dev account.",0,126442
+1437,"Is this when tracker would come in handy?",3,126442
+1438,"Thanks,Duncan",4,126442
+1439,"Hi I have only been using xero for a few months and have just noticed that on our profit an loss statement the wages figures are showing up twice once as a net figure and once as a gross figure and therefore throwing out our monthly figures",1,136815
+1440,"Am I reconciling the wages wrong or how do i fix this?",3,136815
+1441,"Meaghan",4,136815
+1442,"I am coming from Quickbooks and I am setting up my chart of accounts.",0,126837
+1443,"I am not familiar with setting a tax rate for each account.",0,126837
+1444,"For example, I have a computer sales account I need to add to record our computer sales in.",0,126837
+1445,"With Quickbooks I  normally would just set sales tax (7%) per invoice or per item I was selling and the item would be tied to the correct sales account.",0,126837
+1446,"Do I need to set a tax rate on the actual account if I set tax rate for the item or can I just leave it at zero?",3,126837
+1447,"I have a problem with the super setup.",0,136854
+1448,"It is the first time I try to set this up.",0,136854
+1449,"I have signed up with ClickSuper.",0,136854
+1450,"Question 1.",0,136854
+1452,"Namely ANZ and HOSTPLUS.",0,136854
+1453,"I want to use HOSTPLUS as default and only super fund, and remove the ANZ one, but the ANZ line has a little LOCK icon there and I cannot delete it.",1,136854
+1454,"Question 2.",0,136854
+1455,"Does Xero/ClickSuper automatically draw funds from my bank account to pay the funds for me?",3,136854
+1456,"If Not Should I go to HOSTPLUS to do this manually?",3,136854
+1457,"Question 3.",0,136854
+1458,"Some of the guys in company are long-term contractors, so they are not in ï¿½Employeesï¿½ list in Xero, in this case, how do I handle super for them in the system?",3,136854
+1459,"Looking forward to your answers and thanks very much.",4,136854
+1460,"When a supplier requires a deposit up front with the balance to be paid on delivery, how can duplicate fixed assets in Xero be avoided?",3,133954
+1461,"We recently ordered custom computer equipment and paid a deposit upon ordering.",0,133954
+1462,"This transaction created a new fixed asset in Xero that I have since registered.",0,133954
+1463,"We've now paid the balance owing and this 2nd transaction has created a duplicate fixed asset record.",0,133954
+1464,"I will probably delete the new fixed asset but would like to be able to have both the deposit and balance payment transactions linked to the asset record.",0,133954
+1465,"Is this possible in Xero?",3,133954
+1466,"We have set our default to be Tax Inclusive on our sales invoices but see when we start a new invoice it reverts to Tax Exclusive.",1,139941
+1467,"Do you have a fix for this as I can't see anything that we could be doing wrong here, as when I go back to check the setting it Tax Inclusive is definitely selected and saved.",3,139941
+1468,"Thanks",4,139941
+1469,"Hi There,I'm currently researching new accounting platforms for my company and wanted to check in with you Xero users as to the feasibility of Xero for our use case.",0,135033
+1470,"The company I work for is a manufacturing company with about 75 employees (about 25 office staff and 50 factory workers).",0,135033
+1471,"Our revenue is about $10 million per year, but our accounting practice isn't very different from a small business.",0,135033
+1472,"PO's from customers, send invoices, pay bills.",0,135033
+1473,"Nothing too crazy.",0,135033
+1474,"My main concern is with transaction limits and scalability.",0,135033
+1475,"We process about 460 invoices per month across about 140 customers (total customers in our database are about 500 to 600).We sell about 200pcs per month across 850 sku's.",0,135033
+1476,"We process about 110 checks per month to 40 vendors or so.",0,135033
+1477,"I'm going to follow up with Sales/Support, but I wanted see if I could get some input from actual users.",3,135033
+1478,"Thanks for any info you can provide!",4,135033
+1479,#NAME?4,135033
+1480,"If you are a user of Xero and invitbox, tell us how you are getting on and your experience so far.",0,138770
+1481,"Any tips?",3,138770
+1482,"Automated line-by-line data extraction from accounts payable bills - seamlessly sent to Xero, inventory systems and a cloud-based filing cabinet, check out .",0,138770
+1483,"Is it possible to get year to date balance on the payslip like what appears in MYOB.",3,127386
+1484,"Hi there, A customer has paid twice so I am wanting to allocate his payment as a credit to him, there is no invoice to allocate it to.",0,127934
+1485,"What is the best way of allocating this?",3,127934
+1486,"Thanks, Jo",4,127934
+1487,"I understand what tracking is.",0,125408
+1488,"I have a company that has several locations.",0,125408
+1489,"Can I export all my accounts put a track on them and then import them back into Xero or should I just wait till 01/07/17 and start from there.",3,125408
+1490,"Could you please put the name of the contact on statements.",3,135963
+1491,"Right now it has company and address only.",1,135963
+1492,"I would like to see the contacts name.",0,135963
+1493,"Thank you",4,135963
+1494,"Is it just me being a Xero novice or is there a way to show a VAT summary table consisting of TaxCode, NetGoodsAmount and TaxTotal on a custom invoice using just the default currency.",3,126642
+1495,"It seems that Xero will do exactly what I want using the Currency Conversion table but only when the invoice is in a foreign currency.",0,126642
+1496,"I would like to have a very similar table on invoices using just the default currency.",0,126642
+1497,"Is this the Achilles heel of Xero?",3,126642
+1498,"In my previous accounting package (that will remain nameless) I had a VAT summary table on all my invoices (It was impossible to get rid of it!).",0,126642
+1499,"Nearly every invoice I look at from my suppliers shows the VAT rate, the net total amount it applies to and the corresponding tax total in a table.",0,126642
+1500,"So what am I doing wrong that means all I can show in Xero is the Tax Code and its Tax Total?",3,126642
+1501,"I know legally it might not be essential but it's almost a courtesy to whomever has to handle the paperwork.",0,126642
+1502,"I have asked Xero support but as yet had no reply.",0,126642
+1503,"Is there anyone in the Xero community that can put me straight, please?",3,126642
+1504,"I've been on this for three days solid and although I now have improved greatly my understanding of Word am no closer to achieving the invoice template I would like.",3,126642
+1505,"Any assistance will be greatly appreciated.",4,126642
+1506,"Thank you in advance for your time!",4,126642
+1507,"Hi ThereJust wondering if there's a functionality to access an employees prior year Payment summary?",3,127673
+1508,"For example right now when I click into an employee I can only access their 2013 PAYG PS.",0,127673
+1509,"Thanks in advance for your help.",4,127673
+1510,"Amelia",4,127673
+1511,"For bank accounts that are not connected to a bank feed, it would be nice to be able to go to the account transaction page and select each transaction and like you do with remove & redo, have a reconcile option.",1,135252
+1512,"This eliminates the need to go into each transaction manually to reconcile.",0,135252
+1513,"Change 'amounts are in...' to 'no tax', and then then either 'tax inclusive', or 'tax exclusive' -- VAT doesn't get updated any more.",1,136174
+1514,"Marcin",4,136174
+1515,"Hi,I ran our first pay run last Friday and although we have claimed the Employment Allowance, the charge we would have incurred is showing on the P&L.",1,138033
+1516,"It has definitely worked and on the RTI details, it shows the charge being deducted via the EA, however the charge is there....",0,138033
+1517,"Am I losing my mind?",3,138033
+1518,"Thanks in advance,Caroline",4,138033
+1519,"Hi there,I'm still learning xero and accounting so bear with me!",0,134960
+1520,"Through this tax year we've accidentally been using owner funds introduced + owner drawings + directors loan account to record personal money in and out.",0,134960
+1521,"We're a ltd company, so I want to use just the director's loan account and therefore need to consolidate owners funds introduced and owner drawings into the DLA.",0,134960
+1522,"I suppose I could go into each of the transactions (mostly expense claims) undo the payments and recode them to the DLA, but this would take some time and every adjustment (i would assume) will appear on our latest VAT return.",1,134960
+1523,"Is it possible / advised to just make lump sum transfers from the 2 owners accounts into the DLA?",3,134960
+1524,"This would tidy everything up, but i'm not sure how i would do this and whether there are any disadvantages to doing so",1,134960
+1525,"Many thanks!",4,134960
+1526,"Hazel",4,134960
+1527,"I have a large fixed asset register, and 9 months into the tax year it is not feasible to rollback depreciation to the beginning of the year just so that I can dispose of an asset without incurring depreciation in the current year.",1,126374
+1528,"There have been other disposals and journals created during the course of the year, and repeating the disposal of these assets is not an option.",0,126374
+1529,"This was not a problem prior to the November 2015 improvements.",0,126374
+1530,"I have endeavoured to set a zero depreciation rate, which the system will not accept, and also to reset the asset to having no depreciation, which the system will not allow me to do.",1,126374
+1531,"I am inclined to think that a fix needs to be created.",0,126374
+1532,"Does anyone have a solution.",3,126374
+1533,"I've purchased some whitegoods on a store credit card and I'm not sure how to manage the payments.",0,127270
+1534,"When I do a bpay to my card, what do I code the payment as?",3,127270
+1535,"The help file recommends to code it as an equity account (such as owner funds introduced).",0,127270
+1536,"If I do that, how to I account for the assets?",3,127270
+1537,"Thanks for any assistance.",4,127270
+1538,"Matt.",4,127270
+1539,"Hi, new to payroll,Have completed my first run and have posted it.",0,138000
+1540,"I can't now understand if I have to pay the employees from my business bank account or what I have done has generated a payment to them.",0,138000
+1541,"It seem unclear.",1,138000
+1542,"When I look on line it talks about clicking on employee batch payment tab to generate a payment but I do not have that anywhere so left feeling very confused.",0,138000
+1543,"Pay is due tomorrow, do I pay manually or not?",3,138000
+1544,"Prompt help would be appreciated.",4,138000
+1545,"Hi, My client runs a business in the clothing industry supplying clothing to schools, clubs and businesses.",0,126368
+1546,"I have set up 2 tracking categories, Size and Colour,  to allow him to use these specifically for invoicing customers.",0,126368
+1547,"This is a great feature as he can make an appropriate selection on screen while invoicing.",0,126368
+1548,"My client wants the tracking category of Size and Colour to appear the invoice to his customers.",0,126368
+1549,"It would appear the tracking category field names are not available to customise the invoice or, I just haven't found them.",1,126368
+1550,"Can you please provide some feedback about the tracking category field and whether I can incorporate same in to customising invoice?",3,126368
+1551,"My client will not be using tracking categories for reporting purposes, only to invoice.",0,126368
+1552,"Should the feature not be available to include in customising invoices, then how soon before this can be available?",3,126368
+1553,"Thank you & regards, Robert",4,126368
+1554,"HI , how do i input opening balances for my customers without importing them ?",3,128558
+1555,"I cannot find how to achieve this so hope someone can help...",1,125477
+1556,"Multiple payments (2) were made to a supplier for a number of products (3) received, because a 'difference' payment had to be made a few days later (but before I was invoiced) to account for a change to a superior product.",0,125477
+1557,"These 2 payments are showing up as separate lines in my company credit card account ready for reconciliation.",0,125477
+1558,"Using the three separate invoices (that correctly show the 3 products I received) from the supplier I created a transaction (made up of the 3 items) which totalled the same 'spent' value as the 2 credit card account statement lines, however there is no option to 'split' this transaction like there is with invoice payments that I can see?!",1,125477
+1559,"Therefore when I choose 'match' against either of the statement lines, I can see the transaction, but cannot proceed.",1,125477
+1560,"Please advise if this requires the implementation of additional functionality or if I should undertake this reconciliation using a different process?",3,125477
+1561,"Many Thanks / Dan",4,125477
+1562,"Hi,We are evaluating new accounting systems and I have a requirement that does not seem to be available in entry level/mid-market systems.",0,136360
+1563,"1. Budgets and actuals",0,136360
+1564,"2. Time sheets",0,136360
+1565,"3. Travel and expense reportingWe need budgets and actual cost tracking for a software company, (what Oracle would call Projects)For example let's say that we have  the following items  100:  Software Module 1 (project 1_120:  Feature x (project 2)200:  Project 3etc.",0,136360
+1566,"Let's say we have 25 developersLoaded costs could vary for each let's say $120 to $300 per hourThe managers define a project and let's say they budget $50,000 for a project (e.g. Project 31)We'd like the team to enter their time and associate it with a budget item number (100, 120, 200) etc.",0,136360
+1567,"I'd like to know how much we are spending on each project and how well are we planning/executing.",0,136360
+1568,"We want to go to a cloud based system.",0,136360
+1569,"Thanks",4,136360
+1570,"Hi there, I have a staff member employed as a casual that is not entitled to superannuation payments (I have checked the award legislation), but Xero won't let me process her pay runs without adding a super line.",1,137257
+1959,"Eric Whitchurch",4,44963
+1571,"Also, even though she is registered as a casual under 'taxes' it still requires a super line.",1,137257
+1572,"Are there settings to eliminate this line so that I can still process pays?",3,137257
+1573,"Much appreciated!",4,137257
+1574,"Morning,I need some advice on how to correctly input vehicle registrations.",0,126071
+1575,"I have just noticed that I have inputted my vehicle registration details incorrectly.",0,126071
+1576,"EG 6 months rego is $451.60so xero is calculating the GST of $41.05However the GST component is only calculated on Insurance so the correct amount of GST is $17.32",0,126071
+1577,"Advice is greatly appreciated thank you",4,126071
+1578,"Hi,I am new to Xero and accounting in general.",0,125619
+1579,"I have started a used car sales business (in Scotland, UK).",0,125619
+1580,"When buying a car to fix up and sell, is this a direct expense or should it be put in cost of goods sold?",3,125619
+1581,"Also and repair costs, MOT, bodywork and work outsourced (paintwork, mechanics etc) for said car is this a direct expense or a cost of goods sold?",3,125619
+1582,"Finally, each car is advertised individually, as its part of the cost of selling said car is this a direct expense of cost of goods sold?",3,125619
+1583,"Or should it be put in the advertising account?",3,125619
+1584,"Any help would be gratefully receivedMany thanksEric",4,125619
+1585,"I'm looking for a time tracking tool (mainly to use for consulting work) that works well with Xero.",0,138930
+1586,"Has anyone used either Work Flow Max or Harvest?",3,138930
+1587,"I have one organisation in Xero, which gives three partners (and our accountant) different levels of access.",0,135709
+1588,"I have been asked to take on another organisation, with different partners but the same Accountant.",0,135709
+1589,"I know I can add another organisation to Xero (saving money in doing so) and restrict user access o different activity levels within that organisation.",0,135709
+1590,"However, can I restrict each business's user access, so that users from "Business A" cannot view "Company B"s affairs (and vice versa), while the accountant and I can access both, via two log-ins or whatever?",3,135709
+1591,"Apologies if this has already been answered, I did look and checked the closed thread, but couldn't find what I was looking for in existing threads.",0,135709
+1592,"If one already exists, please link me to directly, it so I don't waste anyone's time.",0,135709
+1593,"Many thanksAdrian",4,135709
+1594,"I am relatively new to Xero and running a small business.",0,136403
+1595,"I set up my Sales Invoice but It took a few weeks to set up my Bank Account.",0,136403
+1596,"I now have a bank account and entered the details into Xero.",0,136403
+1597,"I want the details to automatically appear on my Invoices so people can pay me by direct transfer.",0,136403
+1598,"I have tried to work it out via the Sales Invoice settings but it seems you can do everything other than check a tick box to display the bank details.",1,136403
+1599,"How do i do it?",3,136403
+1600,"My business allows patients to pre-purchase rehab consultations in bulk, at a discount.",0,128431
+1601,"We invoice for each of the treatment sessions, and then allocate the invoice to the pre payment.",0,128431
+1602,"But I would like to run a report that shows me all of the prepayments currently outstanding for all patients.",0,128431
+1603,"The only way I can see at the moment, is to run the Aged Payables report, and check each invoice individually.",1,128431
+1604,"I'm sure there must be a better way?",0,128431
+1605,"Can I filter the Aged Payables somehow to show me just the unallocated Prepayments?",3,128431
+1606,"If you are a user of Xero and simPRO, tell us how you are getting on and your experience so far. Any tips?",3,138808
+1607,"Your comprehensive software tool for Electrical, Plumbing, Security, Heat Pump, HVAC, Service & Blue Collar Industrial Contracting Businesses: 1-100 staff, check out .",0,138808
+1608,"Can anyone recommend a good point of sale system for a Bar/Restaurant that integrates with Xero?",3,139273
+1609,"We have implemented Vend for retail clients but it is missing some functionality needed for a restaurant such as table layouts.",0,139273
+1610,"Vend themselves even state that it is not really suitable for a bar/restaurant.",0,139273
+1611,"I have been trying Epos Now which looks good but they are based in the UK and I am concerned at their very sparse documentation on how to use the system.",0,139273
+1612,"Any advice or examples of what bars and restaurants that use Xero are using for their POS would be greatly appreciated.",0,139273
+1613,"regards,Brendan",4,139273
+1614,"If you are a user of Xero and MyDesktop, tell us how you are getting on and your experience so far. Any tips?",3,138528
+1615,"The industry leading web-based sales, listing and CRM technology that helps you run a successful real estate agency.",0,138528
+1616,"For more information, check out .",0,138528
+1617,"Ive had a search for this and there are three treads which seem to discuss a similar thing, however each are missing one key fact.",0,128337
+1618,"Firstly the background.",0,128337
+1619,"We use Workflow Max to generate an invoice and that automatically gets fed into Xero as a draft.",0,128337
+1620,"All ok from here.",0,128337
+1621,"Then we adjust in Xero where appropriate if needed and then send the invoice as an email WITHIN Xero using the following options selected (not sure if that has anything to so with this issue, but giving the full workflow):Include files as attachments YESInclude PDF attachment YESSend me a copy (accounts@***.co.uk) YESThis goes off to the client and I receive my copy into my outlook inbox, so the invoice has definitely been sent.",0,128337
+1622,"HOWEVER, and this is where it gets odd.",0,128337
+1623,"When I look down my list of invoices sent out in the "Invoices Awaiting Payment" page it clearly shows that the most recent invoices not as being sent, I.E. the word "Sent" in green is not showing besides it in the list.",1,128337
+1624,"If I select the invoice and select it's history it clearly shows three things (for example):Created17 Nov 2015 11:07 a.m. System GeneratedReceived through the Xero API from WorkflowMax Invoice sent 17 Nov 2015 11:30 a.m. Shake AccountsThis invoice has been sent to David@***.co.ukApproved17 Nov 2015 11:31 a.m. Shake Accounts INV6212 to **** Ltd for &#163;99.99.",0,128337
+1625,"So everything is showing that it appeared in Xero from Workflow Max, was sent via email within Xero and then was approved by me.",0,128337
+1626,"Surely if it goes through the process of sending the invoice, it should mark it as sent as everything apart from the initial import is done within Xero.",1,128337
+1627,"(We do generate invoices directly within Xero too and we get the same issue).",0,128337
+1628,"I must stress, this never affects clients paying, they always receive the invoices, so that is not the issue, the problem is the invoices are simply not showing as sent in searches.",0,128337
+1629,"Any help greatly appreciated.",4,128337
+1630,"New to Xero.",0,128814
+1631,"Trying to setup basic COGS accounts in the chart of accounts - ie. Opening Stock, Purchases, Closing Stock.",0,128814
+1632,"Just wish to code all purchases to Purchases, and do a simple journal monthly to record current stocks and produce P&L report with gross profit showing.",0,128814
+1633,"Cannot see how to do this in Xero.",1,128814
+1634,"It is simple in MYOB chart of accounts.",0,128814
+1635,"I've googled all day and cannot find an answer.",0,128814
+1636,"Can anyone help please?",3,128814
+1637,"Hey, I'd love some help, when I click on the green arrow to repeat the amount I have added in Budget Manager, it changes what it does each time.",1,135373
+1638,"Sometimes it works, however most of the time, it deletes the amount I have put in and starts with the amount I've told it to increase by?",1,135373
+1639,"Amy thoughts would be appreciated.",4,135373
+1640,"If you are a user of Xero and Constant Contact, tell us how you are getting on and your experience so far. Any tips?",3,138571
+1641,"Easily create beautiful emails and reach your customers where they are every day: their inbox. Export lists from Xero to Constant Contact.",0,138571
+1642,"For more information, check out .",0,138571
+1643,"I currently use Harvest for all my invoicing and link it with Xero to reconcile transactions and prepare BAS.",0,139344
+1644,"I have noticed on Harvest that when I set up a new invoice it has the following message "Apply Tax From Xero".",0,139344
+1645,"After starting to put the BAS together today, it looks like Xero is saying that these invoices are BAS excluded.",1,139344
+1646,"How do I change this?",3,139344
+1647,"I can't seem to find settings in either Xero or Harvest.",1,139344
+1648,"It affects reconciliation when Xero picks up a related payment from Harvest (Match) rather than when I create (and can ensure it is included in BAS)",0,139344
+1649,"Many thanks",4,139344
+1650,"Hi XeroI have two Xero accounts for different entities, Global Search works for one but not the other.",1,139841
+1651,"Support have identified the problem for some users and I would like to know when it will be fixed.",3,139841
+1652,"It has been over a month now.",0,139841
+1653,"Thanks",4,139841
+1654,"I am wondering if anybody here has good suggestions on software we can use for tax returns.",3,126322
+1655,"I was hoping to use Turbotax because it has great review and looks complete and very user friendly but apparently, it only integrates with Quickbooks.",0,126322
+1656,"Any suggestions?",3,126322
+1657,"Hi! I am currently customising a docx invoice template.",0,128199
+1658,"I would like the invoice to display two extra lines showing "Invoice Total" and "Less Payments Received" if payment has already been made prior to generating the invoice.",0,128199
+1659,"Or if payment has not been made, I would like it to just display the invoice total.",0,128199
+1660,"I have gotten this far with the first extra line using the following IF function:",0,128199
+1661,"questions_sentences.append({ IF &#171;StatementType&#187; > 0 "Invoice Total" "" backslash* MERGEFORMAT })questions_sentences.append({ IF questions_sentences.append({ MERGEFIELD InvoiceTotalNetPayments backslash* MERGEFORMAT }) > 0 questions_sentences.append({ MERGEFIELD  InvoiceTotal backslash# "#,##0.00;(#,##0.00)" backslash* MERGEFORMAT }) backslash* MERGEFORMAT })",2,128199
+1662,"(Note: I've used the actual backslash symbol - not just written backslash! - however I was not able to type that symbol in this post...)",0,128199
+1663,"The "Invoice Total" label seems to display correctly according to whether or not payment has been made (first IF function), but the amount of the invoice (second IF function) displays this error message:Error! Unknown op code for conditional.",1,128199
+1664,"> 0 and then the invoice amount shows correctly.",0,128199
+1665,"Can anyone help?",3,128199
+1666,"I feel like I just have a small typo that is preventing me from getting the correct formula.",0,128199
+1667,"I've spent a long time searching help but no luck.",0,128199
+1668,"Thanks in advance!",4,128199
+1669,"Hi there,I was wondering if anyone can help.",0,134637
+1670,"I have allocated 2 credit notes to one invoice for one of our clients and I'd like to keep those credit notes as 2 separate lines with corresponding amounts when I print the invoice as PDF.",0,134637
+1671,"At the moment Xero creates one line, a sum, out of those two credit notes.",1,134637
+1672,"Many thanks,Nicholas",4,134637
+1673,"Hi I am new to xero, I am having trouble when raising invoices.",0,135510
+1674,"When I raise the invoice and save it is not automatically emailing my customer.",1,135510
+1675,"I am having to then go back into the invoice to manually send the invoice.",1,135510
+1676,"I am worried that the reoccuring invoices may not send in the future.",0,135510
+1677,"Thank youChris",4,135510
+1678,"I shared a networking lunch with other business owners and we spilt the bill.",0,126239
+1679,"I paid cash for my part and only have a copy of the invoice for the entire group.",0,126239
+1680,"I can reconcile my part payment against the invoice then am left with an outstanding amount still showed as owing.",0,126239
+1681,"however that amount was paid by the other people.",0,126239
+1682,"How do i remove this amount from Xero?",3,126239
+1683,"Should i edit the invoice amount OR use some form of credit note?",3,126239
+1684,"However, if I do the latter then it will still show up in my accounting records",1,126239
+1685,"Angus",4,126239
+1686,"Hi everyone, When I process a batch payment, the details field automatically updates to a default detail from a previous payment, or the first payment ever used to that payee.",1,125593
+1687,"Does anyone know how to stop this from happening and for it to automatically copy the description entered in the transaction narration?",3,125593
+1688,"If you are a user of Xero and SmartTrade, tell us how you are getting on and your experience so far. Any tips?",3,138681
+1689,"About SmartTradeA comprehensive job management software system for trade & service businesses with a CRM module to build more information about your customers.",0,138681
+1690,"For more information, check out .",0,138681
+1691,"For general support, check out the  or this page for information on .",0,138681
+1692,"I have a Stripe account and it is linked with Xero - when a client tries to pay via stripe they get an error message.",1,138861
+1693,"I tried to pay a $1 account myself and got a message also.",0,138861
+1694,"Not sure why this is?",3,138861
+1695,"Has anyone had success with setting up batch payments to vendors with Bank of America.",3,135489
+1696,"BOA does not appear to understand what I am trying to do.",0,135489
+1697,"I would like to use this feature to speed up our payment process.",0,135489
+1698,"Hi all,New to Xero and seem to be having issues with importing pay run ABA files into our Westpac account.",0,137407
+1699,"I have checked that the correct BSB and Account number have been entered i.e. no spaces or hyphens.",0,137407
+1700,"I have also ticked the "Include self-balancing transaction in the ABA file" option and have included the "DE User ID" in the ABA file.",0,137407
+1701,"When I import the file into my Westpac account, I receive the following errors:Error -- An invalid Payment From account was used. Record Number 2 Invalid debit BSB format -- please check. Record Number 3 Record type must be 1The odd thing is that the BSB is correct and the record number does start with 1.",1,137407
+1702,"Xero support recommended I contact the bank and after 2.5 hours of troubleshooting with Westpac, they said I need to go back to Xero...",0,137407
+1703,"Are there any other Xero/Westpac users that have successfully imported an ABA file for their pay run?",3,137407
+1704,"Cheers,Shaun",4,137407
+1705,"I am setting up a new partnership.",0,125697
+1706,"There were several expenses prior to partnership opening their checking account.",0,125697
+1707,"How would I record these in xero?",3,125697
+1708,"I tried adding as expense receipt but then it wanted to reimburse me the bookkeeper.",0,125697
+1709,"I was filing my sales taxes and noticed that the sales tax summary report produced different numbers than the the sales tax transactions report for the exact same period.",1,136506
+1710,"Is there a reason why this would be happening.",3,136506
+1711,"After an hour of investigation, I can't seem to find the reason behind this.",0,136506
+1712,"I ended up using the sales tax transactions numbers for filing, as well as the total sales numbers pulled from the profit and loss report.",0,136506
+1713,"Hello Can anyone help me please as I have a tricky problem?",3,136890
+1714,"The situation is staff are salaried (annual amount/hours = hourly rate) however they are paid monthly in arrears (last day of the month) for the actual number of days worked and not simply Annual salary / 12 months.",0,136890
+1715,"The issue is their leave needs to be calculated monthly Based on Ordinary Earnings for the month and not just 152 hours / 12 months.",0,136890
+1716,"When I try and put this into Xero AU Payroll it tells I have to insert a monthly amount of leave calculated.",1,136890
+1717,"This is clearly different between months January and February as an example.",0,136890
+1718,"Any suggestions please?",3,136890
+1719,"Cab",4,136890
+1720,"Hi,I sent this question into support a week ago, and still have not gotten a response.",0,135985
+1721,"I hope someone here can help me!",0,135985
+1722,"My accountant set up my bank feeds for me.",0,135985
+1723,"One of them is the situation where only the person who set up the feed can refresh it.",0,135985
+1724,"This bank feed fails all the time, and every time, like a pest, I have to email my accountant to refresh the feed for me.",1,135985
+1725,"Both my accountant and I would prefer it if I could refresh the feed.",0,135985
+1726,"I understand that only the one who added the feed can refresh it - how can I be that person instead of my accountant?",3,135985
+1727,"If I am the only one who can refresh it, that is perfectly fine.",0,135985
+1728,"It's just a hassle when SHE is the only one who can refresh it.",1,135985
+1729,"So is there any way to switch that over?",3,135985
+1730,"I've tried looking around in Xero to figure out if I can re-enter the bank feed info so that then I will be the special *person* with the permissions, but I haven't been able to find any way to do that.",0,135985
+1731,"Suggestions?",3,135985
+1732,"Thanks so much,Heather",4,135985
+1733,"I am looking for a SAS provider to compliment Xero.",0,139566
+1734,"Is anyone out there using such a service that they can recommend - I have heard of Huddle, Basecamp...",3,139566
+1735,"We would love to find fellow Xero users in our supply chain and would even consider changing certain suppliers to Xero users for ease of use.",0,134965
+1736,"Trouble is there is not a subtle way of finding out who uses Xero.",1,134965
+1737,"I thought there was a Xero user directory but can't find one.",0,134965
+1738,"I have a client who operates his payroll for two shops.",0,133597
+1739,"It would be a good feature to be able to show the address of the location the employee works on the payslip rather than a single location for all.",0,133597
+1740,"It's very common to invoice 50% of an invoice first and then on final invoice there's the next 50% and possibly additional expenses.",0,135374
+1741,"PLEASE XERO can you add this feature whereby I can deduct an amount already received/invoiced?",3,135374
+1742,"It would help a lot!",0,135374
+1743,"Instead I have to manually create another invoice to do this which completely defeats the purpose of having XERO in the first place.",1,135374
+1744,"Hi everyone.",0,128780
+1745,"I have been using Xero for my own small company for 2 years and its fantastic.",0,128780
+1746,"However one of my clients with 120 staff but an uncomplicated Architectural Business are concerned its too small for them.",0,128780
+1747,"Any thoughts, as I say its not a complicated business, no discounts, no inventory etc etc.",3,128780
+1748,"your thoughts would be appreciatedJoe",4,128780
+1749,"Who's the genius who thought the least important thing on a payslip was the payee's name?",3,140097
+1750,"Why on earth make that section in a smaller print than the majority of the document?",3,140097
+1751,"I have just completed my first financial year, and am confused about how to account for Corporation Tax in Xero.",0,125435
+1752,"I have submitted my tax return and just paid the tax due to HMRC.",0,125435
+1753,"I have reconciled the bank transaction so that now I have an Expense sitting against account 500 - Corporation Tax.",0,125435
+1754,"In my Profit and Loss for 2016-17, the expense against code 500 is now shown as an operating expense and reduces down the net profit for the year.",1,125435
+1755,"Is there any way of separately showing net profit BEFORE tax (and having the Corporation Tax expense sitting between net profit BEFORE tax and net profit AFTER tax?).",3,125435
+1756,"Thanks,Ben",4,125435
+1757,"I have completed all of the payroll enrolment details in Payroll settings but Xero is not selecting any staff to be included in auto enrolment.",1,137779
+1758,"All of them are eligible by my reckoning but none are selected.",1,137779
+1759,"On the Employee tab under Eligibility Status the box is greyed out.",1,137779
+1760,"I am clearly missing something but after assessing this forum and the videos I am no clearer what I am missing.",1,137779
+1761,"Could somebody suggest what I am missing.",3,137779
+1762,"ThanksAndy",4,137779
+1763,"Hi all.Im a new Xero user and trying to create my first invoice.",0,136222
+1764,"All good except the invoice isn't showing my bank account details so I can get paid by EFT.",1,136222
+1765,"How can this be added to the standard template?",3,136222
+1766,"I have entered the details into the financial section.",0,136222
+1767,"I have searched the boards here for an answer and can't seem to find one.",0,136222
+1768,"Thanks!",4,136222
+1769,"HI I have been using xero for 6 months and on the whole it is fantastic.",0,128095
+1770,"One thing that i would like to see is the credit invoices issued by suppliers to be able to be manually ticked against a payment rather than allocating it to another invoice.",1,128095
+1771,"As a lot of our credit notes do not correspond with invoices from the supplier and it then becomes difficult for suppliers to match off our invoices from our remittances.",1,128095
+1772,"Also the fact that each time you load an invoice onto a supplier that has a credit note, a reminder comes up that there is a credit note available,",1,128095
+1773,"this in turn seems to stop the flow of creating another bill, as it takes you to that invoice if you dont allocate this credit.",1,128095
+1774,"Looking forward to your reply",4,128095
+1775,"i just added new expense account, in the drop down list on Expense claim>Current Claimâ€ºNew Receipt>account",0,136180
+1776,"the list on expense does not include the new expense account i just created.",1,136180
+1777,"We have had several issues trying to finalize last weeks pay. 40 Staff.",0,138215
+1778,"We have had Marc@Xero replying and we have made comments to him.",0,138215
+1779,"He has to their credit come back to us.",0,138215
+1780,"All be it late and we made our own interpretations.",0,138215
+1781,"We been me and our accountancy vCFO.",0,138215
+1782,"Finally getting last weeks payroll up to day (having to Process through the old system last week.)",0,138215
+1783,"We hit the process button and it is frozen.",1,138215
+1784,"The button just won't move.",1,138215
+1785,"We are told there was an update this morning after an issue fot more than 25 staff in payroll.0,",0,138215
+1786,"We have give Marc access.",0,138215
+1787,"Hi,I have reconciled also bank statement for past financial year from 1st April 2015 to 31st March 2016. I usually run monthly profit and loss reports.",0,135066
+1788,"However, for the final month of March the P&L report shows me as final conversion balances for the year ended March 2016 rather than the individual March month income and expenses.",1,135066
+1789,"Any help and ideas appreciated on this topic. Ash",4,135066
+1790,"I am struggling to sort out the best way to handle reconciling two transactions I have in Xero.",0,135142
+1791,"I have two separate vendors who issued partial refunds after a purchase was made.",0,135142
+1792,"One was because we were charged too much for shipping and the other because we were charged for an upgrade that we did not end up using.",0,135142
+1793,"Both of the original expenses were one off expenses paid via credit card and do not have associated bills.",0,135142
+1794,"They were just reconciled along with other bank transactions.",0,135142
+1795,"How do I handle the refunds?",3,135142
+1796,"They don't seem to be overpayments, and I don't have a bill to create a credit note against.",1,135142
+1797,"I could create bills but is that a best practice?",3,135142
+1798,"If I just choose to reconcile it and label is as "vendor refund" is it categorized as an asset or as revenue?",3,135142
+1799,"Any guidance would be very much appreciated. Thanks!",0,135142
+1800,"Hi there â€” I am starting a business that is pretty straightforward wholesale distribution.",0,126593
+1801,"Payments will mostly come in via check, but many customers will pay via credit card.",0,126593
+1802,"I love the idea of being able to email an invoice to a customer with a big PAY NOW button, which will let them simply input their CC details secureley and pay their invoice.",0,126593
+1803,"This is a new venture for me, though, and I'm admittedly ignorant on the details and variables I should be considering when making this.",1,126593
+1804,"Which service should I integrate?",3,126593
+1805,"How do the services that integrate with Xero compare to setting up Merchant Services through my bank?",3,126593
+1806,"Would appreciate any guidance regarding how I might go about thinking about this problem and coming up with a good solution."),",4,126593
+1807,"Hi there,We use Capital On Tap as a regular loans service.",0,126082
+1808,"There is no option for bank feeds and the loan is paid in as and when we require it (almost like a transfer from a separate account with a loan limit).",0,126082
+1809,"We then have to pay back a minimum amount every month depending on the cumulative total we have loaned at the end of that month so the amount is never fixed, always variable.",0,126082
+1810,"I ideally want to record the capital we have received (ad hoc), the amount we have paid back (monthly) and the interest as an expense.",0,126082
+1811,"The loan was started before we began using Xero so I realise I will need to enter a conversion balance.",0,126082
+1812,"But I was wondering if anyone had any idea on how to go about recording the payments in, the repayments out and the interest.",3,126082
+1813,"Would I need to create two accounts, one for loan and one for loan interest?",3,126082
+1814,"I hope this makes sense and thanks in advance for any help or light you can shed on this.",4,126082
+1815,"Many thanks,Joe",4,126082
+1816,"I'm just starting to reconcile after adding Kounta integration, and am not sure how to handle cash purchases made from the cash register.",0,139105
+1817,"If a supplier is paid cash on delivery from the till, the deducted cash is recorded as "cash out" showing the reduced cash in the till.",0,139105
+1818,"How do I record this invoice paid by cash in Xero?",3,139105
+1819,"The Kounta integration only shows the reduced cash in "cash register clearing account", not the COGS account.",1,139105
+1820,"When you receive a purchase order in Kounta it doesn't appear to allow you to specify how the invoice was paid.",1,139105
+1821,"Thanks,Christie",4,139105
+1822,"I have been using Xero for a couple of years and absolutely love it.",0,127624
+1823,"However I have a major problem today in that one of my clients is now registered for the Flat Rate Scheme at 12%.",1,127624
+1824,"When I generate the VAT Return every box is coming up 0.00.",1,127624
+1825,"Can anyone help ?",3,127624
+1826,"I am currently looking for a quicker and more accurate way to report my super contributions.",0,137054
+1827,"We currently use CBUS clearing account however the CSV file they require every month is not downloadable from Xero.",1,137054
+1828,"Does anyone else upload a file direct from Xero to a clearing house?",3,137054
+1829,"I tried to use the auto option in Xero through Click Super but as I need receipts to send to customers and neither Click or Xero can offer any reporting this is a dead end.",1,137054
+1830,"Any suggestions?",3,137054
+1831,"We currently use Xero and are now in the process of finding a suitable POS and Stock control system.",0,139449
+1832,"Ideally the POS system we would like touch screen based suitable for staff with limited computer skills or even iPad as we    could operate with more than one sales counter Our stock is varied from standard hardware / building lines  through to Animal health and stock feed,so we need to be able to sell in the same item in different formats. bulk and per metre / or per KG  or single units.We do run monthly accounts for customers as well.",0,139449
+1833,"we previously tried myob retail manager - and it failed as it was far to complex",1,139449
+1834,"""HiWe have some suppliers who have up to 70 invoices required for paymentTo avoid having to enter these all individually we create one purchase for the supplier,0134058
+1835and in the body of the purchase, enter all the invoices. Of course we are unable to list every invoice number in the reference box, so we call it by the month of statement.0134058
+1836It makes it very easy then to identity, pick up & batch all bills that need to be paid at the end of the month, as they all have the same reference.0134058
+1837This works fine for us, but we do get requests from our suppliers as to what invoices we are paying, as the remittance only says 'April 17 Statement'.1134058
+1838Is there anyway to send a remittance with the body of the purchase showing?3134058
+1839Are we purchasing incorrectly?3134058
+1840Thanks4134058
+1841Hi,I run a staff temping agency and hire out my staff to other businesses.0138923
+1842Is there a Xero connected app that allows the clients to approve time-sheets online?3138923
+1843Thanks4138923
+1844Hi, I was asked to run an aged receivables report for 90 days and older (retentions of 5-10%)0134874
+1845but when I did there were invoices showing up as outstanding but when you drill into them it's been paid and the outstanding amount is $01134874
+1846Has anyone had this issue before?3134874
+1847I have been advised by our accountant to put through a number of invoices from a client as a 'bad debt'."","0,125232
+1848,"I followed the forum posts and set up the account code and put through as credit notes but I'm told this isn't what they want.",1,125232
+1849,"Is it possible to put through a bad debt differently, such a journal entry, on an accrual scheme so that we can claim the VAT back but stillleave the invoices open in case we do eventually get payments in?",3,125232
+1850,"We want to still be able to send statements etc, if requested, but adding a credit note to the invoices means that we are not able to do this as they're down as 'paid',",0,125232
+1851,"""Hi thereWe don't raise Xero invoices for our occasional suppliers, instead we'll simply create the transactions at reconciliation time,adding a new contact as necessary.0128746
+1852My question is -  what's the easiest way to search for these transactions by contact name?3128746
+1853I had a case this morning where I needed to quickly add a file to a historical transaction for a known contact and I had to do the following:- Start at the dashboard.- Click on Accounts -> Bank Accounts- Click the correct bank account.- Click the 'Transactions' tab.- Click 'Search', enter the contact name.Click the appropriate transaction from the list that appears.0128746
+1854That's quite laborious and also involves knowing which bank account the transaction belongs to.1128746
+1855What am I missing here?3128746
+1856I tried, instead, to do it via the 'Contacts' page, searched and found the correct contact, but there didn't seem to be a link to click through and view alltransactions associated with that contact.1128746
+1857Frustratingly, I could see a bar graph, visualising the transaction amounts, but no obvious way to view them.1128746
+1858Hi,This is a more general question about physical inventory management and not necessarily related to Xerobut I figure that this is probably a good place to ask as I can't be the only person selling physical products0135892
+1859My business is wholesale alcohol business and we have to do regular inventory counts in our multiple warehouses.0135892
+1860At the moment this is done manually on paper and then transferred to excel.0135892
+1861I would like to move to a more automated system where the person doing the inventory count scans a product barcode and types in the number of items in the warehouse.0135892
+1960Hi,I would like to know if there is a way to force expire the token?346916
+1862If this can be achieved with a barcode scanner that links wirelessly to an app on a tablet or phone it would be great.0135892
+1863I've been trying to find suitable products to do this but haven't yet found the right solution.1135892
+1864How do other people handle this?3135892
+1865Are there any hardware / software solutions out there that you would recommend?3135892
+1866Thanks!Harold4135892
+1867Hi,The Australian Payroll API was recently updated to include USI (unique superannuation identifier).045917
+1868I have an external system I connect to Xero that tries to match a super fund based on SPIN/USI, and I cannot search by USI via the API. 045917
+1869When I to find a Super Fund via the API by querying on the new USI field, and it keeps returning an error USI property is not supported for Where or Order clause""."","1,45917
+1870,"I can query by other fields e.g. SPIN Example query: /payroll.xro/1.0/SuperFunds?Where=USI%3D%3D%22TLS0100AU%22 ",0,45917
+1871,"API exception returned: USI property is not supported for Where or Order clause",1,45917
+1872,"Can anyone help?",3,45917
+1873,"I am getting reports from users of an error "Account could not be found" when sending their sales to Xero via the API.",1,46105
+1874,"It appears that the accounts they are sending to exist, is there anything else that can cause this error?",3,46105
+1875,"Hey!We are looking for a highly experianced developer who has is well versed in Ruby On Rails to intergrate veeqo.com with Xero.",1,46599
+1876," So that Veeqo.com clients can export their sales invoices/purchase orders/COGS to Xero.",0,46599
+1877," Preferably someone who has experience of doing something similar would be great.",0,46599
+1878,"Hi,How do I  set the Branding theme when creating a new invoice using BrandingThemeId?",3,45852
+1879," How do I find the GUID that is related to the theme I want to use?",3,45852
+1880,"Hi Guys, I just noticed something that might been little strange or also might be by design.",0,46022
+1881,"when creating an invoice i include the contact record details (no guid) full details, this normally either creates a new contact or finds and existing one.",0,46022
+1882,"during testing i noticed that one of the contact matched even thou the company name was different.",1,46022
+1883,"it then updated the contact and changed the company name.  Edited \t26 Jun 2014 3:20 p.m. \tSystem Generated \tName changed from 'OLD COMPANY' to 'NEW COMPANY'.",0,46022
+1884,"personally would have expected the new company to be created not some existing company updated.",1,46022
+1885,"Can you please let me rules that are used for matching contacts as for some of the records i am processing i might have to create a contact in a separate call and pass in the guid instead.",3,46022
+1886,"particularly if a customer has multiple businesses operating from the same location.",0,46022
+1887,"ThanksPaul",4,46022
+1888,"How can I add the parameter UpdatedDateUTC with the object to Xero? ",3,45787
+1889,"I'm trying to get invoices from one system to Xero but with the other system's modified_dates.",0,45787
+1890,"I'm adding it with the XML object but it does not seem to make any difference.",1,45787
+1891," Example object object:SimpleXMLElement Object(    <Invoice> => SimpleXMLElement Object        (            <InvoiceID> => 4fa68953-c4cc-4c5e-ab64-5e9f38b6e0f5            <Type> => ACCREC            <Contact> => SimpleXMLElement Object                (                    <ContactID> => 85d15bf3-207f-4278-8449-e12dade98c66                )            <Date> => 2015-07-06            <DueDate> => 2015-07-06            <InvoiceNumber> => INV-0031            <CurrencyCode> => USD            <CurrencyRate> => 1.000000000000000            <Status> => AUTHORISED            <SentToContact> => false            <SubTotal> => 59.85            <TotalTax> => 5.24            <Total> => 65.09            <LineAmountTypes> => Exclusive            <UpdatedDateUTC> => 2015-07-06T13:10:46            <LineItems> => SimpleXMLElement Object                (                    <LineItem> => SimpleXMLElement Object                        (                            <AccountCode> => 200                            <TaxType> => TAX001                            <Description> => 'Fish out of Water: Finding Your Brand                            <Quantity> => 3.0000                            <UnitAmount> => 19.9500                            <ItemCode> => BOOK                            <TaxAmount> => 5.236875                            <LineAmount> => 59.85                            <DiscountRate> => 0.0000                        )                )        ))"),'",2,45787
+1892,"Hi there,At the moment we use the demo environment.",0,44624
+1893,"However have three problems with it.",1,44624
+1894,"One of them is that it does not contain our production data and the second one is that it expires after 30 days.",1,44624
+1895,"The third problem is that it is bound to one account, which makes it harder for the developers to share one demo environment to test.",1,44624
+1896,"Does Xero support a sandbox environment or an environment which is a copy of production?",3,44624
+1897,"Or is it possible to keep the demo environment alive for more then 30 days, including the sharing of the demo account?",3,44624
+1898,"Thanks and Regards,Keethanjan",4,44624
+1899,"I'm wondering if there is any way to limit the number of results returned--for example, an equivalent to "SELECT TOP 100" in SQL.We intend to create about 800 invoices per month via the API, and all of them will be created on the same day and have the same invoice date and due date, so I don't think we could use any date fields or "if modified since" to limit the results.",3,46320
+1900,"  When issuing a GET request on these, ideally, we'd be able to split it up into 8 different API calls; i.e.",1,46320
+1901,"in the following pseudo code:\tRequest 1 of 8: Get the top 100 records where invoice date is 2012-04-02T00:00:00 order by UpdatedDateUTC\tRequest 2 of 8: Get the top 100 records where invoice date is 2012-04-02T00:00:00 and UpdatedDateUTC > (the last UpdatedDateUTC in Request 1) order by UpdatedDateUTC\tAnd so on, until there are no more records retrieved.\t",2,46320
+1902,"Is there any way either to limit the records returned or some other way to split up this request into multiple API calls?",3,46320
+1903,"I am looking for a Xero Developer who can create a simple job sheet add-on for my creative company.",1,46662
+1904,"Will start as a simple job sheet but will no doubt grow into something bigger as my business grows.",0,46662
+1905,"Very keen to discuss with anyone that can help.",4,46662
+1906,"Hi,I am looking for an integration between Xero and Linnworks",1,44469
+1907,"We want to be able to exact invoices from Linnworks and pass them to Xero daily through an API integration.",0,44469
+1908,"The invoices passed from the two system will include the following details:1. Invoice Date 2. Invoice Number 3. Contact Name 4. Contact Address 5. Reference Number 6. Product Description 7. Product Quantity 8. Product Price 9. Currency 10. Delivery Cost 11. Sales Account 12. Tax Type",0,44469
+1909,"My client has a budget of Â£250 to Â£400 for the work",0,44469
+1910,"ThanksMark",4,44469
+1911,"I find the new .Net library extremely unintuitive and convoluted.",1,45062
+1912,"Even looking at the example implementations it is not a quick or easy thing to tease out the best way to implement and utilise this myself.",1,45062
+1913,"I look forward to a straightforward library with straightforward example code of how to implement it.",1,45062
+1914,"IMHO, 9 arguments for a constructor is too many (see PartnerMvcAuthenticator in the example code).",1,45062
+1915,"Hello, I've got problem when trying to exchange request token to access token (sending request to /oauth/AccessToken).",1,47098
+1916,"First step was completed successfuly and I redirected myself to /APIAuthorise.aspx page, where I authorized my app to access my account.",0,47098
+1917,"After redirecting me back to callback url I always get "oauth_problem=signature_invalid&oauth_problem_advice=Failed%20to%20validate%20signature" response from /oauth/AccessToken.",1,47098
+1918,"Here are data I send and receive:This code is provided by the developer community - Xero does not warrant it in any wayI'm pretty sure that signature is made correctly -",0,47098
+1919,"I use OAuthSimple class provided in one of Xero`s code samples.",0,47098
+1920,"Full sample works correctly, the problem appears when I try to attach the library into our application.",1,47098
+1921,"It's the newest version available.",0,47098
+1922,"Hi,I am using the Xero API and sending a HTTP GET request from my application to Xero to return Contacts that match a certain Name.",0,45761
+1923,"So...using instructions from http://developer.xero.com/documentation/getting-started/http-requests-and-responses/#title3, I send (for example) Name="A Company Ltd" urlencoded as part of the URL.",0,45761
+1924,"This works fine, until I search on a Name that includes a double quote in it.",1,45761
+1925,"Does anyone know how to get it to work and Xero to not return an error when a double quote exists?",3,45761
+1926,"I know it's highly unlikely that a Name would have a double quote in it, but it's always best to make an application as robust as possible in my opinion, no matter how unlikely.",0,45761
+1927,"Many thanks in advance.Cheers,Rhyd.",4,45761
+1928,"I'm trying to return all Invoices for June 2013, NOT just those that have been changed since a certain date.",0,45185
+1929,"I can see how the API documentation handles this situation, it says to use the following value for the where parameter (from http://developer.xero.com/api-overview/http-requests-and-responses/#get-filtered):",0,45185
+1930,"FullyPaidOnDate >= DateTime(2011, 10, 01) AND FullyPaidOnDate <= DateTime(2011, 10, 30)",2,45185
+1931,"However I'd like to use the useful xero.php wrapper if possible.",1,45185
+1932,"After reading the github page and various discussions on here as well as the code, it looks to me as if the filter I should be setting is as follows (ie the 'value' of the array item is itself an array made up of operand, literal value):",0,45185
+1933,"$aFilter = array(\t'Date' => array('>=','DateTime(2013, 06, 01)')\t,'Date' => array('<=','DateTime(2013, 06, 30)'));$result = $xero->Invoices('','',$aFilter,'');",2,45185
+1934,"However this results in the following error:Array(    [ErrorNumber] => 16    [Type] => QueryParseException    [Message] => Operator '<=' incompatible with operand types 'DateTime?' and 'String')",1,45185
+1935,"Also of course as the field name is the array key, I only end up with one array item not two as you can see in the array dump:",1,45185
+1936,"Array(    [Date] => Array        (            [0] => <=            [1] => DateTime(2013,06,30)        ))",2,45185
+1937,"Any help that you can offer would be appreciated.",4,45185
+1938,"Dear Sirs,This question is targeted toward Xero support people and administrators.",0,46680
+1939,"I was not able to find answer to my question, so I have to post my question here.",0,46680
+1940,"COZYROC is the leading provider of third-party components for Microsoft SQL Server Integration Services.",0,46680
+1941,"We have recently included adapters which support the Xero application.",0,46680
+1942,"We would like to ask what information you need from us so you can post details about COZYROC's solution here:https://developer.xero.com/code-samples/tools/overview/",3,46680
+1943,"Thank you for your time in advance!",4,46680
+1944,"Hi all. I'm a newbie web developer and also new to xero api.",0,45763
+1945,"What I am asking is simple. How to create the function for a GET/POST request for invoices?",3,45763
+1946,"I have looked at the api previwer, understand the xml but not how to implement the "run" button function",1,45763
+1947,"Any sample code to look at including a submit button?",3,45763
+1948,"I have been uploading Timesheets to Xero successfully in an application in C# for over 12 months.",0,44963
+1949,"With the latest revision of the app (no changes to the codeline used for the Timesheets upload), I am no longer able to do the uploads and am getting a BadRequest exception raised.",1,44963
+1950,"The detail merely shows "A validation exception occurred".",1,44963
+1951,"I have the Api.Timesheets.Create in a try/catch block, with three separate catch blocks.",0,44963
+1952,"The first of these is:catch (Xero.Api.Infrastructure.Exception.ValidationException vE){.....}but this is not trapping.",1,44963
+1953,"The second catch block is for BadRequestException and that traps.",0,44963
+1954,"How can I then determine the actual Validation errors?",3,44963
+1955,"The full ValidationException block contains::\terrStore += "Validation errors from xero:\\r\\n";\tforeach (var v in vE.ValidationErrors)\t{\t\terrStore += v.Message + "\\r\\n";\t\tAppGlobals.logger.Error("Error: TS Upload error" + v.Message + "\\r\\n");\t}",1,44963
+1956,"but with that not being trapped how can I find the errors?",3,44963
+1957,"Why does the BadRequest exception supersede the ValidationException, or are there multiple exceptions occurring?",3,44963
+1958,"It makes life fairly difficult when my client cannot determine what has gone wrong without my having to get into debug mode on a production system.",1,44963
+1961,"I want to test my application against different scenarios so it will be great if we can "induce" token expiration instead of having to wait 30 minutes for it to systematically expire.",1,46916
+1962,"I am using a public application and official PHP Xero API wrapper.",0,46916
+1963,"Thanks!",4,46916
+1964,"Why is it that Xero will not accept an email address with numeric characters in the TLD either by API or manual Contact entry?",3,44426
+1965,"There are TLDs which have numeric character in them listed on IANA - http://data.iana.org/TLD/tlds-alpha-by-domain.txt  (scroll down to .XN domains).",0,44426
+1966,"(encoded as "xn--mgberp4a5d4ar") ("al-Saudiah") in Arabic Script,which is registered to the Saudi Network Information Centre",0,44426
+1967,"I get thrown this error via API:Error: 10 ValidationException A validation exception occurred Email address must be valid. Email address must be valid.",1,44426
+1968,"Thanks.",4,44426
+1969,"Hi,I have a web app that requires invoicing, inventory and payroll access to insert timesheets.",0,46159
+1970,"Have got it working using the core api Version 2 & have got hold of the payroll DotNet sample (which looks to be the same as the core api sample with a console payroll section).",0,46159
+1971,"Anyway the example doesn't show the situation where I wan to use both api's...i.e I want to process invoices using the core api and then turn the page to payroll and insert time-sheets.",1,46159
+1972,"Do I have to log out of 1 and log into the other?",3,46159
+1973,"Can I use the same access token to create both payroll and core repositories?",3,46159
+1974,"Any examples of the above in DotNet?",3,46159
+1975,"First scenario:I am using the PUT method to create an invoice in Xero,",0,45385
+1976,"I have an issue with the lineAmount when a CurrencyRate apply.",1,45385
+1977,"This is one of my LineItems in my Invoice XML:LineItem\tDescription: EDGA01:INVBE3983:Travel\tLineAmount: 66.201300\tTaxAmount: 0.0000\tAccountCode: RET300\tCurrency fields as part of the Invoice XML:CurrencyCode: USDCurrencyRate: 0.0743The lineItem in the response from XERO, looked like this for the above line item:{          "Description": "EDGA01:INVBE3983:Travel",          "UnitAmount": 66.20,          "TaxType": "NONE",          "TaxAmount": 0.00,          "LineAmount": 66.20,          "AccountCode": "RET300",          "Tracking": ,          "Quantity": 1.0000,          "LineItemID": "732ca155-e1bc-4fe0-bb77-504f25540034",          "ValidationErrors": },",2,45385
+1978,"Why does the LineAmount change to 66.20, does XERO only accepts 2 decimal points?",3,45385
+1979,"Second scenario:I decided to send through the lineAmount with 2 decimal points.",0,45385
+1980,"This is one of my LineItems in my Invoice XML:LineItem\tDescription: ILLI11:INVBE3985:Setup\tLineAmount: 224.25\tTaxAmount: 0.00\tAccountCode: ASC400Currency fields as part of the Invoice XML:CurrencyCode: EURCurrencyRate: 0.0690",2,45385
+1981,"So according to my understanding Xero should do a reverse calculation for the value in the Revenue account: 224.25 % 0.0690 = R3250.00, but instead the Revenue account reports R3249.99",1,45385
+1982,"Hi,I am trying to modify a paid invoice by changing the account_code for given line item. I can modified unpaid invoice with out a problem.",0,45515
+1983,"However once the payment exist, I receive the error: "Invoice not of valid status for modification"Which makes sense, however I was hoping since I am able to change the item account code easily on the web UI, even if an payment has been created,    that I could do the same thing via the API.",1,45515
+1984,"Any ideas are highly appreciated,thank youJacob",4,45515
+1985,"Hi,We are trying to integrate Xero into our web based application for accounting .",0,44498
+1986,"We have different versions of same product running on cloud . each client has its own url like https ://<<clientname>>.ourproduct.com.",0,44498
+1987,"Will you please suggest what app type we should use ?",3,44498
+1988,"Hi GuysI did a quick search for this but couldn't find an answer I was looking for. The documentation describes:  "Daily Limit: 5000 calls in a rolling 24 hour window"",0,45329
+1989,"We have different versions of same product running on cloud . each client has its own url like https ://<<clientname>>.ourproduct.com.",0,45329
+1990,"At what time does the count reset?",3,45329
+1991,"Is this relative to the API token you are using and when this is created, or is it every 00:00UTC? or at some other time?",3,45329
+1992,"I'd like to track the API calls we make to ensure we throttle properly so we never hit the limit, however thats difficult to program unless I know when the API limits are reset.",1,45329
+1993,"Thanks,Chris",4,45329
+1994,"Hi,I'm using the .NET wrapper and want to use the Contact settings as default for the lineitem details.",0,45018
+1995,"Specifically, I want to apply a discount or determine whether items are tax inclusive or exclusive based off of the account.",1,45018
+1996,"Can someone point out how to do that?",3,45018
+1997,"Here's my code.Dim wInvoice As New XeroApi.Model.Invoice        Dim wContact As New XeroApi.Model.Contact        Dim Contact Name As String        ContactName = "Test Contact"        Dim myContacts = From contacts In repository.Contacts                         Where contacts.Name = ContactName        For Each myContact As XeroApi.Model.Contact In myContacts            Dim myContactID As String = myContact.ContactID.ToString            wContact.ContactID = New System.Guid(myContactID)            wInvoice.Contact = wContact            wInvoice.InvoiceNumber = "TEST"            wInvoice.Date = "10-29-2015"            wInvoice.Type = "ACCREC"            wInvoice.DueDate = "10-30-2015"            wInvoice.Status = "DRAFT"            wInvoice.LineItems = New XeroApi.Model.LineItems            Dim wLineItem = New XeroApi.Model.LineItem            wLineItem.Quantity = 2            wLineItem.Description = "Item1"            wLineItem.ItemCode = 9            wInvoice.LineItems.Add(wLineItem)            wLineItem = New XeroApi.Model.LineItem            wLineItem.Quantity = 3            wLineItem.Description = "Item2"            wLineItem.ItemCode = 1            wInvoice.LineItems.Add(wLineItem)            wLineItem = New XeroApi.Model.LineItem            wLineItem.Quantity = 4            wLineItem.Description = "Item3"            wLineItem.ItemCode = 17            wInvoice.LineItems.Add(wLineItem)            Dim sResults = repository.Create(Of XeroApi.Model.Invoice)(wInvoice)            If sResults.ValidationErrors.Count = 0 Then                MsgBox("Invoice Created")            Else                For Each something In sResults.ValidationErrors                    MsgBox(something.Message)                Next            End If        Next",2,45018
+1998,"Thanks!",4,45018
+1999,"With a payment that is part of a bulk payment this returns the first purchase invoice associated with the bulk payment rather than the correct purchase invoice",1,45181
+2000,"based on the payment amount it seems like a bulk payment divides into smaller payments but the invoice does not correspond)",1,45181
+2001,"foreach (Payment vo_payment in repository.Payments.Where(x => (x.Date > datebegin && x.Date < dateend && !(x.Status == "DELETED" || x.Status == "VOIDED") && x.Invoice.Type == "ACCPAY")))                {                    vs_paymentstring = Convert.ToDateTime(vo_payment.Date).ToString("yyyyMMdd") + "_" + vo_payment.Invoice.InvoiceNumber + "_(" + vo_payment.PaymentID + ")";",2,45181
+2002,"Hi there,Firstly, apologies if this is in the wrong place.",0,45011
+2003,"There were at least 3 possible places this question could've been created, but I figured as I'm using wrapper code it should go here.",0,45011
+2004,"I'm using the .NET Xero API SDK 2.0.20 in C#.I'm trying to send an invoice to a customer upon payment.",0,45011
+2005,"It should be sent with the invoice in a paid state (so there is no confusion).",0,45011
+2006,"I've got the code down good to apply the payment to the invoice, and sending the e-mail goes fine.",0,45011
+2007,"But then when we try to update the invoice to say it's been sent out, I get the following validation errors:* "Invoice not of valid status for modification"* "This document cannot be edited as it has a payment or credit note allocated to it."",1,45011
+2008,"Here is some of the code I'm using. {\t// bits and bobs to get the payment made\t_privateAppApi.Payments.Create(payment);\tEmailInvoice(payment);\tUpdateXeroInvoiceSentToContact(payment.Invoice);}private void UpdateXeroInvoiceSentToContact(XeroModels.Invoice invoice){\tinvoice.SentToContact = true;\t_privateAppApi.Invoices.Update(invoice);}",2,45011
+2009,"Any ideas of how this could/should be handled?",3,45011
+2010,"I thought about trying to set the sent status first, then applying the payment and then sending the e-mail. The problem with this approach is that I'd get caught out again if something went wrong sending the e-mail, I wouldn't then be able to set SentToContact to false, because a payment has been applied. Which doesn't feel quite right.",1,45011
+2011,"Any help appreciated.Cheers,Craig",4,45011
+2012,"I am trying to work out the best way to update an existing Timesheet (Australian Payroll API), without replacing or overwriting the existing TimesheetLines.",0,45868
+2013,"At the moment when POSTING and specifying the TimesheetID, the existing TimesheetLines are lost.",1,45868
+2014,"Also if the Timesheet is Approved then you can no longer POST to it.",1,45868
+2015,"Having to rePOST the entire TimesheetLines content seems odd.",1,45868
+2016,"Suggestions very welcome.",4,45868
+2017,"We have developed an integration between our software (a .Net Winforms application) with Xero,        allowing the user to import revenue and expense transactions using the API, into our software.",0,46784
+2018,"At the moment, every time the user wants to execute this import from within our software, they are presented with a Xero authentication page,         where they enter in the username and password, and then on a second page, select the â€˜organisationâ€™ they want to allow our software to access    (screenshot  https://www.screencast.com/t/JCwxMns3bW8 )",0,46784
+2019,"I see that there is an â€˜Allow access for 30 minsâ€™ option, which saves them from having to login multiple times, however it still always prompts the user during this 30min period to select the Xero organisation.",1,46784
+2020,"Is it possible for us to capture and store their Xero username / password, and the organisation that they have originally selected, within our software, so we can programmatically use them in the future?",3,46784
+2021,"So each time they would want to execute an import, they wonâ€™t have to login or select their organisation again. Is this possible to do with Xero?",4,46784
+2022,"Our AffinityLive product allows users to record expenses against a project.",0,46210
+2023,"In some cases they may not be personal expenses but ones paid for already by a business credit card or chequebook, etc.",0,46210
+2024,"We are wondering if these expenses can be pushed through to Xero via the API.",3,46210
+2025,"My understanding is that these are not Expense Claims assigned to a user, but are more general business expenses which are recorded differently.",1,46210
+2026,"We're a bit lost on how to proceed - part of the problem of course is that we're not accountants and may be taking the wrong approach!",1,46210
+2027,"Appreciate any advice.",4,46210

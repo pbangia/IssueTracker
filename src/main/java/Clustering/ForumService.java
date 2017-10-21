@@ -37,7 +37,7 @@ public class ForumService {
     private MongoClient connection;
     private Datastore ds;
     private UserRole accessPrivilege;
-    private String FILE_NAME = "data/sample.arff";
+    private String FILE_NAME = "data/forumPosts.arff";
     //private DB db;
     //private DBCollection dbCollection;
 
