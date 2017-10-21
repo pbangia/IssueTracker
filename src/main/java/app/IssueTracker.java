@@ -23,12 +23,9 @@ public class IssueTracker {
     private ForumService forumService;
     private LoginService loginService;
     private RegistrationService registrationService;
-<<<<<<< HEAD
     private AssignmentService assignmentService;
     //private User currentUser;
-=======
     private User currentUser;
->>>>>>> master
 
     public IssueTracker() throws UnknownHostException {
         this(new MongoClient("localhost", 27017), new Morphia());
