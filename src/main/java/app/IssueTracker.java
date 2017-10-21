@@ -10,7 +10,6 @@ import Assignment.AssignmentService;
 import Authentication.LoginService;
 import Authentication.RegistrationService;
 import Clustering.ForumService;
-import com.mongodb.MongoClient;
 import exceptions.InvalidAuthStateException;
 import models.User;
 import models.UserStatus;
@@ -25,6 +24,7 @@ public class IssueTracker {
     private RegistrationService registrationService;
     private AssignmentService assignmentService;
     //private User currentUser;
+
     private User currentUser;
 
     public IssueTracker() throws UnknownHostException {
