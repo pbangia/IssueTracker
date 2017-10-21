@@ -1,6 +1,7 @@
 package Assignment;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -23,12 +24,10 @@ import org.mockito.Mockito;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
-import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 
-import Authentication.LoginService;
-import Clustering.ForumService;
 import app.IssueTracker;
+import exceptions.DeveloperAlreadyAssignedException;
 import models.Cluster;
 import models.Cluster.IssueStatus;
 import models.User;
@@ -37,7 +36,7 @@ import models.UserStatus;
 
 public class AssignmentTest {
 	private User u;
-    private AssignService assign;
+    private AssignmentService assign;
 
     Set<Integer> postIDs = new HashSet<>();
     IssueTracker issueTracker;
@@ -55,7 +54,7 @@ public class AssignmentTest {
         when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
         issueTracker = new IssueTracker(connection, morphia);
-        assign = Mockito.spy(issueTracker.getAssignService());
+        assign = Mockito.spy(issueTracker.getAssignmentService());
         
         u = spy(new User());
         when(u.getRole()).thenReturn(UserRole.ADMIN);
@@ -149,7 +148,7 @@ public class AssignmentTest {
     }
     
     @Test
-    public void adminstratorCannotAssignDeveloperAlreadyAssignedToTheSameIssue() {   	
+    public void adminstratorCannotBeAssignedToAnIssue() {   	
     	//mock a developer
     	User admin = mock(User.class);
     	when(admin.getRole()).thenReturn(UserRole.ADMIN);

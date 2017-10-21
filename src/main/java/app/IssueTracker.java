@@ -1,14 +1,19 @@
 package app;
 
+import java.net.UnknownHostException;
+
+import org.mongodb.morphia.Morphia;
+
+import com.mongodb.MongoClient;
+
+import Assignment.AssignmentService;
 import Authentication.LoginService;
 import Authentication.RegistrationService;
 import Clustering.ForumService;
 import com.mongodb.MongoClient;
-import models.Cluster;
+import exceptions.InvalidAuthStateException;
+import models.User;
 import models.UserStatus;
-import org.mongodb.morphia.Morphia;
-
-import java.net.UnknownHostException;
 
 /**
  * Created by priyankitbangia on 21/10/17.
@@ -18,9 +23,14 @@ public class IssueTracker {
     private ForumService forumService;
     private LoginService loginService;
     private RegistrationService registrationService;
+<<<<<<< HEAD
+    private AssignmentService assignmentService;
     //private User currentUser;
+=======
+    private User currentUser;
+>>>>>>> master
 
-    public IssueTracker() throws UnknownHostException{
+    public IssueTracker() throws UnknownHostException {
         this(new MongoClient("localhost", 27017), new Morphia());
     }
 
@@ -29,9 +39,17 @@ public class IssueTracker {
         forumService = new ForumService(connection, morphia);
         loginService = new LoginService(connection, morphia);
         registrationService = new RegistrationService(connection, morphia);
+        assignmentService = new AssignmentService(connection, morphia);
     }
 
-    public ForumService getForumService() { return forumService; }
+    public ForumService getForumService() {
+        currentUser = loginService.getCurrentUser();
+        if (currentUser == null) {
+            throw new InvalidAuthStateException("No user currently logged in");
+        }
+        forumService.setAccessPrivilege(currentUser.getRole());
+        return forumService;
+    }
 
     public void setForumService(ForumService forumService) {
         this.forumService = forumService;
@@ -61,4 +79,12 @@ public class IssueTracker {
     public RegistrationService getRegistrationService() {
         return registrationService;
     }
+
+	public AssignmentService getAssignmentService() {
+		return assignmentService;
+	}
+
+	public void setAssignmentService(AssignmentService assignmentService) {
+		this.assignmentService = assignmentService;
+	}
 }
