@@ -1,8 +1,10 @@
 package Clustering;
 
 import com.mongodb.*;
+import exceptions.InvalidAuthStateException;
 import models.Cluster;
 import models.ForumPost;
+import models.UserRole;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import weka.clusterers.ClusterEvaluation;
@@ -12,10 +14,14 @@ import weka.core.converters.ArffLoader;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
+
+import static models.UserRole.ADMIN;
 
 
 /**
@@ -24,12 +30,14 @@ import java.util.*;
 public class ForumService {
     Instances data;
     ArrayList<ForumPost> posts = new ArrayList<>();
-    private ClusterEvaluation eval;
+    public ClusterEvaluation eval;
     double[] assignments;
     Map<Integer, Cluster> clusters;
 
     private MongoClient connection;
     private Datastore ds;
+    private UserRole accessPrivilege;
+    private String FILE_NAME = "sample.arff";
     //private DB db;
     //private DBCollection dbCollection;
 
@@ -38,8 +46,8 @@ public class ForumService {
     }
 
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
-        loadIssueList();
-        posts = getPosts();
+        data = loadIssueList(FILE_NAME);
+        posts = getAllPosts();
 
         connection = newConnection;
         ds = dbMapper.createDatastore(connection, "testdb");
@@ -51,7 +59,7 @@ public class ForumService {
         return titles;
     }
 
-    public ArrayList<ForumPost> getPosts(){
+    public ArrayList<ForumPost> getAllPosts(){
         ArrayList<ForumPost> posts = new ArrayList<>();
         for (int i=0; i<data.numInstances();i++){
             ForumPost post = new ForumPost(data.instance(i));
@@ -60,14 +68,13 @@ public class ForumService {
         return posts;
     }
 
-    public void loadIssueList() {
+    public Instances loadIssueList(String filename) {
+        Instances instances = null;
         try {
-            ArffLoader loader = new ArffLoader();
-            loader.setSource(new File("sample.arff"));
-            data = loader.getDataSet();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            instances =  new Instances(new BufferedReader(new FileReader(filename)));
+        } catch (IOException e) { e.printStackTrace(); }
+
+        return instances;
     }
 
     public Map<Integer, Cluster> getRelatedIssues(){
@@ -101,7 +108,7 @@ public class ForumService {
     }
 
     public void saveClusters() {
-        ds.save(clusters);
+        for (Cluster c: clusters.values()) ds.save(c);
     }
 
     public void saveForumPosts() {
@@ -115,11 +122,11 @@ public class ForumService {
             StringToWordVector s = new StringToWordVector();
             s.setInputFormat(data);
             data = Filter.useFilter(data, s);
-            DBSCAN dbscan = new DBSCAN();
+            DBSCAN dbscan = getDBSCAN();
             dbscan.setEpsilon(1);
             dbscan.setMinPoints(1);
             dbscan.buildClusterer(data);
-            eval = new ClusterEvaluation();
+            eval = getEval();
             eval.setClusterer(dbscan);
             eval.evaluateClusterer(data);
             System.out.println(eval.clusterResultsToString());
@@ -129,5 +136,28 @@ public class ForumService {
 
     public Cluster getCluster(int i) {
         return clusters.get(i);
+    }
+
+    public void setAccessPrivilege(UserRole accessPrivilege) {
+        this.accessPrivilege = accessPrivilege;
+    }
+
+    public void addForumPostToCluster(ForumPost forumPost, int i) {
+        if (getAccessPrivilege()!= ADMIN) {
+            throw new InvalidAuthStateException("Only admins have permission to modify clusters");
+        }
+        getCluster(i).addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
+    }
+
+    public UserRole getAccessPrivilege() {
+        return accessPrivilege;
+    }
+
+    public DBSCAN getDBSCAN() {
+        return new DBSCAN();
+    }
+
+    public ClusterEvaluation getEval() {
+        return new ClusterEvaluation();
     }
 }

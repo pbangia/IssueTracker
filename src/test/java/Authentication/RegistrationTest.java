@@ -88,7 +88,7 @@ public class RegistrationTest {
     public void shouldThrowInvalidUsernameExceptionIfUserNameIsInvalid() {
         User u = mock(User.class);
         when(u.getUsername()).thenReturn("testUsername");
-        when(u.getPassword()).thenReturn("1234567");
+        when(u.getPassword()).thenReturn("testPassword");
         when(u.getRole()).thenReturn(ADMIN);
         when(u.getUsername()).thenReturn("Sam@#$");
 
@@ -159,8 +159,8 @@ public class RegistrationTest {
     public void testRealDatabase(){
 
         try {
-            RegistrationService r = new RegistrationService();
-            r.register("realUsername","realPassword", "ADMIN");
+            RegistrationService r = new IssueTracker().getRegistrationService();
+            r.register("realUsername1","realPassword", "ADMIN");
             User u = r.getDataStore().find(User.class).field("_id").equal("realUsername").get();
             System.out.println(u.getUsername());
         }catch (UserRegistrationException e){

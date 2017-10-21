@@ -30,6 +30,7 @@ public class LoginService {
 
 	private MongoClient connection;
 	private Datastore ds;
+	private User currentUser;
 
 	public LoginService() throws UnknownHostException {
 		// connect to mongodb
@@ -50,6 +51,7 @@ public class LoginService {
 
     	user.setStatus(LOGIN);
 		ds.save(user);
+		currentUser = user;
 		return true;
     }
 	
@@ -58,6 +60,7 @@ public class LoginService {
 		if (LOGIN.equals(user.getStatus())) {
 			user.setStatus(LOGOUT);
 			ds.save(user);
+			currentUser = null;
 			return true;
 		}
 		return false;
@@ -76,5 +79,9 @@ public class LoginService {
 
 	public User findUser(String username) {
 		return ds.find(User.class).field("_id").equal(username).get();
+	}
+
+	public User getCurrentUser() {
+		return currentUser;
 	}
 }

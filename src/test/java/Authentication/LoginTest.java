@@ -9,6 +9,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 import app.IssueTracker;
+import exceptions.InvalidAuthStateException;
 import models.User;
 import org.junit.Before;
 import org.junit.Rule;
@@ -68,6 +69,7 @@ public class LoginTest {
         assertTrue(auth.login("testUsername", "testPassword"));
         verify(u).setStatus(LOGIN);
         verify(ds).save(u);
+        assertEquals(auth.getCurrentUser(), u);
     }
     
     @Test
@@ -106,6 +108,16 @@ public class LoginTest {
         assertTrue(auth.logout("testUsername"));
         verify(u).setStatus(LOGOUT);
         verify(ds).save(u);
+        assertTrue(auth.getCurrentUser()==null);
 
+    }
+
+    @Test
+    public void shouldThrowAccessDeniedExceptionWhenAccessingIssuesIfNotLoggedIn(){
+        when(auth.getCurrentUser()).thenReturn(null);
+
+        exception.expect(InvalidAuthStateException.class);
+        exception.expectMessage("No user currently logged in");
+        issueTracker.getForumService();
     }
 }
