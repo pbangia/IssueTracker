@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
@@ -36,9 +37,7 @@ import models.UserStatus;
 
 public class AssignmentTest {
 	private User u;
-    private LoginService auth;
-    private DBCollection dbCollection;
-    private ForumService forum;
+    private AssignService assign;
 
     Set<Integer> postIDs = new HashSet<>();
     IssueTracker issueTracker;
@@ -56,7 +55,7 @@ public class AssignmentTest {
         when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
         issueTracker = new IssueTracker(connection, morphia);
-        forum = spy(issueTracker.getForumService());
+        assign = Mockito.spy(issueTracker.getAssignService());
         
         u = spy(new User());
         when(u.getRole()).thenReturn(UserRole.ADMIN);
@@ -74,7 +73,7 @@ public class AssignmentTest {
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
     	
-    	assertTrue(u.assignIssue(c, developer));
+    	assertTrue(assign.assignIssue(u, c, developer));
     	List<String> assignees = new ArrayList<String>(c.getAssigneeIDs());
     	assertEquals(assignees.get(0), "developer1");
     	verify(ds).save(c);
@@ -91,7 +90,7 @@ public class AssignmentTest {
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.IN_PROGRESS);
     	
-    	assertTrue(u.assignIssue(c, developer));
+    	assertTrue(assign.assignIssue(u, c, developer));
     	List<String> assignees = new ArrayList<String>(c.getAssigneeIDs());
     	assertEquals(assignees.get(0), "developer1");
     	verify(ds).save(c);
@@ -108,7 +107,7 @@ public class AssignmentTest {
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.CLOSED);
     	
-    	u.assignIssue(c, developer);
+    	assign.assignIssue(u, c, developer);
     	   	
     	exception.expect(IssueAlreadyClosedException.class);
         exception.expectMessage("The issue has already been closed");
@@ -125,7 +124,7 @@ public class AssignmentTest {
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
     	
-    	u.assignIssue(c, developer);
+    	assign.assignIssue(u, c, developer);
     	   	
     	exception.expect(PermissionDeniedException.class);
         exception.expectMessage("You do not have the permission to perform this operation");
@@ -143,7 +142,7 @@ public class AssignmentTest {
     	when(c.getStatus()).thenReturn(IssueStatus.IN_PROGRESS);
     	when(c.getAssigneeIDs()).thenReturn(new HashSet<String>(Arrays.asList(developer.getUsername())));
     	
-    	u.assignIssue(c, developer);
+    	assign.assignIssue(u, c, developer);
     	   	
     	exception.expect(DeveloperAlreadyAssignedException.class);
         exception.expectMessage("The developer has already been assigned to the issue");
@@ -160,7 +159,7 @@ public class AssignmentTest {
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
     	
-    	u.assignIssue(c, admin);
+    	assign.assignIssue(u, c, admin);
     	   	
     	exception.expect(AdminCannotBeenAssignedException.class);
         exception.expectMessage("An administrator cannot been assigned to an issue");
