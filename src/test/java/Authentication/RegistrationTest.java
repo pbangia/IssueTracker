@@ -129,8 +129,8 @@ public class RegistrationTest {
     public void testRealDatabase(){
 
         try {
-            RegistrationService r = new RegistrationService();
-            r.register("realUsername","realPassword", "ADMIN");
+            RegistrationService r = new IssueTracker().getRegistrationService();
+            r.register("realUsername1","realPassword", "ADMIN");
             User u = r.getDataStore().find(User.class).field("_id").equal("realUsername").get();
             System.out.println(u.getUsername());
         }catch (UserRegistrationException e){

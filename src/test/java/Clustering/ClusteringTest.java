@@ -4,8 +4,10 @@ import Authentication.LoginService;
 import app.IssueTracker;
 import com.mongodb.*;
 import exceptions.InvalidAuthStateException;
+import exceptions.UserRegistrationException;
 import models.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,7 +25,6 @@ import static models.UserRole.DEVELOPER;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -216,5 +217,25 @@ public class ClusteringTest {
         when(f.getQuestionID()).thenReturn(0);
 
         forum.addForumPostToCluster(f, 0);
+    }
+
+    @Ignore
+    @Test
+    public void testRealDatabaseWithClusterPersistence(){
+
+        try {
+            IssueTracker i = new IssueTracker();
+            //RegistrationService r = i.getRegistrationService();
+            LoginService l = i.getLoginService();
+            //r.register("user1","password","ADMIN");
+            l.login("user1","password");
+            i.getForumService().getRelatedIssues();
+            i.getForumService().saveClusters();
+            i.getForumService().saveForumPosts();
+        }catch (UserRegistrationException e){
+            System.out.println("User is already registered in real db");
+        }catch (UnknownHostException e){
+            e.printStackTrace();
+        }
     }
 }

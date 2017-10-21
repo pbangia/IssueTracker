@@ -108,7 +108,7 @@ public class ForumService {
     }
 
     public void saveClusters() {
-        ds.save(clusters);
+        for (Cluster c: clusters.values()) ds.save(c);
     }
 
     public void saveForumPosts() {
