@@ -17,6 +17,7 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 import java.net.UnknownHostException;
+import java.util.regex.Pattern;
 
 /**
  * Created by priyankitbangia on 15/10/17.
@@ -56,8 +57,9 @@ public class RegistrationService {
         if (username == "") {
             throw new EmptyUsernameException("User name can not be Empty");
         }
-        
-        if (username == "Sam@#$") {
+
+        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+        if (p.matcher(username).find()) {
             throw new InvalidUsernameException("Invalid Username");
         }
 

@@ -73,7 +73,10 @@ public class RegistrationTest {
      
     @Test
     public void shouldThrowUsernameCannotBeEmptyExceptionIfUserNameIsEmpty() {
+        User u = mock(User.class);
         when(u.getUsername()).thenReturn("");
+        when(u.getPassword()).thenReturn(TEST_PASSWORD);
+        when(u.getRole()).thenReturn(ADMIN);
 
         exception.expect(EmptyUsernameException.class);
         exception.expectMessage("User name can not be Empty");
@@ -83,6 +86,10 @@ public class RegistrationTest {
     
     @Test
     public void shouldThrowInvalidUsernameExceptionIfUserNameIsInvalid() {
+        User u = mock(User.class);
+        when(u.getUsername()).thenReturn("testUsername");
+        when(u.getPassword()).thenReturn("1234567");
+        when(u.getRole()).thenReturn(ADMIN);
         when(u.getUsername()).thenReturn("Sam@#$");
 
         exception.expect(InvalidUsernameException.class);
