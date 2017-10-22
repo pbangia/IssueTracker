@@ -63,6 +63,11 @@ public class AssignmentService {
 		}
 	}
 	
+    public boolean unassignIssue(User currentUser, int clusterID, String assigneeID) {
+		
+		return true;
+	}
+	
 	public User findUser(String username) {
 		return ds.find(User.class).field("_id").equal(username).get();
 	}

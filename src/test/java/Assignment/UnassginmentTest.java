@@ -24,6 +24,7 @@ import org.mongodb.morphia.Morphia;
 import com.mongodb.MongoClient;
 
 import app.IssueTracker;
+import exceptions.DeveloperNotAssignedException;
 import exceptions.PermissionDeniedException;
 import models.Cluster;
 import models.User;
