@@ -2,6 +2,7 @@ package Clustering;
 
 import app.ForumPostReader;
 import com.mongodb.*;
+import exceptions.AssignmentException;
 import exceptions.InvalidAuthStateException;
 import models.Cluster;
 import models.ForumPost;
@@ -91,9 +92,10 @@ public class ForumService {
         assignments = eval.getClusterAssignments();
         for (int i = 0; i<assignments.length; i++){
             int clusterNum = (int) assignments[i];
-
+            ForumPost post = posts.get(i);
+            post.setClusterID(clusterNum);
             clusters.get(clusterNum).setClusterID(clusterNum);
-            clusters.get(clusterNum).addForumPost(posts.get(i).getQuestionID(), posts.get(i).getAuthor());
+            clusters.get(clusterNum).addForumPost(post.getQuestionID(), post.getAuthor());
 
         }
 
@@ -142,9 +144,8 @@ public class ForumService {
     }
 
     public void addForumPostToCluster(ForumPost forumPost, int i) {
-        if (getAccessPrivilege()!= ADMIN) {
-            throw new InvalidAuthStateException("Only admins have permission to modify clusters");
-        }
+        if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to modify clusters");
+        if (forumPost.getClusterID() != -1) throw new AssignmentException("Forum post is already assigned to a cluster");
         getCluster(i).addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
     }
 

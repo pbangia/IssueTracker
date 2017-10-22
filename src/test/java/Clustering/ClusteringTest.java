@@ -3,6 +3,7 @@ package Clustering;
 import Authentication.LoginService;
 import app.IssueTracker;
 import com.mongodb.*;
+import exceptions.AssignmentException;
 import exceptions.InvalidAuthStateException;
 import exceptions.UserRegistrationException;
 import models.*;
@@ -215,9 +216,24 @@ public class ClusteringTest {
         ForumPost f = mock(ForumPost.class);
         when(f.getAuthor()).thenReturn("author");
         when(f.getQuestionID()).thenReturn(0);
+        when(f.getClusterID()).thenReturn(-1);
 
         forum.addForumPostToCluster(f, 0);
     }
+
+    @Test
+    public void shouldThrowExceptionWhenAdminAddsForumPostOfExistingClusterToAnotherCluster() {
+        ForumPost f = mock(ForumPost.class);
+        when(f.getClusterID()).thenReturn(1);
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        exception.expect(AssignmentException.class);
+        exception.expectMessage("Forum post is already assigned to a cluster");
+
+        forum.addForumPostToCluster(f, 0);
+    }
+
+
 
     @Ignore
     @Test
