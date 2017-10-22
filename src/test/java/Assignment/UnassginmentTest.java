@@ -62,11 +62,13 @@ public class UnassginmentTest {
     	User developer = mock(User.class);
     	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
     	when(developer.getUsername()).thenReturn("developer1");
+    	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an issue
     	Cluster c = spy(new Cluster(0));
     	Set<String> assignees = new HashSet<String>(Arrays.asList("developer1","developer2"));
     	doReturn(assignees).when(c).getAssigneeIDs();
+    	doReturn(c).when(assign).findCluster(0);
   
     	assertTrue(assign.unassignIssue(u,0,"developer1"));  	
     	assertTrue(c.getAssigneeIDs().size() == 1);
@@ -80,11 +82,13 @@ public class UnassginmentTest {
     	User developer = mock(User.class);
     	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
     	when(developer.getUsername()).thenReturn("developer1");
+       	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an issue
     	Cluster c = spy(new Cluster(0));
     	Set<String> assignees = new HashSet<String>(Arrays.asList("developer2"));
     	doReturn(assignees).when(c).getAssigneeIDs();
+    	doReturn(c).when(assign).findCluster(0);
 		
     	exception.expect(DeveloperNotAssignedException.class);
         exception.expectMessage("The developer has not been assigned to the issue");
@@ -99,17 +103,19 @@ public class UnassginmentTest {
     	User developer = mock(User.class);
     	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
     	when(developer.getUsername()).thenReturn("developer2");
+       	doReturn(developer).when(assign).findUser("developer2");
 		
     	//mock an issue
     	Cluster c = spy(new Cluster(0));
-    	Set<String> assignees = new HashSet<String>(Arrays.asList("developer3"));
+    	Set<String> assignees = new HashSet<String>(Arrays.asList("developer2"));
     	doReturn(assignees).when(c).getAssigneeIDs();
+    	doReturn(c).when(assign).findCluster(0);
 		
 		when(u.getRole()).thenReturn(UserRole.DEVELOPER);
 		
 		exception.expect(PermissionDeniedException.class);
         exception.expectMessage("You do not have the permission to perform this operation");
 		
-		assign.unassignIssue(u,0,"developer3");
+		assign.unassignIssue(u,0,"developer2");
 	}
 }

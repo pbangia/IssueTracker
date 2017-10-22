@@ -10,6 +10,7 @@ import com.mongodb.MongoClient;
 
 import exceptions.AdminCannotBeenAssignedException;
 import exceptions.DeveloperAlreadyAssignedException;
+import exceptions.DeveloperNotAssignedException;
 import exceptions.IssueAlreadyClosedException;
 import exceptions.PermissionDeniedException;
 import exceptions.UsernameNotExistException;
@@ -64,7 +65,23 @@ public class AssignmentService {
 	}
 	
     public boolean unassignIssue(User currentUser, int clusterID, String assigneeID) {
+		Cluster cluster = findCluster(clusterID);
 		
+		if (!UserStatus.LOGIN.equals(currentUser.getStatus())) {
+			return false;
+		}
+		
+		if (!UserRole.ADMIN.equals(currentUser.getRole())) {
+			throw new PermissionDeniedException("You do not have the permission to perform this operation");
+		}
+		
+		Set<String> assignees = cluster.getAssigneeIDs();
+		if (!assignees.contains(assigneeID)){
+			throw new DeveloperNotAssignedException("The developer has not been assigned to the issue");
+		}
+		
+		assignees.remove(assigneeID);
+		ds.save(cluster);
 		return true;
 	}
 	
