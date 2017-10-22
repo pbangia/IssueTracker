@@ -35,8 +35,8 @@ public class ForumService {
     private MongoClient connection;
     private Datastore ds;
     private UserRole accessPrivilege;
-    private String POST_FILE_NAME = "data/testForumPosts.arff";
-    private String SENTENCE_FILE_NAME = "data/testForumSentences.arff";
+    private String POST_FILE_NAME = "data/testforumPosts.arff";
+    private String SENTENCE_FILE_NAME = "data/testforumSentences.arff";
     //private DB db;
     //private DBCollection dbCollection;
 
