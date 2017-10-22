@@ -65,22 +65,6 @@ public class ClusteringTest {
 
     }
 
-    public ArrayList<ForumPost> populatePosts(){
-        ArrayList<ForumPost> posts = new ArrayList<>();
-        posts.add(new ForumPost(44330));
-        posts.add(new ForumPost(44331));
-        posts.add(new ForumPost(44332));
-        posts.add(new ForumPost(44333));
-        posts.add(new ForumPost(44334));
-        posts.add(new ForumPost(44335));
-        posts.add(new ForumPost(44336));
-        posts.add(new ForumPost(44337));
-        posts.add(new ForumPost(44338));
-        posts.add(new ForumPost(44339));
-        posts.add(new ForumPost(44330));
-        return posts;
-    }
-
     @Test
     public void clusterRelatedForumPosts() throws Exception {
 
@@ -196,7 +180,7 @@ public class ClusteringTest {
         when(forum.getAccessPrivilege()).thenReturn(DEVELOPER);
 
         exception.expect(InvalidAuthStateException.class);
-        exception.expectMessage("Only admins have permission to modify clusters");
+        exception.expectMessage("Only admins have permission to add clusters");
 
         Cluster c = spy(new Cluster(0));
         doReturn(c).when(forum).getCluster(0);
@@ -233,6 +217,21 @@ public class ClusteringTest {
         forum.addForumPostToCluster(f, 0);
     }
 
+    @Test
+    public void throwExceptionWhenRemovingPostFromClusterIfNotAdmin(){
+        when(forum.getAccessPrivilege()).thenReturn(DEVELOPER);
+
+        exception.expect(InvalidAuthStateException.class);
+        exception.expectMessage("Only admins have permission to remove clusters");
+
+        Cluster c = spy(new Cluster(0));
+        doReturn(c).when(forum).getCluster(0);
+        ForumPost f = mock(ForumPost.class);
+        when(f.getAuthor()).thenReturn("author");
+        when(f.getQuestionID()).thenReturn(0);
+
+        forum.removeForumPostFromCluster(f, 0);
+    }
 
 
     @Ignore
@@ -259,5 +258,21 @@ public class ClusteringTest {
         }catch (UnknownHostException e){
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<ForumPost> populatePosts(){
+        ArrayList<ForumPost> posts = new ArrayList<>();
+        posts.add(new ForumPost(44330));
+        posts.add(new ForumPost(44331));
+        posts.add(new ForumPost(44332));
+        posts.add(new ForumPost(44333));
+        posts.add(new ForumPost(44334));
+        posts.add(new ForumPost(44335));
+        posts.add(new ForumPost(44336));
+        posts.add(new ForumPost(44337));
+        posts.add(new ForumPost(44338));
+        posts.add(new ForumPost(44339));
+        posts.add(new ForumPost(44330));
+        return posts;
     }
 }
