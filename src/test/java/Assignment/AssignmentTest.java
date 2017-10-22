@@ -71,14 +71,14 @@ public class AssignmentTest {
     	User developer = mock(User.class);
     	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
     	when(developer.getUsername()).thenReturn("developer1");
-    	doReturn(u).when(assign).findUser("developer1");
+    	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an open issue
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
-    	doReturn(c).when(assign).findCluster(1);
+    	doReturn(c).when(assign).findCluster(0);
     	
-    	assertTrue(assign.assignIssue(u, c, developer));
+    	assertTrue(assign.assignIssue(u, 0, "developer1"));
     	List<String> assignees = new ArrayList<String>(c.getAssigneeIDs());
     	assertEquals(assignees.get(0), "developer1");
     	verify(ds).save(c);
@@ -90,14 +90,14 @@ public class AssignmentTest {
     	User developer = mock(User.class);
     	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
     	when(developer.getUsername()).thenReturn("developer1");
-    	doReturn(u).when(assign).findUser("developer1");
+    	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an open issue
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.IN_PROGRESS);
-    	doReturn(c).when(assign).findCluster(1);
+    	doReturn(c).when(assign).findCluster(0);
     	
-    	assertTrue(assign.assignIssue(u, c, developer));
+    	assertTrue(assign.assignIssue(u, 0, "developer1"));
     	List<String> assignees = new ArrayList<String>(c.getAssigneeIDs());
     	assertEquals(assignees.get(0), "developer1");
     	verify(ds).save(c);
@@ -109,17 +109,17 @@ public class AssignmentTest {
     	User developer = mock(User.class);
     	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
     	when(developer.getUsername()).thenReturn("developer1");
-    	doReturn(u).when(assign).findUser("developer1");
+    	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an open issue
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.CLOSED);
-    	doReturn(c).when(assign).findCluster(1);
+    	doReturn(c).when(assign).findCluster(0);
     	
     	exception.expect(IssueAlreadyClosedException.class);
         exception.expectMessage("The issue has already been closed");
     	
-    	assign.assignIssue(u, c, developer);
+        assign.assignIssue(u, 0, "developer1");
     }
     
     @Test
@@ -128,17 +128,17 @@ public class AssignmentTest {
     	
     	//mock a developer
     	User developer = mock(User.class);
-    	doReturn(u).when(assign).findUser("developer1");
+    	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an open issue
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
-    	doReturn(c).when(assign).findCluster(1);
+    	doReturn(c).when(assign).findCluster(0);
     	
     	exception.expect(PermissionDeniedException.class);
         exception.expectMessage("You do not have the permission to perform this operation");
     	
-    	assign.assignIssue(u, c, developer);
+        assign.assignIssue(u, 0, "developer1");
     }
     
     @Test
@@ -147,18 +147,18 @@ public class AssignmentTest {
     	User developer = mock(User.class);
     	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
     	when(developer.getUsername()).thenReturn("developer1");
-    	doReturn(u).when(assign).findUser("developer1");
+    	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an open issue
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.IN_PROGRESS);
     	doReturn(new HashSet<String>(Arrays.asList(developer.getUsername()))).when(c).getAssigneeIDs();
-    	doReturn(c).when(assign).findCluster(1);
+    	doReturn(c).when(assign).findCluster(0);
     		   	
 	    exception.expect(DeveloperAlreadyAssignedException.class);
         exception.expectMessage("The developer has already been assigned to the issue");
     	
-    	assign.assignIssue(u, c, developer);
+    	assign.assignIssue(u, 0, "developer1");
     }
     
     @Test
@@ -167,16 +167,16 @@ public class AssignmentTest {
     	User admin = mock(User.class);
     	when(admin.getRole()).thenReturn(UserRole.ADMIN);
     	when(admin.getUsername()).thenReturn("admin1");
-    	doReturn(u).when(assign).findUser("admin1");
+    	doReturn(admin).when(assign).findUser("admin1");
     	
     	//mock an open issue
     	Cluster c = spy(new Cluster(0));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
-    	doReturn(c).when(assign).findCluster(1);
+    	doReturn(c).when(assign).findCluster(0);
     	
     	exception.expect(AdminCannotBeenAssignedException.class);
         exception.expectMessage("An administrator cannot been assigned to an issue");
     	
-    	assign.assignIssue(u, c, admin);
+    	assign.assignIssue(u, 0, "admin1");
     }
 }

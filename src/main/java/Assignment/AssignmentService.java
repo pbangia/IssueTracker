@@ -33,7 +33,10 @@ public class AssignmentService {
 		ds = dbMapper.createDatastore(connection, "testdb");
 	}
 	
-	public boolean assignIssue(User assigner, Cluster cluster, User assignee) {
+	public boolean assignIssue(User assigner, int clusterID, String assigneeID) {
+		User assignee = findUser(assigneeID);
+		Cluster cluster = findCluster(clusterID);
+		
 		if (!UserStatus.LOGIN.equals(assigner.getStatus())) {
 			return false;
 		}
@@ -58,6 +61,14 @@ public class AssignmentService {
 		} else {
 			throw new DeveloperAlreadyAssignedException("The developer has already been assigned to the issue");
 		}
+	}
+	
+	public User findUser(String username) {
+		return ds.find(User.class).field("_id").equal(username).get();
+	}
+	
+	public Cluster findCluster(int id) {
+		return ds.find(Cluster.class).field("_id").equal(id).get();
 	}
 	
 }
