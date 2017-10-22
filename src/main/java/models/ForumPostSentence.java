@@ -14,7 +14,7 @@ public class ForumPostSentence {
     private String content;
     private int categoryID;
     private int forumPostID;
-    
+
     public ForumPostSentence(){}
 
     public ForumPostSentence(int sentenceID, String content, int categoryID, int forumPostID) {
