@@ -146,7 +146,12 @@ public class ForumService {
     public void addForumPostToCluster(ForumPost forumPost, int i) {
         if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to modify clusters");
         if (forumPost.getClusterID() != -1) throw new AssignmentException("Forum post is already assigned to a cluster");
-        getCluster(i).addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
+        Cluster c = getCluster(i);
+        c.addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
+        forumPost.setClusterID(i);
+
+        ds.save(c);
+        ds.save(forumPost);
     }
 
     public UserRole getAccessPrivilege() {

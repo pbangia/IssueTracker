@@ -248,6 +248,12 @@ public class ClusteringTest {
             i.getForumService().getRelatedIssues();
             i.getForumService().saveClusters();
             i.getForumService().saveForumPosts();
+
+            ForumPost f = new ForumPost(65);
+            f.setAuthor("author");
+            i.getForumService().addForumPostToCluster(f,0);
+
+            
         }catch (UserRegistrationException e){
             System.out.println("User is already registered in real db");
         }catch (UnknownHostException e){
