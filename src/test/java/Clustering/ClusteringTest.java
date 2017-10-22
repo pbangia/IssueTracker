@@ -216,28 +216,24 @@ public class ClusteringTest {
         ForumPost f = mock(ForumPost.class);
         when(f.getAuthor()).thenReturn("author");
         when(f.getQuestionID()).thenReturn(0);
+        when(f.getClusterID()).thenReturn(-1);
 
         forum.addForumPostToCluster(f, 0);
     }
 
     @Test
     public void shouldThrowExceptionWhenAdminAddsForumPostOfExistingClusterToAnotherCluster() {
-        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
-
-        Cluster c0 = spy(new Cluster(0));
-        doReturn(c0).when(forum).getCluster(0);
-        Cluster c1 = spy(new Cluster(1));
-        doReturn(c1).when(forum).getCluster(1);
         ForumPost f = mock(ForumPost.class);
-        when(f.getAuthor()).thenReturn("author");
-        when(f.getQuestionID()).thenReturn(0);
+        when(f.getClusterID()).thenReturn(1);
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
 
         exception.expect(AssignmentException.class);
         exception.expectMessage("Forum post is already assigned to a cluster");
 
         forum.addForumPostToCluster(f, 0);
-        forum.addForumPostToCluster(f, 1);
     }
+
+
 
     @Ignore
     @Test
