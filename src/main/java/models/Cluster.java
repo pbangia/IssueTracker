@@ -18,7 +18,6 @@ public class Cluster implements Serializable {
     @Id
     private int clusterID;
     Set<Integer> postIDs = new HashSet<>();
-//    Set<String> usersAffected = new HashSet<>();
     List<String> usersAffected = new ArrayList<>();
     private int numPosts;
     private String title = "placeholder title";
@@ -35,16 +34,17 @@ public class Cluster implements Serializable {
     public void addForumPost(int postID, String author){
         postIDs.add(postID);
         numPosts=postIDs.size();
+        numUsers = (usersAffected.contains(author)) ? numUsers : numUsers + 1;
         usersAffected.add(author);
-        numUsers = (usersAffected.contains(author)) ? numPosts : numPosts++;
     }
 
     public void removeForumPost(ForumPost forumPost) {
         postIDs.remove(forumPost.getQuestionID());
         numPosts = postIDs.size();
         usersAffected.remove(forumPost.getAuthor());
-        numUsers = (usersAffected.contains(forumPost.getAuthor())) ? numPosts : numPosts--;
+        numUsers = (usersAffected.contains(forumPost.getAuthor())) ? numUsers : numUsers - 1;
 
+        System.out.println(numUsers);
         forumPost.setClusterID(-1);
     }
 
@@ -115,6 +115,22 @@ public class Cluster implements Serializable {
 
     public int getNumPosts() {
         return numPosts;
+    }
+
+    public void setNumPosts(int numPosts) {
+        this.numPosts = numPosts;
+    }
+
+    public void setUsersAffected(ArrayList<String> usersAffected) {
+        this.usersAffected = usersAffected;
+    }
+
+    public void setPostIDs(HashSet<Integer> postIDs) {
+        this.postIDs = postIDs;
+    }
+
+    public List<String> getUsersAffected() {
+        return usersAffected;
     }
 
     public enum IssueStatus { OPEN, CLOSED, IN_PROGRESS };

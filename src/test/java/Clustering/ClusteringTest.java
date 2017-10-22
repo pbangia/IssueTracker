@@ -23,9 +23,7 @@ import java.util.*;
 
 import static models.UserRole.ADMIN;
 import static models.UserRole.DEVELOPER;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -195,14 +193,20 @@ public class ClusteringTest {
     public void userIsAbleToAddPostsToClusterIfAdmin(){
         when(forum.getAccessPrivilege()).thenReturn(ADMIN);
 
-        Cluster c = spy(new Cluster(0));
-        doReturn(c).when(forum).getCluster(0);
+        Cluster c = spy(new Cluster(1000));
+        doReturn(c).when(forum).getCluster(1000);
         ForumPost f = mock(ForumPost.class);
         when(f.getAuthor()).thenReturn("author");
-        when(f.getQuestionID()).thenReturn(0);
+        when(f.getQuestionID()).thenReturn(90);
         when(f.getClusterID()).thenReturn(-1);
+        doReturn(c).when(forum).getCluster(90);
 
-        forum.addForumPostToCluster(f, 0);
+        forum.addForumPostToCluster(f, 1000);
+        verify(c).addForumPost(f.getQuestionID(), f.getAuthor());
+        assertTrue(c.getPostIDs().contains(f.getQuestionID()));
+        assertTrue(c.getUsersAffected().contains(f.getAuthor()));
+        assertEquals(1, c.getNumPosts());
+        assertEquals(1, c.getNumUsers());
     }
 
     @Test
@@ -233,6 +237,31 @@ public class ClusteringTest {
         forum.removeForumPostFromCluster(f, 0);
     }
 
+    @Test
+    public void userIsAbleToRemovePostFromClusterIfAdmin(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        Cluster c = spy(new Cluster(1000));
+        doReturn(c).when(forum).getCluster(1000);
+        ForumPost f = mock(ForumPost.class);
+        when(f.getAuthor()).thenReturn("author");
+        when(f.getQuestionID()).thenReturn(90);
+        when(f.getClusterID()).thenReturn(1000);
+        c.setNumUsers(2);
+        c.setNumPosts(2);
+
+        c.setUsersAffected(new ArrayList<>(Arrays.asList(f.getAuthor(), "author2")));
+        c.setPostIDs(new HashSet<>(Arrays.asList(f.getQuestionID(),91)));
+        doReturn(c).when(forum).getCluster(90);
+
+        forum.removeForumPostFromCluster(f, 1000);
+
+        verify(c).removeForumPost(f);
+        assertFalse(c.getPostIDs().contains(f.getQuestionID()));
+        assertFalse(c.getUsersAffected().contains(f.getAuthor()));
+        assertEquals(1, c.getNumPosts());
+        assertEquals(1, c.getNumUsers());
+    }
 
     @Ignore
     @Test
