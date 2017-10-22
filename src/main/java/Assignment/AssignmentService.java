@@ -12,6 +12,7 @@ import exceptions.AdminCannotBeenAssignedException;
 import exceptions.DeveloperAlreadyAssignedException;
 import exceptions.IssueAlreadyClosedException;
 import exceptions.PermissionDeniedException;
+import exceptions.UsernameNotExistException;
 import models.Cluster;
 import models.Cluster.IssueStatus;
 import models.User;
