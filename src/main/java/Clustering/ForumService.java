@@ -155,7 +155,12 @@ public class ForumService {
     }
 
     public void removeForumPostFromCluster(ForumPost forumPost, int clusterId) {
+        if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to remove clusters");
+        Cluster cluster = clusters.get(clusterId);
+        cluster.removeForumPost(forumPost);
 
+        ds.save(forumPost);
+        ds.save(cluster);
     }
 
     public UserRole getAccessPrivilege() {
