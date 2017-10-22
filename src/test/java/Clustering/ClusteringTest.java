@@ -134,7 +134,7 @@ public class ClusteringTest {
         titles.add("Delivery Address on Invoice");
         titles.add("Getting zero dollar value categories included in Profit and Loss Report");
         titles.add("Link Manual Journal Entry Transactions to an Invoice or Bill");
-        titles.add("Delete ALL postData and start again?");
+        titles.add("Delete ALL data and start again?");
         titles.add("Hi there,I am unable to login with my login credentials today.Can I know what could be the reason?");
         titles.add("Invoice");
         titles.add("Private authentication problem");

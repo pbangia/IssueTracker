@@ -35,8 +35,8 @@ public class ForumService {
     private MongoClient connection;
     private Datastore ds;
     private UserRole accessPrivilege;
-    private String POST_FILE_NAME = "postData/testForumPosts.arff";
-    private String SENTENCE_FILE_NAME = "postData/testForumSentences.arff";
+    private String POST_FILE_NAME = "data/testForumPosts.arff";
+    private String SENTENCE_FILE_NAME = "data/testForumSentences.arff";
     //private DB db;
     //private DBCollection dbCollection;
 
@@ -46,7 +46,7 @@ public class ForumService {
 
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
         postData = new ForumPostReader().loadData(POST_FILE_NAME);
-        sentenceData = new ForumPostReader().loadData(SENTENCE_FILE_NAME);
+        //sentenceData = new ForumPostReader().loadData(SENTENCE_FILE_NAME);
         posts = getAllPosts();
 
         connection = newConnection;
