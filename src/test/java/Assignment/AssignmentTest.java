@@ -60,7 +60,7 @@ public class AssignmentTest {
         issueTracker = new IssueTracker(connection, morphia);
         assign = Mockito.spy(issueTracker.getAssignmentService());
         
-        u = spy(new User());
+        u = mock(User.class);
         when(u.getRole()).thenReturn(UserRole.ADMIN);
         when(u.getStatus()).thenReturn(UserStatus.LOGIN);
     }
