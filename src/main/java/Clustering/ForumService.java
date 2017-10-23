@@ -68,15 +68,6 @@ public class ForumService {
         return posts;
     }
 
-//    public Instances loadIssueList(String filename) {
-//        Instances instances = null;
-//        try {
-//            instances =  new Instances(new BufferedReader(new FileReader(filename)));
-//        } catch (IOException e) { e.printStackTrace(); }
-//
-//        return instances;
-//    }
-
     public Map<Integer, Cluster> getRelatedIssues(){
 
         //run cluster algorithm
@@ -154,9 +145,9 @@ public class ForumService {
         ds.save(forumPost);
     }
 
-    public void removeForumPostFromCluster(ForumPost forumPost, int clusterId) {
+    public void removeForumPostFromCluster(ForumPost forumPost) {
         if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to remove clusters");
-        Cluster cluster = getCluster(clusterId);
+        Cluster cluster = getCluster(forumPost.getClusterID());
         cluster.removeForumPost(forumPost);
 
         ds.save(forumPost);

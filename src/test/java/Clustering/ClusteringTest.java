@@ -228,13 +228,14 @@ public class ClusteringTest {
         exception.expect(InvalidAuthStateException.class);
         exception.expectMessage("Only admins have permission to remove clusters");
 
-        Cluster c = spy(new Cluster(0));
-        doReturn(c).when(forum).getCluster(0);
+        Cluster c = spy(new Cluster(1000));
+        doReturn(c).when(forum).getCluster(1000);
         ForumPost f = mock(ForumPost.class);
         when(f.getAuthor()).thenReturn("author");
-        when(f.getQuestionID()).thenReturn(0);
+        when(f.getQuestionID()).thenReturn(90);
+        when(f.getClusterID()).thenReturn(1000);
 
-        forum.removeForumPostFromCluster(f, 0);
+        forum.removeForumPostFromCluster(f);
     }
 
     @Test
@@ -254,7 +255,7 @@ public class ClusteringTest {
         c.setPostIDs(new HashSet<>(Arrays.asList(f.getQuestionID(),91)));
         doReturn(c).when(forum).getCluster(90);
 
-        forum.removeForumPostFromCluster(f, 1000);
+        forum.removeForumPostFromCluster(f);
 
         verify(c).removeForumPost(f);
         assertFalse(c.getPostIDs().contains(f.getQuestionID()));
