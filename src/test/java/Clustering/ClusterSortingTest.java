@@ -72,6 +72,10 @@ public class ClusterSortingTest {
         when(c2.getNumAffectedUsers()).thenReturn(2);
         when(c3.getNumAffectedUsers()).thenReturn(3);
 
+        when(c1.getTitle()).thenReturn("aaa");
+        when(c2.getTitle()).thenReturn("bbb");
+        when(c3.getTitle()).thenReturn("ccc");
+
         testClusterList = new ArrayList<>(Arrays.asList(c1, c2, c3));
         doReturn(testClusterList).when(forum).getClustersAsList();
 
@@ -107,6 +111,24 @@ public class ClusterSortingTest {
     @Test
     public void shouldSortIssuesInAscendingOrderBasedOnNumberOfAffectedUsers(){
         List<Cluster> sortedClusters = forum.getSortedClusters(ClusterSortBy.NUM_AFFECTED_USERS, true);
+
+        assertEquals(sortedClusters.get(0), c1);
+        assertEquals(sortedClusters.get(1), c2);
+        assertEquals(sortedClusters.get(2), c3);
+    }
+
+    @Test
+    public void shouldSortIssuesInDescendingOrderBasedOnTitle(){
+        List<Cluster> sortedClusters = forum.getSortedClusters(ClusterSortBy.TITLE, false);
+
+        assertEquals(sortedClusters.get(0), c3);
+        assertEquals(sortedClusters.get(1), c2);
+        assertEquals(sortedClusters.get(2), c1);
+    }
+
+    @Test
+    public void shouldSortIssuesInAscendingOrderBasedOnTitle(){
+        List<Cluster> sortedClusters = forum.getSortedClusters(ClusterSortBy.TITLE, true);
 
         assertEquals(sortedClusters.get(0), c1);
         assertEquals(sortedClusters.get(1), c2);
