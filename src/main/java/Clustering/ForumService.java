@@ -147,6 +147,7 @@ public class ForumService {
 
     public void removeForumPostFromCluster(ForumPost forumPost) {
         if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to remove clusters");
+        if (forumPost.getClusterID() == -1) throw new AssignmentException("Forum post not assigned to a cluster");
         Cluster cluster = getCluster(forumPost.getClusterID());
         cluster.removeForumPost(forumPost);
 

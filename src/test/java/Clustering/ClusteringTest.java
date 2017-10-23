@@ -269,7 +269,7 @@ public class ClusteringTest {
         when(forum.getAccessPrivilege()).thenReturn(ADMIN);
 
         exception.expect(AssignmentException.class);
-        exception.expectMessage("Forum post not assigned to any cluster");
+        exception.expectMessage("Forum post not assigned to a cluster");
 
         ForumPost f = mock(ForumPost.class);
         when(f.getAuthor()).thenReturn("author");
