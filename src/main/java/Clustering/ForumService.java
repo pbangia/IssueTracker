@@ -1,6 +1,8 @@
 package Clustering;
 
+import app.ForumPostReader;
 import com.mongodb.*;
+import exceptions.AssignmentException;
 import exceptions.InvalidAuthStateException;
 import models.Cluster;
 import models.ForumPost;
@@ -10,14 +12,9 @@ import org.mongodb.morphia.Morphia;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.DBSCAN;
 import weka.core.Instances;
-import weka.core.converters.ArffLoader;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
 
@@ -28,7 +25,8 @@ import static models.UserRole.ADMIN;
  * Created by priyankitbangia on 18/10/17.
  */
 public class ForumService {
-    Instances data;
+    private Instances sentenceData;
+    Instances postData;
     ArrayList<ForumPost> posts = new ArrayList<>();
     public ClusterEvaluation eval;
     double[] assignments;
@@ -37,7 +35,8 @@ public class ForumService {
     private MongoClient connection;
     private Datastore ds;
     private UserRole accessPrivilege;
-    private String FILE_NAME = "data/sample.arff";
+    private String POST_FILE_NAME = "data/testforumPosts.arff";
+    private String SENTENCE_FILE_NAME = "data/testforumSentences.arff";
     //private DB db;
     //private DBCollection dbCollection;
 
@@ -46,7 +45,8 @@ public class ForumService {
     }
 
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
-        data = loadIssueList(FILE_NAME);
+        postData = new ForumPostReader().loadData(POST_FILE_NAME);
+        //sentenceData = new ForumPostReader().loadData(SENTENCE_FILE_NAME);
         posts = getAllPosts();
 
         connection = newConnection;
@@ -61,20 +61,11 @@ public class ForumService {
 
     public ArrayList<ForumPost> getAllPosts(){
         ArrayList<ForumPost> posts = new ArrayList<>();
-        for (int i=0; i<data.numInstances();i++){
-            ForumPost post = new ForumPost(data.instance(i));
+        for (int i = 0; i< postData.numInstances(); i++){
+            ForumPost post = new ForumPost(postData.instance(i));
             posts.add(post);
         }
         return posts;
-    }
-
-    public Instances loadIssueList(String filename) {
-        Instances instances = null;
-        try {
-            instances =  new Instances(new BufferedReader(new FileReader(filename)));
-        } catch (IOException e) { e.printStackTrace(); }
-
-        return instances;
     }
 
     public Map<Integer, Cluster> getRelatedIssues(){
@@ -92,9 +83,10 @@ public class ForumService {
         assignments = eval.getClusterAssignments();
         for (int i = 0; i<assignments.length; i++){
             int clusterNum = (int) assignments[i];
-
+            ForumPost post = posts.get(i);
+            post.setClusterID(clusterNum);
             clusters.get(clusterNum).setClusterID(clusterNum);
-            clusters.get(clusterNum).addForumPost(posts.get(i).getQuestionID(), posts.get(i).getAuthor());
+            clusters.get(clusterNum).addForumPost(post.getQuestionID(), post.getAuthor());
 
         }
 
@@ -120,15 +112,15 @@ public class ForumService {
     public void clusterPosts() {
         try {
             StringToWordVector s = new StringToWordVector();
-            s.setInputFormat(data);
-            data = Filter.useFilter(data, s);
+            s.setInputFormat(postData);
+            postData = Filter.useFilter(postData, s);
             DBSCAN dbscan = getDBSCAN();
             dbscan.setEpsilon(1);
             dbscan.setMinPoints(1);
-            dbscan.buildClusterer(data);
+            dbscan.buildClusterer(postData);
             eval = getEval();
             eval.setClusterer(dbscan);
-            eval.evaluateClusterer(data);
+            eval.evaluateClusterer(postData);
             System.out.println(eval.clusterResultsToString());
 
         } catch (Exception e) { e.printStackTrace(); }
@@ -143,10 +135,24 @@ public class ForumService {
     }
 
     public void addForumPostToCluster(ForumPost forumPost, int i) {
-        if (getAccessPrivilege()!= ADMIN) {
-            throw new InvalidAuthStateException("Only admins have permission to modify clusters");
-        }
-        getCluster(i).addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
+        if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to add clusters");
+        if (forumPost.getClusterID() != -1) throw new AssignmentException("Forum post is already assigned to a cluster");
+        Cluster c = getCluster(i);
+        c.addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
+        forumPost.setClusterID(i);
+
+        ds.save(c);
+        ds.save(forumPost);
+    }
+
+    public void removeForumPostFromCluster(ForumPost forumPost) {
+        if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to remove clusters");
+        if (forumPost.getClusterID() == -1) throw new AssignmentException("Forum post not assigned to a cluster");
+        Cluster cluster = getCluster(forumPost.getClusterID());
+        cluster.removeForumPost(forumPost);
+
+        ds.save(forumPost);
+        ds.save(cluster);
     }
 
     public UserRole getAccessPrivilege() {

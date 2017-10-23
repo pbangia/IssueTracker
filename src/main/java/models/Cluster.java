@@ -4,7 +4,9 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,7 +18,7 @@ public class Cluster implements Serializable {
     @Id
     private int clusterID;
     Set<Integer> postIDs = new HashSet<>();
-    Set<String> usersAffected = new HashSet<>();
+    List<String> usersAffected = new ArrayList<>();
     private int numPosts;
     private String title = "placeholder title";
     private String summary = "placeholder summary";
@@ -32,9 +34,18 @@ public class Cluster implements Serializable {
     public void addForumPost(int postID, String author){
         postIDs.add(postID);
         numPosts=postIDs.size();
+        numUsers = (usersAffected.contains(author)) ? numUsers : numUsers + 1;
         usersAffected.add(author);
-        numUsers=usersAffected.size();
+    }
 
+    public void removeForumPost(ForumPost forumPost) {
+        postIDs.remove(forumPost.getQuestionID());
+        numPosts = postIDs.size();
+        usersAffected.remove(forumPost.getAuthor());
+        numUsers = (usersAffected.contains(forumPost.getAuthor())) ? numUsers : numUsers - 1;
+
+        System.out.println(numUsers);
+        forumPost.setClusterID(-1);
     }
 
     public void setClusterID(int id) {
@@ -104,6 +115,22 @@ public class Cluster implements Serializable {
 
     public int getNumPosts() {
         return numPosts;
+    }
+
+    public void setNumPosts(int numPosts) {
+        this.numPosts = numPosts;
+    }
+
+    public void setUsersAffected(ArrayList<String> usersAffected) {
+        this.usersAffected = usersAffected;
+    }
+
+    public void setPostIDs(HashSet<Integer> postIDs) {
+        this.postIDs = postIDs;
+    }
+
+    public List<String> getUsersAffected() {
+        return usersAffected;
     }
 
     public enum IssueStatus { OPEN, CLOSED, IN_PROGRESS };

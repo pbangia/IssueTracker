@@ -3,6 +3,7 @@ package Clustering;
 import Authentication.LoginService;
 import app.IssueTracker;
 import com.mongodb.*;
+import exceptions.AssignmentException;
 import exceptions.InvalidAuthStateException;
 import exceptions.UserRegistrationException;
 import models.*;
@@ -22,9 +23,7 @@ import java.util.*;
 
 import static models.UserRole.ADMIN;
 import static models.UserRole.DEVELOPER;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -62,22 +61,6 @@ public class ClusteringTest {
         issueTracker.setLoginService(auth);
         forum = spy(issueTracker.getForumService());
 
-    }
-
-    public ArrayList<ForumPost> populatePosts(){
-        ArrayList<ForumPost> posts = new ArrayList<>();
-        posts.add(new ForumPost(44330));
-        posts.add(new ForumPost(44331));
-        posts.add(new ForumPost(44332));
-        posts.add(new ForumPost(44333));
-        posts.add(new ForumPost(44334));
-        posts.add(new ForumPost(44335));
-        posts.add(new ForumPost(44336));
-        posts.add(new ForumPost(44337));
-        posts.add(new ForumPost(44338));
-        posts.add(new ForumPost(44339));
-        posts.add(new ForumPost(44330));
-        return posts;
     }
 
     @Test
@@ -195,7 +178,7 @@ public class ClusteringTest {
         when(forum.getAccessPrivilege()).thenReturn(DEVELOPER);
 
         exception.expect(InvalidAuthStateException.class);
-        exception.expectMessage("Only admins have permission to modify clusters");
+        exception.expectMessage("Only admins have permission to add clusters");
 
         Cluster c = spy(new Cluster(0));
         doReturn(c).when(forum).getCluster(0);
@@ -210,13 +193,90 @@ public class ClusteringTest {
     public void userIsAbleToAddPostsToClusterIfAdmin(){
         when(forum.getAccessPrivilege()).thenReturn(ADMIN);
 
-        Cluster c = spy(new Cluster(0));
-        doReturn(c).when(forum).getCluster(0);
+        Cluster c = spy(new Cluster(1000));
+        doReturn(c).when(forum).getCluster(1000);
         ForumPost f = mock(ForumPost.class);
         when(f.getAuthor()).thenReturn("author");
-        when(f.getQuestionID()).thenReturn(0);
+        when(f.getQuestionID()).thenReturn(90);
+        when(f.getClusterID()).thenReturn(-1);
+        doReturn(c).when(forum).getCluster(90);
+
+        forum.addForumPostToCluster(f, 1000);
+        verify(c).addForumPost(f.getQuestionID(), f.getAuthor());
+        assertTrue(c.getPostIDs().contains(f.getQuestionID()));
+        assertTrue(c.getUsersAffected().contains(f.getAuthor()));
+        assertEquals(1, c.getNumPosts());
+        assertEquals(1, c.getNumUsers());
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenAdminAddsForumPostOfExistingClusterToAnotherCluster() {
+        ForumPost f = mock(ForumPost.class);
+        when(f.getClusterID()).thenReturn(1);
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        exception.expect(AssignmentException.class);
+        exception.expectMessage("Forum post is already assigned to a cluster");
 
         forum.addForumPostToCluster(f, 0);
+    }
+
+    @Test
+    public void throwExceptionWhenRemovingPostFromClusterIfNotAdmin(){
+        when(forum.getAccessPrivilege()).thenReturn(DEVELOPER);
+
+        exception.expect(InvalidAuthStateException.class);
+        exception.expectMessage("Only admins have permission to remove clusters");
+
+        Cluster c = spy(new Cluster(1000));
+        doReturn(c).when(forum).getCluster(1000);
+        ForumPost f = mock(ForumPost.class);
+        when(f.getAuthor()).thenReturn("author");
+        when(f.getQuestionID()).thenReturn(90);
+        when(f.getClusterID()).thenReturn(1000);
+
+        forum.removeForumPostFromCluster(f);
+    }
+
+    @Test
+    public void userIsAbleToRemovePostFromClusterIfAdmin(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        Cluster c = spy(new Cluster(1000));
+        doReturn(c).when(forum).getCluster(1000);
+        ForumPost f = mock(ForumPost.class);
+        when(f.getAuthor()).thenReturn("author");
+        when(f.getQuestionID()).thenReturn(90);
+        when(f.getClusterID()).thenReturn(1000);
+        c.setNumUsers(2);
+        c.setNumPosts(2);
+
+        c.setUsersAffected(new ArrayList<>(Arrays.asList(f.getAuthor(), "author2")));
+        c.setPostIDs(new HashSet<>(Arrays.asList(f.getQuestionID(),91)));
+        doReturn(c).when(forum).getCluster(90);
+
+        forum.removeForumPostFromCluster(f);
+
+        verify(c).removeForumPost(f);
+        assertFalse(c.getPostIDs().contains(f.getQuestionID()));
+        assertFalse(c.getUsersAffected().contains(f.getAuthor()));
+        assertEquals(1, c.getNumPosts());
+        assertEquals(1, c.getNumUsers());
+    }
+
+    @Test
+    public void throwExceptionWhenRemovingPostNotAssignedToCluster(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        exception.expect(AssignmentException.class);
+        exception.expectMessage("Forum post not assigned to a cluster");
+
+        ForumPost f = mock(ForumPost.class);
+        when(f.getAuthor()).thenReturn("author");
+        when(f.getQuestionID()).thenReturn(90);
+        when(f.getClusterID()).thenReturn(-1);
+
+        forum.removeForumPostFromCluster(f);
     }
 
     @Ignore
@@ -232,10 +292,32 @@ public class ClusteringTest {
             i.getForumService().getRelatedIssues();
             i.getForumService().saveClusters();
             i.getForumService().saveForumPosts();
+
+            ForumPost f = new ForumPost(65);
+            f.setAuthor("author");
+            i.getForumService().addForumPostToCluster(f,0);
+
+            
         }catch (UserRegistrationException e){
             System.out.println("User is already registered in real db");
         }catch (UnknownHostException e){
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<ForumPost> populatePosts(){
+        ArrayList<ForumPost> posts = new ArrayList<>();
+        posts.add(new ForumPost(44330));
+        posts.add(new ForumPost(44331));
+        posts.add(new ForumPost(44332));
+        posts.add(new ForumPost(44333));
+        posts.add(new ForumPost(44334));
+        posts.add(new ForumPost(44335));
+        posts.add(new ForumPost(44336));
+        posts.add(new ForumPost(44337));
+        posts.add(new ForumPost(44338));
+        posts.add(new ForumPost(44339));
+        posts.add(new ForumPost(44330));
+        return posts;
     }
 }

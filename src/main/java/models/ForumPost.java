@@ -19,12 +19,11 @@ public class ForumPost {
 
     private String title;
     private String date;
-    private String author;
+    private String author = "";
     private int detailsID;
     private String content;
     private String url;
-
-    private int clusterID;
+    private int clusterID = -1;
 
     public ForumPost(){}
 
@@ -37,7 +36,6 @@ public class ForumPost {
         content = rawData.stringValue(5);
         url = rawData.stringValue(6);
         clusterID = -1;
-
     }
 
     public ForumPost(String[] fields){
