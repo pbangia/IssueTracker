@@ -29,8 +29,11 @@ import com.mongodb.MongoClient;
 
 import app.IssueTracker;
 import exceptions.AdminCannotBeenAssignedException;
+import exceptions.AdminCannotSetAnIssueToResolved;
 import exceptions.DeveloperAlreadyAssignedException;
+import exceptions.InvalidAuthStateException;
 import exceptions.IssueAlreadyClosedException;
+import exceptions.IssueAlreadyResolved;
 import exceptions.PermissionDeniedException;
 import models.Cluster;
 import models.Cluster.IssueStatus;
@@ -179,4 +182,52 @@ public class AssignmentTest {
     	
     	assign.assignIssue(u, 0, "admin1");
     }
+    
+    
+    @Test
+    public void userWithRoleOfDeveloperCanMarkIsueAsResolved(){
+    	when(u.getRole()).thenReturn(UserRole.DEVELOPER);
+    /*
+    	//mock a developer
+    	User developer = mock(User.class);
+    	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
+    	when(developer.getUsername()).thenReturn("developer1");
+		//doReturn(developer).when(assign).findUser("developer1");
+		
+		//mock an open issue
+    	Cluster c = spy(new Cluster(0));
+    	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
+    	//doReturn(c).when(resolveIssue).findCluster(0);
+    
+    */
+    }
+    
+    
+    @Test
+    public void userWithRoleOfAdministratorFailsWhenMarkIsueAsResolved(){
+    	when(u.getRole()).thenReturn(UserRole.ADMIN);
+    	Cluster c = Mockito.spy(new Cluster(1000));
+    	doReturn(c).when(assign).findCluster(1000);
+    	
+    	exception.expect(InvalidAuthStateException.class);
+        exception.expectMessage("Only Developers have the permission to perform this operation");
+    
+        assign.resolveIssue(u, 1000);
+    }
+
+    
+    @Test
+    public void failsWhenMarkIssueAsResolvedwhenItIsAlreadyMarkedAsResolved(){
+    
+		when(u.getRole()).thenReturn(UserRole.DEVELOPER);
+		
+		//
+    	
+    	exception.expect(IssueAlreadyResolved.class);
+    	exception.expectMessage("This issue is already marked as Resolved");
+        
+          
+    }
+    
+    
 }

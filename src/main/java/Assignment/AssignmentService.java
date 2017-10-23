@@ -9,9 +9,13 @@ import org.mongodb.morphia.Morphia;
 import com.mongodb.MongoClient;
 
 import exceptions.AdminCannotBeenAssignedException;
+import exceptions.AdminCannotSetAnIssueToResolved;
+import exceptions.ClusterException;
 import exceptions.DeveloperAlreadyAssignedException;
 import exceptions.DeveloperNotAssignedException;
+import exceptions.InvalidAuthStateException;
 import exceptions.IssueAlreadyClosedException;
+import exceptions.IssueAlreadyResolved;
 import exceptions.PermissionDeniedException;
 import models.Cluster;
 import models.Cluster.IssueStatus;
@@ -81,6 +85,23 @@ public class AssignmentService {
 		
 		assignees.remove(assigneeID);
 		ds.save(cluster);
+		return true;
+	}
+    
+    public boolean resolveIssue(User currentuser, int clusterID) {		
+    	Cluster cluster = findCluster(clusterID);
+    	
+    	if (!UserRole.ADMIN.equals(currentuser.getRole())) {
+			throw new InvalidAuthStateException("Only Developers have the permission to perform this operation");
+		}
+		
+		if (IssueStatus.CLOSED == cluster.getStatus()) {
+			throw new ClusterException("This issue is already marked as Closed");
+		}
+		
+		cluster.setStatus(IssueStatus.CLOSED);
+		ds.save(cluster);
+	
 		return true;
 	}
 	
