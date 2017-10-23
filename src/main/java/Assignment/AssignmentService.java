@@ -13,7 +13,6 @@ import exceptions.DeveloperAlreadyAssignedException;
 import exceptions.DeveloperNotAssignedException;
 import exceptions.IssueAlreadyClosedException;
 import exceptions.PermissionDeniedException;
-import exceptions.UsernameNotExistException;
 import models.Cluster;
 import models.Cluster.IssueStatus;
 import models.User;
@@ -38,7 +37,7 @@ public class AssignmentService {
 		User assignee = findUser(assigneeID);
 		Cluster cluster = findCluster(clusterID);
 		
-		if (!UserStatus.LOGIN.equals(assigner.getStatus())) {
+		if (!UserStatus.LOGGED_IN.equals(assigner.getStatus())) {
 			return false;
 		}
 		
@@ -67,7 +66,7 @@ public class AssignmentService {
     public boolean unassignIssue(User currentUser, int clusterID, String assigneeID) {
 		Cluster cluster = findCluster(clusterID);
 		
-		if (!UserStatus.LOGIN.equals(currentUser.getStatus())) {
+		if (!UserStatus.LOGGED_IN.equals(currentUser.getStatus())) {
 			return false;
 		}
 		

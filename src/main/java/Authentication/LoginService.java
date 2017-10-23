@@ -2,26 +2,17 @@ package Authentication;
 
 import java.net.UnknownHostException;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
+import exceptions.InvalidUsernameException;
 import exceptions.PasswordMismatchException;
-import exceptions.UsernameNotExistException;
 import models.User;
-import models.UserRole;
 import models.UserStatus;
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import org.mongodb.morphia.query.FieldEnd;
-import org.mongodb.morphia.query.Query;
 
-import static models.UserStatus.LOGIN;
-import static models.UserStatus.LOGOUT;
+import static models.UserStatus.LOGGED_IN;
+import static models.UserStatus.LOGGED_OUT;
 
 /**
  * Created by priyankitbangia on 17/10/17.
@@ -49,7 +40,7 @@ public class LoginService {
     		throw new PasswordMismatchException("Password is incorrect");
     	}
 
-    	user.setStatus(LOGIN);
+    	user.setStatus(LOGGED_IN);
 		ds.save(user);
 		currentUser = user;
 		return true;
@@ -57,8 +48,8 @@ public class LoginService {
 	
 	public boolean logout(String username) {
 		User user = getUser(username);
-		if (LOGIN.equals(user.getStatus())) {
-			user.setStatus(LOGOUT);
+		if (LOGGED_IN.equals(user.getStatus())) {
+			user.setStatus(LOGGED_OUT);
 			ds.save(user);
 			currentUser = null;
 			return true;
@@ -73,7 +64,7 @@ public class LoginService {
 	
 	private User getUser(String username) {
 		User user1 = findUser(username);
-		if (user1 == null) throw new UsernameNotExistException("Username not exists");
+		if (user1 == null) throw new InvalidUsernameException("Username not exists");
     	return user1;
 	}
 

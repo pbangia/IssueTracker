@@ -1,7 +1,7 @@
 package Authentication;
 
-import static models.UserStatus.LOGIN;
-import static models.UserStatus.LOGOUT;
+import static models.UserStatus.LOGGED_IN;
+import static models.UserStatus.LOGGED_OUT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -10,26 +10,17 @@ import static org.mockito.Mockito.*;
 
 import app.IssueTracker;
 import exceptions.InvalidAuthStateException;
+import exceptions.InvalidUsernameException;
 import models.User;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.WriteResult;
 
 import exceptions.PasswordMismatchException;
-import exceptions.UsernameNotExistException;
-import models.UserRole;
-import models.UserStatus;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
@@ -42,78 +33,80 @@ public class LoginTest {
     private LoginService auth;
     IssueTracker issueTracker;
     Datastore ds;
+    private String TEST_USERNAME = "testUsername";
+    private String TEST_PASSWORD = "testPassword";
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Before
-    public void setUpUserAuthenticationMockObjects() throws UnknownHostException {
+    public void init() throws UnknownHostException {
         MongoClient connection = mock(MongoClient.class);
-        Morphia morphia = mock(Morphia.class);
+        Morphia dbMapper = mock(Morphia.class);
         ds = mock(Datastore.class);
 
-        when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
+        when(dbMapper.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
-        issueTracker = new IssueTracker(connection, morphia);
+        issueTracker = new IssueTracker(connection, dbMapper);
 
         auth = Mockito.spy(issueTracker.getLoginService());
 
     }
 
     @Test
-    public void userCanLoginIfUserExist(){
+    public void userStatusShouldBeLoggedInOnSignInIfCredentialsMatch(){
         User u = mock(User.class);
         when(u.getPassword()).thenReturn("testPassword");
         doReturn(u).when(auth).findUser("testUsername");
 
         assertTrue(auth.login("testUsername", "testPassword"));
-        verify(u).setStatus(LOGIN);
+        verify(u).setStatus(LOGGED_IN);
         verify(ds).save(u);
         assertEquals(auth.getCurrentUser(), u);
     }
     
     @Test
-    public void shouldThrowUserNotExistExceptionIfUsernameNotExist() {
+    public void shouldThrowInvalidUsernameExceptionOnSignInIfUsernameDoesNotExist() {
 
         doReturn(null).when(auth).findUser("incorrect_username");
         
-        exception.expect(UsernameNotExistException.class);
+        exception.expect(InvalidUsernameException.class);
         exception.expectMessage("Username not exists");
         
-        auth.login("incorrect_username", "testPassword");
+        auth.login("incorrect_username", TEST_PASSWORD);
     }
     
     @Test
     public void shouldThrowPasswordMismatchExceptionIfPasswordIsIncorrect() {
 
         User u = mock(User.class);
-        when(u.getUsername()).thenReturn("testUsername");
-        when(u.getPassword()).thenReturn("testPassword");
-        doReturn(u).when(auth).findUser("testUsername");
+        when(u.getUsername()).thenReturn(TEST_USERNAME);
+        when(u.getPassword()).thenReturn(TEST_PASSWORD);
+        doReturn(u).when(auth).findUser(TEST_USERNAME);
 
         exception.expect(PasswordMismatchException.class);
         exception.expectMessage("Password is incorrect");
         
-        auth.login("testUsername", "incorrect_password");
+        auth.login(TEST_USERNAME, "incorrect_password");
     }
     
     @Test
-    public void userCanSucessfullyLogOutIfCurrentlyLogin() {
+    public void userStatusShouldBeLoggedOutOnLogOffIfCurrentlySignedIn() {
 
         User u = mock(User.class);
-        when(u.getStatus()).thenReturn(LOGIN);
+        when(u.getStatus()).thenReturn(LOGGED_IN);
         doReturn(u).when(auth).findUser(anyString());
         doReturn(null).when(ds).save(any(User.class));
 
-        assertTrue(auth.logout("testUsername"));
-        verify(u).setStatus(LOGOUT);
+        assertTrue(auth.logout(TEST_USERNAME));
+        verify(u).setStatus(LOGGED_OUT);
         verify(ds).save(u);
         assertTrue(auth.getCurrentUser()==null);
 
     }
 
     @Test
-    public void shouldThrowAccessDeniedExceptionWhenAccessingIssuesIfNotLoggedIn(){
+    public void shouldThrowInvalidAuthStateExceptionWhenAccessingForumServiceIfNotLoggedIn(){
         when(auth.getCurrentUser()).thenReturn(null);
 
         exception.expect(InvalidAuthStateException.class);

@@ -3,7 +3,6 @@ package Authentication;
 import app.IssueTracker;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
-import exceptions.EmptyUsernameException;
 import exceptions.InvalidUsernameException;
 
 import org.junit.Before;
@@ -18,7 +17,6 @@ import org.mockito.Mockito;
 import java.net.UnknownHostException;
 
 import static models.UserRole.ADMIN;
-import static models.UserStatus.LOGIN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,16 +37,18 @@ public class RegistrationTest {
     private String TEST_PASSWORD = "testPassword";
     private String TEST_ROLE_ADMIN = "ADMIN";
     private String TEST_ROLE_DEV = "DEVELOPER";
+    private User u;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Before
-    public void setUpUserAuthenticationMockObjects(){
+    public void init(){
 
         MongoClient connection = mock(MongoClient.class);
         Morphia morphia = mock(Morphia.class);
         ds = mock(Datastore.class);
+        u = mock(User.class);
 
         when(morphia.createDatastore(any(MongoClient.class),anyString())).thenReturn(ds);
 
@@ -59,9 +59,8 @@ public class RegistrationTest {
     }
 
     @Test
-    public void shouldThrowFormatPasswordExceptionIfPasswordLengthLessThan8() {
-        User u = mock(User.class);
-        when(u.getUsername()).thenReturn("testUsername");
+    public void shouldThrowPasswordFormatExceptionIfPasswordLengthLessThan8() {
+        when(u.getUsername()).thenReturn(TEST_USERNAME);
         when(u.getPassword()).thenReturn("1234567");
         when(u.getRole()).thenReturn(ADMIN);
 
@@ -72,23 +71,21 @@ public class RegistrationTest {
     }
      
     @Test
-    public void shouldThrowUsernameCannotBeEmptyExceptionIfUserNameIsEmpty() {
-        User u = mock(User.class);
+    public void shouldThrowInvalidUsernameExceptionIfUsernameIsEmpty() {
         when(u.getUsername()).thenReturn("");
         when(u.getPassword()).thenReturn(TEST_PASSWORD);
         when(u.getRole()).thenReturn(ADMIN);
 
-        exception.expect(EmptyUsernameException.class);
+        exception.expect(InvalidUsernameException.class);
         exception.expectMessage("User name can not be Empty");
      
         auth.register(u);
     }
     
     @Test
-    public void shouldThrowInvalidUsernameExceptionIfUserNameIsInvalid() {
-        User u = mock(User.class);
-        when(u.getUsername()).thenReturn("testUsername");
-        when(u.getPassword()).thenReturn("testPassword");
+    public void shouldThrowInvalidUsernameExceptionIfUsernameContainsSpecialChars() {
+        when(u.getUsername()).thenReturn(TEST_USERNAME);
+        when(u.getPassword()).thenReturn(TEST_PASSWORD);
         when(u.getRole()).thenReturn(ADMIN);
         when(u.getUsername()).thenReturn("Sam@#$");
 
@@ -99,7 +96,7 @@ public class RegistrationTest {
     }
 
     @Test
-    public void developerCanRegisterIfNewUser(){
+    public void shouldCreateNewUserWhenRegisteringAsDeveloperIfNewUser(){
 
         doReturn(null).when(auth).findUser(TEST_USERNAME);
 
@@ -115,7 +112,7 @@ public class RegistrationTest {
     }
 
     @Test
-    public void adminCanRegisterIfNewUser(){
+    public void shouldCreateNewUserWhenRegisteringAsAdminIfNewUser(){
 
         doReturn(null).when(auth).findUser(TEST_USERNAME);
 
@@ -132,9 +129,9 @@ public class RegistrationTest {
     }
 
     @Test
-    public void userCannotRegisterIfAlreadyExists(){
+    public void shouldThrowInvalidUsernameExceptionWhenRegisteringIfUsernameAlreadyExists(){
 
-        exception.expect(UserRegistrationException.class);
+        exception.expect(InvalidUsernameException.class);
         exception.expectMessage("Username already exists");
 
         User u = mock(User.class);
@@ -144,7 +141,7 @@ public class RegistrationTest {
     }
 
     @Test
-    public void userCannotRegisterIfRoleNotAdminOrDeveloper(){
+    public void shouldThrowUserRegistrationExceptionWhenRegisteringIfRoleNotDeveloperOrAdmin(){
 
         exception.expect(UserRegistrationException.class);
         exception.expectMessage("Role not supported");

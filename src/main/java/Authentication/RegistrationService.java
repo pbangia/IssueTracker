@@ -1,15 +1,10 @@
 package Authentication;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 
-import exceptions.EmptyUsernameException;
 import exceptions.InvalidUsernameException;
 import exceptions.PasswordFormatException;
 import exceptions.UserRegistrationException;
-import exceptions.UsernameNotExistException;
 import models.UserRole;
 import org.apache.commons.lang3.EnumUtils;
 import models.User;
@@ -54,8 +49,8 @@ public class RegistrationService {
             throw new PasswordFormatException("Password needs to be at least 8 characters");
         }
         
-        if (username == "") {
-            throw new EmptyUsernameException("User name can not be Empty");
+        if (username.isEmpty()) {
+            throw new InvalidUsernameException("User name can not be Empty");
         }
 
         Pattern p = Pattern.compile("[^a-zA-Z0-9]");
@@ -64,7 +59,7 @@ public class RegistrationService {
         }
 
         if (findUser(username)!=null) {
-            throw new UserRegistrationException("Username already exists");
+            throw new InvalidUsernameException("Username already exists");
         }
         
         if (!EnumUtils.isValidEnum(UserRole.class, role)) {

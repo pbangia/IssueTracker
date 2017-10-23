@@ -53,7 +53,7 @@ public class UnassginmentTest {
         
         u = mock(User.class);
         when(u.getRole()).thenReturn(UserRole.ADMIN);
-        when(u.getStatus()).thenReturn(UserStatus.LOGIN);
+        when(u.getStatus()).thenReturn(UserStatus.LOGGED_IN);
     }
 	
 	@Test
