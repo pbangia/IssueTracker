@@ -13,6 +13,12 @@ public enum ClusterSortBy implements Comparator<Cluster> {
                 return 0;
             return o1.getNumPosts() < o2.getNumPosts() ? 1 : -1;
         }
+    },
+    NUM_AFFECTED_USERS {
+        @Override
+        public int compare(Cluster o1, Cluster o2) {
+            return 0;
+        }
     }
 //    ,
 //    ENGLISH {

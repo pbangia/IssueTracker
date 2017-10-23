@@ -90,4 +90,22 @@ public class ClusterSortingTest {
         assertEquals(sortedClusters.get(1), c2);
         assertEquals(sortedClusters.get(2), c3);
     }
+
+    @Test
+    public void shouldSortIssuesInDescendingOrderBasedOnNumberOfAffectedUsers(){
+        List<Cluster> sortedClusters = forum.getSortedClusters(ClusterSortBy.NUM_AFFECTED_USERS, false);
+
+        assertEquals(sortedClusters.get(0), c3);
+        assertEquals(sortedClusters.get(1), c2);
+        assertEquals(sortedClusters.get(2), c1);
+    }
+
+    @Test
+    public void shouldSortIssuesInAscendingOrderBasedOnNumberOfAffectedUsers(){
+        List<Cluster> sortedClusters = forum.getSortedClusters(ClusterSortBy.NUM_AFFECTED_USERS, true);
+
+        assertEquals(sortedClusters.get(0), c1);
+        assertEquals(sortedClusters.get(1), c2);
+        assertEquals(sortedClusters.get(2), c3);
+    }
 }
