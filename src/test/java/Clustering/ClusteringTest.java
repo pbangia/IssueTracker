@@ -4,6 +4,7 @@ import Authentication.LoginService;
 import app.IssueTracker;
 import com.mongodb.*;
 import exceptions.AssignmentException;
+import exceptions.ClusterException;
 import exceptions.InvalidAuthStateException;
 import exceptions.UserRegistrationException;
 import models.*;
@@ -80,14 +81,14 @@ public class ClusteringTest {
         doReturn(10).when(eval).getNumClusters();
         doReturn(new double[]{0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 , 8.0, 9.0, 0.0}).when(eval).getClusterAssignments();
         doReturn(populatePosts()).when(forum).getAllPosts();
-        forum.posts = forum.getAllPosts();
+        forum.postsList = forum.getAllPosts();
 
         List<HashSet<Integer>> expectedIDs = getExpectedIDs();
         Map<Integer, Cluster> clusters = forum.getRelatedIssues();
         //Check equal number of clusters
         assertEquals(expectedIDs.size(), clusters.size());
 
-        //check posts within clusters
+        //check postsList within clusters
         for (int i=0; i<clusters.size(); i++){
             Set<Integer> actual = clusters.get(i).getPostIDs();
             Set<Integer> expected = expectedIDs.get(i);
@@ -277,6 +278,72 @@ public class ClusteringTest {
         when(f.getClusterID()).thenReturn(-1);
 
         forum.removeForumPostFromCluster(f);
+    }
+
+    @Test
+    public void throwExceptionWhenDeletingClusterIfNotAdmin(){
+        when(forum.getAccessPrivilege()).thenReturn(DEVELOPER);
+
+        exception.expect(InvalidAuthStateException.class);
+        exception.expectMessage("Only admins have permission to remove clusters");
+
+        Cluster c = mock(Cluster.class);
+
+        forum.deleteCluster(c);
+
+    }
+
+    @Test
+    public void throwExceptionWhenDeletingCluster(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        exception.expect(ClusterException.class);
+        exception.expectMessage("Cluster ID does not exist");
+
+        Cluster c = mock(Cluster.class);
+        when(c.getClusterID()).thenReturn(-1);
+        forum.setClusters(new HashMap<>());
+
+        forum.deleteCluster(c);
+    }
+
+    @Test
+    public void userIsAbleToDeleteClusterIfAdmin(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        Cluster c = spy(new Cluster(1000));
+        doReturn(c).when(forum).getCluster(1000);
+        ForumPost f1 = mock(ForumPost.class);
+        when(f1.getAuthor()).thenReturn("author1");
+        when(f1.getQuestionID()).thenReturn(90);
+        when(f1.getClusterID()).thenReturn(1000);
+
+        ForumPost f2 = mock(ForumPost.class);
+        when(f2.getAuthor()).thenReturn("author2");
+        when(f2.getQuestionID()).thenReturn(91);
+        when(f2.getClusterID()).thenReturn(1000);
+
+        Set<Integer> testPostIds = new HashSet<>(Arrays.asList(f1.getQuestionID(), f2.getQuestionID()));
+
+        when(c.getPostIDs()).thenReturn(testPostIds);
+
+        Map<Integer, Cluster> testClusterList = new HashMap<>();
+        testClusterList.put(c.getClusterID(), c);
+        forum.setClusters(testClusterList);
+
+        Map<Integer, ForumPost> testPostsMap = new HashMap<>();
+        testPostsMap.put(f1.getQuestionID(), f1);
+        testPostsMap.put(f2.getQuestionID(), f2);
+        forum.setPostsMap(testPostsMap);
+
+        forum.deleteCluster(c);
+
+        Map<Integer, Cluster> result = forum.getClusters();
+        assertEquals(2, result.size());
+        assertEquals(90, result.get(90).getClusterID());
+        assertEquals(91, result.get(91).getClusterID());
+        assertTrue(result.get(90).getPostIDs().contains(90));
+        assertTrue(result.get(91).getPostIDs().contains(91));
     }
 
     @Ignore

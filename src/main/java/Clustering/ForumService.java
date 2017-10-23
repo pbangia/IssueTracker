@@ -3,6 +3,7 @@ package Clustering;
 import app.ForumPostReader;
 import com.mongodb.*;
 import exceptions.AssignmentException;
+import exceptions.ClusterException;
 import exceptions.InvalidAuthStateException;
 import models.Cluster;
 import models.ClusterSortBy;
@@ -26,9 +27,9 @@ import static models.UserRole.ADMIN;
  * Created by priyankitbangia on 18/10/17.
  */
 public class ForumService {
-    private Instances sentenceData;
     Instances postData;
-    ArrayList<ForumPost> posts = new ArrayList<>();
+    ArrayList<ForumPost> postsList = new ArrayList<>();
+    Map<Integer, ForumPost> postsMap = new HashMap<>();
     public ClusterEvaluation eval;
     double[] assignments;
     Map<Integer, Cluster> clusters;
@@ -48,7 +49,7 @@ public class ForumService {
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
         postData = new ForumPostReader().loadData(POST_FILE_NAME);
         //sentenceData = new ForumPostReader().loadData(SENTENCE_FILE_NAME);
-        posts = getAllPosts();
+        postsList = getAllPosts();
 
         connection = newConnection;
         ds = dbMapper.createDatastore(connection, "testdb");
@@ -56,7 +57,7 @@ public class ForumService {
 
     public List<String> getIssueTitles() {
         ArrayList<String> titles = new ArrayList<>();
-        for (ForumPost post: posts) titles.add(post.getTitle());
+        for (ForumPost post: postsList) titles.add(post.getTitle());
         return titles;
     }
 
@@ -65,6 +66,7 @@ public class ForumService {
         for (int i = 0; i< postData.numInstances(); i++){
             ForumPost post = new ForumPost(postData.instance(i));
             posts.add(post);
+            postsMap.put(post.getQuestionID(), post);
         }
         return posts;
     }
@@ -80,11 +82,11 @@ public class ForumService {
             clusters.put(i , new Cluster(i));
         }
 
-        //perform mapping between cluster assignment and forum posts
+        //perform mapping between cluster assignment and forum postsList
         assignments = eval.getClusterAssignments();
         for (int i = 0; i<assignments.length; i++){
             int clusterNum = (int) assignments[i];
-            ForumPost post = posts.get(i);
+            ForumPost post = postsList.get(i);
             post.setClusterID(clusterNum);
             clusters.get(clusterNum).setClusterID(clusterNum);
             clusters.get(clusterNum).addForumPost(post.getQuestionID(), post.getAuthor());
@@ -105,7 +107,7 @@ public class ForumService {
     }
 
     public void saveForumPosts() {
-        for (ForumPost f: posts){
+        for (ForumPost f: postsList){
             ds.save(f);
         }
     }
@@ -156,7 +158,22 @@ public class ForumService {
         ds.save(cluster);
     }
 
-
+    public void deleteCluster(Cluster c) {
+        if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to remove clusters");
+        if (!clusters.containsKey(c.getClusterID())) throw new ClusterException("Cluster ID does not exist");
+        ds.delete(c);
+        clusters.remove(c.getClusterID());
+        for (int fid : c.getPostIDs()) {
+            // TODO change clusterID
+            Cluster newCluster = new Cluster(fid);
+            clusters.put(newCluster.getClusterID(), newCluster);
+            ForumPost fp = postsMap.get(fid);
+            fp.setClusterID(newCluster.getClusterID());
+            newCluster.addForumPost(fp.getQuestionID(), fp.getAuthor());
+            ds.save(fp);
+            ds.save(newCluster);
+        }
+    }
 
     public UserRole getAccessPrivilege() {
         return accessPrivilege;
@@ -172,7 +189,7 @@ public class ForumService {
 
     public List<Cluster> getSortedClusters(ClusterSortBy category, boolean asc) {
 
-        ArrayList<Cluster> list = getClustersAsList();
+        List<Cluster> list = getClustersAsList();
 
         Collections.sort(list, category);
 
@@ -181,7 +198,23 @@ public class ForumService {
         return list;
     }
 
-    public ArrayList<Cluster> getClustersAsList() {
+    public List<Cluster> getClustersAsList() {
         return new ArrayList<>(clusters.values());
+    }
+
+    public void setClusters(Map<Integer, Cluster> clusters) {
+        this.clusters = clusters;
+    }
+
+    public void setPostsMap(Map<Integer,ForumPost> postsMap) {
+        this.postsMap = postsMap;
+    }
+
+    public Map<Integer,Cluster> getClusters() {
+        return clusters;
+    }
+
+    public Map<Integer,ForumPost> getPostsMap() {
+        return postsMap;
     }
 }
