@@ -68,6 +68,10 @@ public class ClusterSortingTest {
         when(c2.getNumPosts()).thenReturn(2);
         when(c3.getNumPosts()).thenReturn(3);
 
+        when(c1.getNumAffectedUsers()).thenReturn(1);
+        when(c2.getNumAffectedUsers()).thenReturn(2);
+        when(c3.getNumAffectedUsers()).thenReturn(3);
+
         testClusterList = new ArrayList<>(Arrays.asList(c1, c2, c3));
         doReturn(testClusterList).when(forum).getClustersAsList();
 

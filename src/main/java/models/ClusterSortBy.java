@@ -17,7 +17,9 @@ public enum ClusterSortBy implements Comparator<Cluster> {
     NUM_AFFECTED_USERS {
         @Override
         public int compare(Cluster o1, Cluster o2) {
-            return 0;
+            if (o1.getNumAffectedUsers() == o2.getNumAffectedUsers())
+                return 0;
+            return o1.getNumAffectedUsers() < o2.getNumAffectedUsers() ? 1 : -1;
         }
     }
 //    ,
