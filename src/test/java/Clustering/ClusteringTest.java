@@ -264,6 +264,21 @@ public class ClusteringTest {
         assertEquals(1, c.getNumUsers());
     }
 
+    @Test
+    public void throwExceptionWhenRemovingPostNotAssignedToCluster(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        exception.expect(AssignmentException.class);
+        exception.expectMessage("Forum post not assigned to any cluster");
+
+        ForumPost f = mock(ForumPost.class);
+        when(f.getAuthor()).thenReturn("author");
+        when(f.getQuestionID()).thenReturn(90);
+        when(f.getClusterID()).thenReturn(-1);
+
+        forum.removeForumPostFromCluster(f);
+    }
+
     @Ignore
     @Test
     public void testRealDatabaseWithClusterPersistence(){
