@@ -23,6 +23,7 @@ import java.util.*;
 
 import static models.UserRole.ADMIN;
 import static models.UserRole.DEVELOPER;
+import static models.Cluster.ClusterCategory;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -153,7 +154,7 @@ public class ClusteringTest {
         doReturn(c).when(forum).getCluster(53200);
 
         Cluster returned = forum.getCluster(53200);
-        assertEquals(4, returned.getNumUsers());
+        assertEquals(4, returned.getNumAffectedUsers());
         assertEquals(5, returned.getNumPosts());
     }
 
@@ -164,11 +165,11 @@ public class ClusteringTest {
         doReturn(c).when(forum).getCluster(53200);
 
         Cluster cluster = forum.getCluster(53200);
-        assertEquals(0, cluster.getNumUsers());
+        assertEquals(0, cluster.getNumAffectedUsers());
         assertEquals(0, cluster.getNumPosts());
 
         cluster.addForumPost(53201, "author 1");
-        assertEquals(1, cluster.getNumUsers());
+        assertEquals(1, cluster.getNumAffectedUsers());
         assertEquals(1, cluster.getNumPosts());
 
     }
@@ -206,7 +207,7 @@ public class ClusteringTest {
         assertTrue(c.getPostIDs().contains(f.getQuestionID()));
         assertTrue(c.getUsersAffected().contains(f.getAuthor()));
         assertEquals(1, c.getNumPosts());
-        assertEquals(1, c.getNumUsers());
+        assertEquals(1, c.getNumAffectedUsers());
     }
 
     @Test
@@ -248,7 +249,7 @@ public class ClusteringTest {
         when(f.getAuthor()).thenReturn("author");
         when(f.getQuestionID()).thenReturn(90);
         when(f.getClusterID()).thenReturn(1000);
-        c.setNumUsers(2);
+        c.setNumAffectedUsers(2);
         c.setNumPosts(2);
 
         c.setUsersAffected(new ArrayList<>(Arrays.asList(f.getAuthor(), "author2")));
@@ -261,7 +262,7 @@ public class ClusteringTest {
         assertFalse(c.getPostIDs().contains(f.getQuestionID()));
         assertFalse(c.getUsersAffected().contains(f.getAuthor()));
         assertEquals(1, c.getNumPosts());
-        assertEquals(1, c.getNumUsers());
+        assertEquals(1, c.getNumAffectedUsers());
     }
 
     @Test
@@ -277,6 +278,25 @@ public class ClusteringTest {
         when(f.getClusterID()).thenReturn(-1);
 
         forum.removeForumPostFromCluster(f);
+    }
+
+    @Test
+    public void shouldSortIssuesInDescendingOrderBasedOnNumberOfPosts(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        Cluster c1 = spy(new Cluster(1000));
+        Cluster c2 = spy(new Cluster(2000));
+        Cluster c3 = spy(new Cluster(3000));
+
+        when(c1.getNumPosts()).thenReturn(1);
+        when(c2.getNumPosts()).thenReturn(2);
+        when(c3.getNumPosts()).thenReturn(3);
+
+        List<Cluster> sortedClusters = forum.getSortedClusters(ClusterCategory.NUMPOSTS, false);
+
+        assertEquals(sortedClusters.get(0), c3);
+        assertEquals(sortedClusters.get(1), c2);
+        assertEquals(sortedClusters.get(2), c1);
     }
 
     @Ignore

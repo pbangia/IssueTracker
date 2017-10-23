@@ -19,6 +19,7 @@ import java.net.UnknownHostException;
 import java.util.*;
 
 import static models.UserRole.ADMIN;
+import static models.Cluster.ClusterCategory;
 
 
 /**
@@ -155,6 +156,8 @@ public class ForumService {
         ds.save(cluster);
     }
 
+
+
     public UserRole getAccessPrivilege() {
         return accessPrivilege;
     }
@@ -165,5 +168,9 @@ public class ForumService {
 
     public ClusterEvaluation getEval() {
         return new ClusterEvaluation();
+    }
+
+    public List<Cluster> getSortedClusters(ClusterCategory numposts, boolean asc) {
+        return null;
     }
 }
