@@ -22,7 +22,7 @@ public class Cluster implements Serializable {
     private int numPosts;
     private String title = "placeholder title";
     private String summary = "placeholder summary";
-    private int numUsers;
+    private int numAffectedUsers;
     private String context = "placeholder summary";
     private Set<String> assigneeIDs = new HashSet<>();
     private IssueStatus status = IssueStatus.OPEN;
@@ -34,7 +34,7 @@ public class Cluster implements Serializable {
     public void addForumPost(int postID, String author){
         postIDs.add(postID);
         numPosts=postIDs.size();
-        numUsers = (usersAffected.contains(author)) ? numUsers : numUsers + 1;
+        numAffectedUsers = (usersAffected.contains(author)) ? numAffectedUsers : numAffectedUsers + 1;
         usersAffected.add(author);
     }
 
@@ -42,9 +42,9 @@ public class Cluster implements Serializable {
         postIDs.remove(forumPost.getQuestionID());
         numPosts = postIDs.size();
         usersAffected.remove(forumPost.getAuthor());
-        numUsers = (usersAffected.contains(forumPost.getAuthor())) ? numUsers : numUsers - 1;
+        numAffectedUsers = (usersAffected.contains(forumPost.getAuthor())) ? numAffectedUsers : numAffectedUsers - 1;
 
-        System.out.println(numUsers);
+        System.out.println(numAffectedUsers);
         forumPost.setClusterID(-1);
     }
 
@@ -72,12 +72,12 @@ public class Cluster implements Serializable {
         this.summary = summary;
     }
 
-    public int getNumUsers() {
-        return numUsers;
+    public int getNumAffectedUsers() {
+        return numAffectedUsers;
     }
 
-    public void setNumUsers(int numUsers) {
-        this.numUsers = numUsers;
+    public void setNumAffectedUsers(int numAffectedUsers) {
+        this.numAffectedUsers = numAffectedUsers;
     }
 
     public String getContext() {
