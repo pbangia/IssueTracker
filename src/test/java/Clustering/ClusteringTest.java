@@ -300,6 +300,27 @@ public class ClusteringTest {
         assertEquals(sortedClusters.get(2), c1);
     }
 
+    @Test
+    public void shouldSortIssuesInAscendingOrderBasedOnNumberOfPosts(){
+        when(forum.getAccessPrivilege()).thenReturn(ADMIN);
+
+        Cluster c1 = spy(new Cluster(1000));
+        Cluster c2 = spy(new Cluster(2000));
+        Cluster c3 = spy(new Cluster(3000));
+
+        when(c1.getNumPosts()).thenReturn(1);
+        when(c2.getNumPosts()).thenReturn(2);
+        when(c3.getNumPosts()).thenReturn(3);
+
+        doReturn(new ArrayList<>(Arrays.asList(c1, c2, c3))).when(forum).getClustersAsList();
+
+        List<Cluster> sortedClusters = forum.getSortedClusters(ClusterSortBy.NUMPOSTS, true);
+
+        assertEquals(sortedClusters.get(0), c1);
+        assertEquals(sortedClusters.get(1), c2);
+        assertEquals(sortedClusters.get(2), c3);
+    }
+
     @Ignore
     @Test
     public void testRealDatabaseWithClusterPersistence(){
