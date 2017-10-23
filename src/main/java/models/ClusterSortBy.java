@@ -25,30 +25,17 @@ public enum ClusterSortBy implements Comparator<Cluster> {
     TITLE {
         @Override
         public final int compare(Cluster o1, Cluster o2) {
-            return 0;
+            return compareStrings(o1.getTitle(), o2.getTitle());
         }
+    };
+
+    private static int compareStrings(final String s1, final String s2) {
+        if (s1 == null) {
+            return s2 == null ? 0 : 1;
+        }
+        if (s2 == null) {
+            return -1;
+        }
+        return s2.compareTo(s1);
     }
-//    ,
-//    ENGLISH {
-//        @Override
-//        public final int compare(final Item o1, final Item o2) {
-//            return compareStrings(o1.getEnglish(), o2.getEnglish());
-//        }
-//    },
-//    NORWEGIAN {
-//        @Override
-//        public final int compare(final Item o1, final Item o2) {
-//            return compareStrings(o1.getNorwegian(), o2.getNorwegian());
-//        }
-//    };
-//
-//    private static int compareStrings(final String s1, final String s2) {
-//        if (s1 == null) {
-//            return s2 == null ? 0 : -1;
-//        }
-//        if (s2 == null) {
-//            return 1;
-//        }
-//        return s1.compareTo(s2);
-//    }
 }
