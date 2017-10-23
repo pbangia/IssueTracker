@@ -23,7 +23,6 @@ import java.util.*;
 
 import static models.UserRole.ADMIN;
 import static models.UserRole.DEVELOPER;
-import static models.Cluster.ClusterCategory;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -292,7 +291,9 @@ public class ClusteringTest {
         when(c2.getNumPosts()).thenReturn(2);
         when(c3.getNumPosts()).thenReturn(3);
 
-        List<Cluster> sortedClusters = forum.getSortedClusters(ClusterCategory.NUMPOSTS, false);
+        doReturn(new ArrayList<>(Arrays.asList(c1, c2, c3))).when(forum).getClustersAsList();
+
+        List<Cluster> sortedClusters = forum.getSortedClusters(ClusterSortBy.NUMPOSTS, false);
 
         assertEquals(sortedClusters.get(0), c3);
         assertEquals(sortedClusters.get(1), c2);

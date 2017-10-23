@@ -134,6 +134,4 @@ public class Cluster implements Serializable {
     }
 
     public enum IssueStatus { OPEN, CLOSED, IN_PROGRESS };
-
-    public enum ClusterCategory { NUMPOSTS };
 }

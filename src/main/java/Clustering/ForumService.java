@@ -5,6 +5,7 @@ import com.mongodb.*;
 import exceptions.AssignmentException;
 import exceptions.InvalidAuthStateException;
 import models.Cluster;
+import models.ClusterSortBy;
 import models.ForumPost;
 import models.UserRole;
 import org.mongodb.morphia.Datastore;
@@ -19,7 +20,6 @@ import java.net.UnknownHostException;
 import java.util.*;
 
 import static models.UserRole.ADMIN;
-import static models.Cluster.ClusterCategory;
 
 
 /**
@@ -170,7 +170,18 @@ public class ForumService {
         return new ClusterEvaluation();
     }
 
-    public List<Cluster> getSortedClusters(ClusterCategory numposts, boolean asc) {
-        return null;
+    public List<Cluster> getSortedClusters(ClusterSortBy category, boolean asc) {
+
+        ArrayList<Cluster> list = getClustersAsList();
+
+        Collections.sort(list, category);
+
+        if (asc) Collections.reverse(list);
+
+        return list;
+    }
+
+    public ArrayList<Cluster> getClustersAsList() {
+        return new ArrayList<>(clusters.values());
     }
 }
