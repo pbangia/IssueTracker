@@ -1,6 +1,6 @@
 package models;
 
 public enum UserStatus {
-	LOGIN,
-	LOGOUT
+    LOGGED_IN,
+    LOGGED_OUT
 }

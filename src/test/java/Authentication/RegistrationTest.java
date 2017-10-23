@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 import java.net.UnknownHostException;
 
 import static models.UserRole.ADMIN;
-import static models.UserStatus.LOGIN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

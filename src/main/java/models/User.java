@@ -21,7 +21,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
-        status = UserStatus.LOGOUT;
+        status = UserStatus.LOGGED_OUT;
     }
 
     public String getUsername() {
