@@ -1,5 +1,6 @@
 package Assignment;
 
+import static models.Cluster.IssueStatus.CLOSED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import exceptions.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,13 +30,6 @@ import org.mongodb.morphia.Morphia;
 import com.mongodb.MongoClient;
 
 import app.IssueTracker;
-import exceptions.AdminCannotBeenAssignedException;
-import exceptions.AdminCannotSetAnIssueToResolved;
-import exceptions.DeveloperAlreadyAssignedException;
-import exceptions.InvalidAuthStateException;
-import exceptions.IssueAlreadyClosedException;
-import exceptions.IssueAlreadyResolved;
-import exceptions.PermissionDeniedException;
 import models.Cluster;
 import models.Cluster.IssueStatus;
 import models.User;
@@ -116,7 +111,7 @@ public class AssignmentTest {
     	
     	//mock an open issue
     	Cluster c = spy(new Cluster(0));
-    	when(c.getStatus()).thenReturn(IssueStatus.CLOSED);
+    	when(c.getStatus()).thenReturn(CLOSED);
     	doReturn(c).when(assign).findCluster(0);
     	
     	exception.expect(IssueAlreadyClosedException.class);
@@ -185,48 +180,40 @@ public class AssignmentTest {
     
     
     @Test
-    public void userWithRoleOfDeveloperCanMarkIsueAsResolved(){
+    public void issueStatusIsMarkedResolvedWhenResolvingAsDeveloper(){
     	when(u.getRole()).thenReturn(UserRole.DEVELOPER);
-    /*
-    	//mock a developer
-    	User developer = mock(User.class);
-    	when(developer.getRole()).thenReturn(UserRole.DEVELOPER);
-    	when(developer.getUsername()).thenReturn("developer1");
-		//doReturn(developer).when(assign).findUser("developer1");
-		
+    	when(u.getUsername()).thenReturn("developer1");
+
 		//mock an open issue
-    	Cluster c = spy(new Cluster(0));
+    	Cluster c = spy(new Cluster(1000));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
-    	//doReturn(c).when(resolveIssue).findCluster(0);
-    
-    */
+    	doReturn(c).when(assign).findCluster(1000);
+
+    	assign.resolveIssue(u, 1000);
+    	verify(c).setStatus(CLOSED);
     }
     
     
     @Test
-    public void userWithRoleOfAdministratorFailsWhenMarkIsueAsResolved(){
+    public void shouldThrowInvalidAuthStateExceptionWhenClosingIssueAsAdmin(){
     	when(u.getRole()).thenReturn(UserRole.ADMIN);
-    	Cluster c = Mockito.spy(new Cluster(1000));
-    	doReturn(c).when(assign).findCluster(1000);
     	
     	exception.expect(InvalidAuthStateException.class);
         exception.expectMessage("Only Developers have the permission to perform this operation");
-    
         assign.resolveIssue(u, 1000);
     }
 
     
     @Test
-    public void failsWhenMarkIssueAsResolvedwhenItIsAlreadyMarkedAsResolved(){
-    
+    public void shouldThrowClusterExceptionWhenMarkingIssueAsClosedIfAlreadyMarkedAsClosed(){
 		when(u.getRole()).thenReturn(UserRole.DEVELOPER);
-		
-		//
-    	
-    	exception.expect(IssueAlreadyResolved.class);
-    	exception.expectMessage("This issue is already marked as Resolved");
-        
-          
+		Cluster c = Mockito.spy(new Cluster(1000));
+		doReturn(c).when(assign).findCluster(1000);
+		when(c.getStatus()).thenReturn(CLOSED);
+
+		exception.expect(ClusterException.class);
+		exception.expectMessage("Issue already marked as Closed");
+		assign.resolveIssue(u, 1000);
     }
     
     
