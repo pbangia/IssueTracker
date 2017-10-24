@@ -88,15 +88,14 @@ public class AssignmentService {
 		return true;
 	}
     
-    public boolean resolveIssue(User currentuser, int clusterID) {		
-    	Cluster cluster = findCluster(clusterID);
-    	
-    	if (!UserRole.ADMIN.equals(currentuser.getRole())) {
+    public boolean resolveIssue(User currentUser, int clusterID) {
+    	if (UserRole.ADMIN == currentUser.getRole()) {
 			throw new InvalidAuthStateException("Only Developers have the permission to perform this operation");
 		}
-		
+
+		Cluster cluster = findCluster(clusterID);
 		if (IssueStatus.CLOSED == cluster.getStatus()) {
-			throw new ClusterException("This issue is already marked as Closed");
+			throw new ClusterException("Issue already marked as Closed");
 		}
 		
 		cluster.setStatus(IssueStatus.CLOSED);
