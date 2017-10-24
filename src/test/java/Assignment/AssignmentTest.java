@@ -70,11 +70,11 @@ public class AssignmentTest {
     	when(developer.getUsername()).thenReturn("developer1");
     	doReturn(developer).when(assign).findUser("developer1");
 
-    	Cluster c = spy(new Cluster(0));
+    	Cluster c = spy(new Cluster("0"));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
-    	doReturn(c).when(assign).findCluster(0);
+    	doReturn(c).when(assign).findCluster("0");
     	
-    	assertTrue(assign.assignIssue(u, 0, "developer1"));
+    	assertTrue(assign.assignIssue(u, "0", "developer1"));
     	List<String> assignees = new ArrayList<String>(c.getAssigneeIDs());
     	assertEquals(assignees.get(0), "developer1");
     	verify(ds).save(c);
@@ -90,14 +90,14 @@ public class AssignmentTest {
     	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an open issue
-    	Cluster c = spy(new Cluster(0));
+    	Cluster c = spy(new Cluster("0"));
     	when(c.getStatus()).thenReturn(CLOSED);
-    	doReturn(c).when(assign).findCluster(0);
+    	doReturn(c).when(assign).findCluster("0");
     	
     	exception.expect(ClusterException.class);
         exception.expectMessage("The issue has already been closed");
     	
-        assign.assignIssue(u, 0, "developer1");
+        assign.assignIssue(u, "0", "developer1");
     }
     
     @Test
@@ -109,14 +109,14 @@ public class AssignmentTest {
     	doReturn(developer).when(assign).findUser("developer1");
     	
     	//mock an open issue
-    	Cluster c = spy(new Cluster(0));
+    	Cluster c = spy(new Cluster("0"));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
-    	doReturn(c).when(assign).findCluster(0);
+    	doReturn(c).when(assign).findCluster("0");
     	
     	exception.expect(InvalidAuthStateException.class);
         exception.expectMessage("Developers cannot assign issues to other users");
     	
-        assign.assignIssue(u, 0, "developer1");
+        assign.assignIssue(u, "0", "developer1");
     }
     
     @Test
@@ -126,15 +126,15 @@ public class AssignmentTest {
     	when(developer.getUsername()).thenReturn("developer1");
     	doReturn(developer).when(assign).findUser("developer1");
 
-    	Cluster c = spy(new Cluster(0));
+    	Cluster c = spy(new Cluster("0"));
     	when(c.getStatus()).thenReturn(IssueStatus.IN_PROGRESS);
     	doReturn(new HashSet<String>(Arrays.asList(developer.getUsername()))).when(c).getAssigneeIDs();
-    	doReturn(c).when(assign).findCluster(0);
+    	doReturn(c).when(assign).findCluster("0");
     		   	
 	    exception.expect(AssignmentException.class);
         exception.expectMessage("The developer has already been assigned to the issue");
     	
-    	assign.assignIssue(u, 0, "developer1");
+    	assign.assignIssue(u, "0", "developer1");
     }
     
     @Test
@@ -143,14 +143,14 @@ public class AssignmentTest {
     	when(u.getUsername()).thenReturn("admin1");
     	doReturn(u).when(assign).findUser("admin1");
 
-    	Cluster c = spy(new Cluster(0));
+    	Cluster c = spy(new Cluster("0"));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
-    	doReturn(c).when(assign).findCluster(0);
+    	doReturn(c).when(assign).findCluster("0");
     	
     	exception.expect(AssignmentException.class);
         exception.expectMessage("An administrator cannot been assigned to an issue");
     	
-    	assign.assignIssue(u, 0, "admin1");
+    	assign.assignIssue(u, "0", "admin1");
     }
     
     
@@ -159,11 +159,11 @@ public class AssignmentTest {
     	when(u.getRole()).thenReturn(UserRole.DEVELOPER);
     	when(u.getUsername()).thenReturn("developer1");
 
-    	Cluster c = spy(new Cluster(1000));
+    	Cluster c = spy(new Cluster("1000"));
     	when(c.getStatus()).thenReturn(IssueStatus.OPEN);
-    	doReturn(c).when(assign).findCluster(1000);
+    	doReturn(c).when(assign).findCluster("1000");
 
-    	assign.resolveIssue(u, 1000);
+    	assign.resolveIssue(u, "1000");
     	verify(c).setStatus(CLOSED);
     }
     
@@ -174,20 +174,20 @@ public class AssignmentTest {
     	
     	exception.expect(InvalidAuthStateException.class);
         exception.expectMessage("Only Developers have the permission to perform this operation");
-        assign.resolveIssue(u, 1000);
+        assign.resolveIssue(u, "1000");
     }
 
     
     @Test
     public void shouldThrowClusterExceptionWhenMarkingIssueAsClosedIfAlreadyMarkedAsClosed(){
 		when(u.getRole()).thenReturn(UserRole.DEVELOPER);
-		Cluster c = Mockito.spy(new Cluster(1000));
-		doReturn(c).when(assign).findCluster(1000);
+		Cluster c = Mockito.spy(new Cluster("1000"));
+		doReturn(c).when(assign).findCluster("1000");
 		when(c.getStatus()).thenReturn(CLOSED);
 
 		exception.expect(ClusterException.class);
 		exception.expectMessage("Issue already marked as Closed");
-		assign.resolveIssue(u, 1000);
+		assign.resolveIssue(u, "1000");
     }
 
 	@Test
@@ -197,12 +197,12 @@ public class AssignmentTest {
 		when(developer.getUsername()).thenReturn("developer1");
 		doReturn(developer).when(assign).findUser("developer1");
 
-		Cluster c = spy(new Cluster(0));
+		Cluster c = spy(new Cluster("0"));
 		Set<String> assignees = new HashSet<String>(Arrays.asList("developer1","developer2"));
 		doReturn(assignees).when(c).getAssigneeIDs();
-		doReturn(c).when(assign).findCluster(0);
+		doReturn(c).when(assign).findCluster("0");
 
-		assertTrue(assign.unassignIssue(u,0,"developer1"));
+		assertTrue(assign.unassignIssue(u,"0","developer1"));
 		assertTrue(c.getAssigneeIDs().size() == 1);
 		assertTrue(c.getAssigneeIDs().contains("developer2"));
 
@@ -215,15 +215,15 @@ public class AssignmentTest {
 		when(developer.getUsername()).thenReturn("developer1");
 		doReturn(developer).when(assign).findUser("developer1");
 
-		Cluster c = spy(new Cluster(0));
+		Cluster c = spy(new Cluster("0"));
 		Set<String> assignees = new HashSet<String>(Arrays.asList("developer2"));
 		doReturn(assignees).when(c).getAssigneeIDs();
-		doReturn(c).when(assign).findCluster(0);
+		doReturn(c).when(assign).findCluster("0");
 
 		exception.expect(AssignmentException.class);
 		exception.expectMessage("The developer has not been assigned to the issue");
 
-		assign.unassignIssue(u,0,"developer1");
+		assign.unassignIssue(u,"0","developer1");
 
 	}
 
@@ -234,16 +234,16 @@ public class AssignmentTest {
 		when(developer.getUsername()).thenReturn("developer2");
 		doReturn(developer).when(assign).findUser("developer2");
 
-		Cluster c = spy(new Cluster(0));
+		Cluster c = spy(new Cluster("0"));
 		Set<String> assignees = new HashSet<String>(Arrays.asList("developer2"));
 		doReturn(assignees).when(c).getAssigneeIDs();
-		doReturn(c).when(assign).findCluster(0);
+		doReturn(c).when(assign).findCluster("0");
 
 		when(u.getRole()).thenReturn(UserRole.DEVELOPER);
 
 		exception.expect(InvalidAuthStateException.class);
 		exception.expectMessage("You do not have the permission to perform this operation");
 
-		assign.unassignIssue(u,0,"developer2");
+		assign.unassignIssue(u,"0","developer2");
 	}
 }

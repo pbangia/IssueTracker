@@ -1,12 +1,8 @@
 package models;
 
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import weka.core.Instance;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by priyankitbangia on 18/10/17.
@@ -23,7 +19,7 @@ public class ForumPost {
     private int detailsID;
     private String content;
     private String url;
-    private int clusterID = -1;
+    private String clusterID;
 
     public ForumPost(){}
 
@@ -35,7 +31,6 @@ public class ForumPost {
         detailsID = (int) rawData.value(4);
         content = rawData.stringValue(5);
         url = rawData.stringValue(6);
-        clusterID = -1;
     }
 
     public ForumPost(String[] fields){
@@ -107,11 +102,11 @@ public class ForumPost {
         this.url = url;
     }
 
-    public int getClusterID() {
+    public String getClusterID() {
         return clusterID;
     }
 
-    public void setClusterID(int clusterID) {
+    public void setClusterID(String clusterID) {
         this.clusterID = clusterID;
     }
 }

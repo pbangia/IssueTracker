@@ -32,7 +32,8 @@ public class ForumService {
     Map<Integer, ForumPost> postsMap = new HashMap<>();
     public ClusterEvaluation eval;
     double[] assignments;
-    Map<Integer, Cluster> clusters;
+    Map<String, Cluster> clusters;
+    public Cluster[] clusterIndexes;
 
     private MongoClient connection;
     private Datastore ds;
@@ -71,15 +72,18 @@ public class ForumService {
         return posts;
     }
 
-    public Map<Integer, Cluster> getRelatedIssues(){
+    public Map<String, Cluster> getRelatedIssues(){
 
         //run cluster algorithm
         clusterPosts();
 
         //create cluster array
         clusters = new HashMap<>();
+        clusterIndexes = new Cluster[eval.getNumClusters()];
         for (int i=0; i<eval.getNumClusters(); i++){
-            clusters.put(i , new Cluster(i));
+            Cluster c = new Cluster();
+            clusters.put(c.getClusterID() , c);
+            clusterIndexes[i] = c;
         }
 
         //perform mapping between cluster assignment and forum postsList
@@ -87,10 +91,10 @@ public class ForumService {
         for (int i = 0; i<assignments.length; i++){
             int clusterNum = (int) assignments[i];
             ForumPost post = postsList.get(i);
-            post.setClusterID(clusterNum);
-            clusters.get(clusterNum).setClusterID(clusterNum);
-            clusters.get(clusterNum).addForumPost(post.getQuestionID(), post.getAuthor());
 
+            Cluster c = clusterIndexes[clusterNum];
+            post.setClusterID(c.getClusterID());
+            c.addForumPost(post.getQuestionID(), post.getAuthor());
         }
 
         System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
@@ -129,7 +133,7 @@ public class ForumService {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    public Cluster getCluster(int i) {
+    public Cluster getCluster(String i) {
         return clusters.get(i);
     }
 
@@ -137,12 +141,12 @@ public class ForumService {
         this.accessPrivilege = accessPrivilege;
     }
 
-    public void addForumPostToCluster(ForumPost forumPost, int i) {
+    public void addForumPostToCluster(ForumPost forumPost, String id) {
         if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to add clusters");
-        if (forumPost.getClusterID() != -1) throw new AssignmentException("Forum post is already assigned to a cluster");
-        Cluster c = getCluster(i);
+        if (forumPost.getClusterID() != null) throw new AssignmentException("Forum post is already assigned to a cluster");
+        Cluster c = getCluster(id);
         c.addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
-        forumPost.setClusterID(i);
+        forumPost.setClusterID(id);
 
         ds.save(c);
         ds.save(forumPost);
@@ -150,7 +154,7 @@ public class ForumService {
 
     public void removeForumPostFromCluster(ForumPost forumPost) {
         if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to remove clusters");
-        if (forumPost.getClusterID() == -1) throw new AssignmentException("Forum post not assigned to a cluster");
+        if (forumPost.getClusterID() == null) throw new AssignmentException("Forum post not assigned to a cluster");
         Cluster cluster = getCluster(forumPost.getClusterID());
         cluster.removeForumPost(forumPost);
 
@@ -164,9 +168,9 @@ public class ForumService {
         ds.delete(c);
         clusters.remove(c.getClusterID());
         for (int fid : c.getPostIDs()) {
-            // TODO change clusterID
-            Cluster newCluster = new Cluster(fid);
+            Cluster newCluster = new Cluster();
             clusters.put(newCluster.getClusterID(), newCluster);
+
             ForumPost fp = postsMap.get(fid);
             fp.setClusterID(newCluster.getClusterID());
             newCluster.addForumPost(fp.getQuestionID(), fp.getAuthor());
@@ -202,7 +206,7 @@ public class ForumService {
         return new ArrayList<>(clusters.values());
     }
 
-    public void setClusters(Map<Integer, Cluster> clusters) {
+    public void setClusters(Map<String, Cluster> clusters) {
         this.clusters = clusters;
     }
 
@@ -210,7 +214,7 @@ public class ForumService {
         this.postsMap = postsMap;
     }
 
-    public Map<Integer,Cluster> getClusters() {
+    public Map<String,Cluster> getClusters() {
         return clusters;
     }
 

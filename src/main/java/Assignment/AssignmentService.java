@@ -31,7 +31,7 @@ public class AssignmentService {
 		ds = dbMapper.createDatastore(connection, "testdb");
 	}
 	
-	public boolean assignIssue(User assigner, int clusterID, String assigneeID) {
+	public boolean assignIssue(User assigner, String clusterID, String assigneeID) {
 		User assignee = findUser(assigneeID);
 		Cluster cluster = findCluster(clusterID);
 		
@@ -62,7 +62,7 @@ public class AssignmentService {
 		}
 	}
 	
-    public boolean unassignIssue(User currentUser, int clusterID, String assigneeID) {
+    public boolean unassignIssue(User currentUser, String clusterID, String assigneeID) {
 		Cluster cluster = findCluster(clusterID);
 		
 		if (!UserStatus.LOGGED_IN.equals(currentUser.getStatus())) {
@@ -83,7 +83,7 @@ public class AssignmentService {
 		return true;
 	}
     
-    public boolean resolveIssue(User currentUser, int clusterID) {
+    public boolean resolveIssue(User currentUser, String clusterID) {
     	if (UserRole.ADMIN == currentUser.getRole()) {
 			throw new InvalidAuthStateException("Only Developers have the permission to perform this operation");
 		}
@@ -103,7 +103,7 @@ public class AssignmentService {
 		return ds.find(User.class).field("_id").equal(username).get();
 	}
 	
-	public Cluster findCluster(int id) {
+	public Cluster findCluster(String id) {
 		return ds.find(Cluster.class).field("_id").equal(id).get();
 	}
 	

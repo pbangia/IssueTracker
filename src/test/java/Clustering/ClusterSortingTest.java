@@ -60,9 +60,9 @@ public class ClusterSortingTest {
 
         when(forum.getAccessPrivilege()).thenReturn(ADMIN);
 
-        c1 = spy(new Cluster(1000));
-        c2 = spy(new Cluster(2000));
-        c3 = spy(new Cluster(3000));
+        c1 = spy(new Cluster("1000"));
+        c2 = spy(new Cluster("2000"));
+        c3 = spy(new Cluster("3000"));
 
         when(c1.getNumPosts()).thenReturn(1);
         when(c2.getNumPosts()).thenReturn(2);

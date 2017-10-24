@@ -1,5 +1,6 @@
 package models;
 
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 public class Cluster implements Serializable {
 
     @Id
-    private int clusterID;
+    private String clusterID;
     Set<Integer> postIDs = new HashSet<>();
     List<String> usersAffected = new ArrayList<>();
     private int numPosts;
@@ -27,8 +28,16 @@ public class Cluster implements Serializable {
     private Set<String> assigneeIDs = new HashSet<>();
     private IssueStatus status = IssueStatus.OPEN;
 
-    public Cluster(int id){
+    public Cluster(String id){
         this.clusterID = id;
+    }
+
+    public Cluster(){
+        this.clusterID = generateID();
+    }
+
+    private String generateID() {
+        return new ObjectId().toString();
     }
 
     public void addForumPost(int postID, String author){
@@ -45,10 +54,10 @@ public class Cluster implements Serializable {
         numAffectedUsers = (usersAffected.contains(forumPost.getAuthor())) ? numAffectedUsers : numAffectedUsers - 1;
 
         System.out.println(numAffectedUsers);
-        forumPost.setClusterID(-1);
+        forumPost.setClusterID(null);
     }
 
-    public void setClusterID(int id) {
+    public void setClusterID(String id) {
         this.clusterID = id;
     }
 
@@ -104,7 +113,7 @@ public class Cluster implements Serializable {
         this.status = status;
     }
 
-    public int getClusterID() {
+    public String getClusterID() {
         return clusterID;
     }
 
