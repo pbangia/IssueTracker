@@ -3,25 +3,19 @@ package Assignment;
 import java.net.UnknownHostException;
 import java.util.Set;
 
+import exceptions.*;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 import com.mongodb.MongoClient;
 
-import exceptions.AdminCannotBeenAssignedException;
-import exceptions.AdminCannotSetAnIssueToResolved;
-import exceptions.ClusterException;
-import exceptions.DeveloperAlreadyAssignedException;
-import exceptions.DeveloperNotAssignedException;
-import exceptions.InvalidAuthStateException;
-import exceptions.IssueAlreadyClosedException;
-import exceptions.IssueAlreadyResolved;
-import exceptions.PermissionDeniedException;
 import models.Cluster;
 import models.Cluster.IssueStatus;
 import models.User;
 import models.UserRole;
 import models.UserStatus;
+
+import static models.Cluster.IssueStatus.IN_PROGRESS;
 
 public class AssignmentService {
 	private MongoClient connection;
@@ -46,24 +40,25 @@ public class AssignmentService {
 		}
 		
 		if (!UserRole.ADMIN.equals(assigner.getRole())) {
-			throw new PermissionDeniedException("You do not have the permission to perform this operation");
+			throw new InvalidAuthStateException("Developers cannot assign issues to other users");
 		}
 		
 		if (!UserRole.DEVELOPER.equals(assignee.getRole())) {
-			throw new AdminCannotBeenAssignedException("An administrator cannot been assigned to an issue");
+			throw new AssignmentException("An administrator cannot been assigned to an issue");
 		}
 		
 		if (IssueStatus.CLOSED.equals(cluster.getStatus())) {
-			throw new IssueAlreadyClosedException("The issue has already been closed");
+			throw new ClusterException("The issue has already been closed");
 		}
 		
 		Set<String> assignees = cluster.getAssigneeIDs();
 		if (!assignees.contains(assignee.getUsername())) {
 			assignees.add(assignee.getUsername());
+			cluster.setStatus(IN_PROGRESS);
 			ds.save(cluster);
 			return true;
 		} else {
-			throw new DeveloperAlreadyAssignedException("The developer has already been assigned to the issue");
+			throw new AssignmentException("The developer has already been assigned to the issue");
 		}
 	}
 	
@@ -75,12 +70,12 @@ public class AssignmentService {
 		}
 		
 		if (!UserRole.ADMIN.equals(currentUser.getRole())) {
-			throw new PermissionDeniedException("You do not have the permission to perform this operation");
+			throw new InvalidAuthStateException("You do not have the permission to perform this operation");
 		}
 		
 		Set<String> assignees = cluster.getAssigneeIDs();
 		if (!assignees.contains(assigneeID)){
-			throw new DeveloperNotAssignedException("The developer has not been assigned to the issue");
+			throw new AssignmentException("The developer has not been assigned to the issue");
 		}
 		
 		assignees.remove(assigneeID);
