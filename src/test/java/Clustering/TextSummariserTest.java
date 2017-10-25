@@ -54,13 +54,40 @@ public class TextSummariserTest {
 
     @Test
     public void shouldSummariseClusteredPostTitlesAndSetAsIssueTitle() {
-        Cluster c = new Cluster();
+        Cluster c = initialiseClusterWithMockPostTitles();
         String summarisedTitle = forum.summariseClusterTitle(c, 5);
         c.setTitle(summarisedTitle);
 
-        String expectedSummarisedTitle = "something";
+        String expectedSummarisedTitle = "login Invoice Report credentials query";
         assertEquals(expectedSummarisedTitle, c.getTitle());
 
     }
+
+    private Cluster initialiseClusterWithMockPostTitles(){
+        Cluster c = spy(new Cluster("1000"));
+        ArrayList<String> fakeTitles = getTestTitles();
+        Set<Integer> fakePostIds = new HashSet<>();
+        int id = 0;
+        for (String title: fakeTitles){
+            ForumPost f = mock(ForumPost.class);
+            int fakeID = id++;
+            when(f.getTitle()).thenReturn(title);
+            when(f.getQuestionID()).thenReturn(fakeID);
+            fakePostIds.add(fakeID);
+        }
+
+        doReturn(fakePostIds).when(c).getPostIDs();
+        return c;
+    }
+
+    public ArrayList<String> getTestTitles() {
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add("xero-php API, how to structure query");
+        titles.add("Getting zero dollar value categories included in Profit and Loss Report");
+        titles.add("Link Manual Journal Entry Transactions to an Invoice or Bill");
+        titles.add("Hi there,I am unable to login with my login credentials today.Can I know what could be the reason?");
+        return titles;
+    }
+
 
 }
