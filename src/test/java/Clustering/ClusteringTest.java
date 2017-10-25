@@ -1,7 +1,6 @@
 package Clustering;
 
 import Authentication.LoginService;
-import Authentication.RegistrationService;
 import app.IssueTracker;
 import com.mongodb.*;
 import exceptions.AssignmentException;
@@ -310,7 +309,7 @@ public class ClusteringTest {
         Map<String, Cluster> testClusterMap = new HashMap<>();
         testClusterMap.put(clusterToDelete.getClusterID(), clusterToDelete);
 
-        //get forum service to use this mocked data
+        //set forum service to use this mocked data
         forum.setClusters(spy(testClusterMap));
 
         // Delete cluster and check if existing forum posts assigned to new single clusters
@@ -357,18 +356,25 @@ public class ClusteringTest {
     public void testRealDatabaseWithClusterPersistence(){
 
         try {
-            IssueTracker i = new IssueTracker();
-            RegistrationService r = i.getRegistrationService();
-            LoginService l = i.getLoginService();
-            r.register("user1","password","ADMIN");
-            l.login("user1","password");
-            i.getForumService().getRelatedIssues();
-            i.getForumService().saveClusters();
-            i.getForumService().saveForumPosts();
+            IssueTracker issueTracker = new IssueTracker();
+            issueTracker.getDs().getCollection(User.class).drop(); //clear db to be able to run sample test
+            issueTracker.getDs().getCollection(ForumPost.class).drop();
+            issueTracker.getDs().getCollection(Cluster.class).drop();
 
-            ForumPost f = new ForumPost(65);
-            f.setAuthor("author");
-            //i.getForumService().addForumPostToCluster(f,"0");
+            // Authenticate
+            issueTracker.register("user1","password", ADMIN);
+            issueTracker.login("user1","password");
+
+            // Load cluster info
+            ForumService forum = issueTracker.getForumService();
+            Map<String, Cluster> clusters = forum.getRelatedIssues();
+
+            // Use cluster info
+            for (Cluster c: clusters.values()) {
+                System.out.println(c.getClusterID());
+            }
+
+
 
             
         }catch (UserRegistrationException e){

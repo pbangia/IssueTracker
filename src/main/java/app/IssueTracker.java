@@ -2,6 +2,8 @@ package app;
 
 import java.net.UnknownHostException;
 
+import models.UserRole;
+import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 import com.mongodb.MongoClient;
@@ -19,6 +21,9 @@ import models.UserStatus;
  */
 public class IssueTracker {
 
+
+
+    private Datastore ds;
     private ForumService forumService;
     private LoginService loginService;
     private RegistrationService registrationService;
@@ -37,6 +42,7 @@ public class IssueTracker {
         loginService = new LoginService(connection, morphia);
         registrationService = new RegistrationService(connection, morphia);
         assignmentService = new AssignmentService(connection, morphia);
+        ds = morphia.createDatastore(connection, "testdb");
     }
 
     public ForumService getForumService() {
@@ -46,6 +52,18 @@ public class IssueTracker {
         }
         forumService.setAccessPrivilege(currentUser.getRole());
         return forumService;
+    }
+
+    public void register(String username, String password, UserRole role){
+        registrationService.register(new User(username, password, role));
+    }
+
+    public void login(String username, String password){
+        loginService.login(username, password);
+    }
+
+    public Datastore getDs() {
+        return ds;
     }
 
     public void setForumService(ForumService forumService) {

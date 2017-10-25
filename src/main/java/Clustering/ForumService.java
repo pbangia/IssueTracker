@@ -15,6 +15,7 @@ import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.DBSCAN;
 import weka.core.Instances;
 import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.InterquartileRange;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
 import java.net.UnknownHostException;
@@ -49,7 +50,6 @@ public class ForumService {
 
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
         postData = new ForumPostReader().loadData(POST_FILE_NAME);
-        //sentenceData = new ForumPostReader().loadData(SENTENCE_FILE_NAME);
         postsList = getAllPosts();
 
         connection = newConnection;
@@ -95,6 +95,8 @@ public class ForumService {
             Cluster c = clusterIndexes[clusterNum];
             post.setClusterID(c.getClusterID());
             c.addForumPost(post.getQuestionID(), post.getAuthor());
+            ds.save(c);
+            ds.save(post);
         }
 
         System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
@@ -107,11 +109,13 @@ public class ForumService {
     }
 
     public void saveClusters() {
-        for (Cluster c: clusters.values()) ds.save(c);
+        for (Cluster c: clusters.values()) {
+            ds.save(c);
+        }
     }
 
     public void saveForumPosts() {
-        for (ForumPost f: postsList){
+        for (ForumPost f: postsList) {
             ds.save(f);
         }
     }
@@ -192,13 +196,9 @@ public class ForumService {
     }
 
     public List<Cluster> getSortedClusters(ClusterSortBy category, boolean asc) {
-
         List<Cluster> list = getClustersAsList();
-
         Collections.sort(list, category);
-
         if (asc) Collections.reverse(list);
-
         return list;
     }
 
