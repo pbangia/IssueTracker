@@ -61,7 +61,7 @@ public class TextSummariserTest {
         String summarisedTitle = forum.summariseClusterTitle(c, 5);
         c.setTitle(summarisedTitle);
 
-        String expectedSummarisedTitle = "login Invoice Report credentials query";
+        String expectedSummarisedTitle = "API Invoice login query xero-php";
         assertEquals(expectedSummarisedTitle, c.getTitle());
 
     }
@@ -92,6 +92,17 @@ public class TextSummariserTest {
         assertEquals(expectedSummarisedTitle, c.getTitle());
     }
 
+    @Test
+    public void shouldNotCountRepeatedWordsOfDifferentCaseWhenGeneratingIssueTitle() {
+        List<String> fakeTitles = getTestTitlesWithMixedCase();
+        Cluster c = initialiseClusterWithMockPostTitles(fakeTitles);
+        String summarisedTitle = forum.summariseClusterTitle(c, 2);
+        c.setTitle(summarisedTitle);
+
+        String expectedSummarisedTitle = "shouldbe1st ShouldBe2nd";
+        assertEquals(expectedSummarisedTitle, c.getTitle());
+    }
+
     private Cluster initialiseClusterWithMockPostTitles(List<String> fakeTitles){
         Cluster c = spy(new Cluster("1000"));
         Set<Integer> fakePostIds = new HashSet<>();
@@ -112,8 +123,10 @@ public class TextSummariserTest {
     public ArrayList<String> getTestTitles() {
         ArrayList<String> titles = new ArrayList<>();
         titles.add("xero-php API, how to structure query");
+        titles.add("xero-php API query");
         titles.add("Getting zero dollar value categories included in Profit and Loss Report");
         titles.add("Link Manual Journal Entry Transactions to an Invoice or Bill");
+        titles.add("Want to see Invoice");
         titles.add("Hi there,I am unable to login with my login credentials today.Can I know what could be the reason?");
         return titles;
     }
@@ -123,6 +136,14 @@ public class TextSummariserTest {
         fakeTitles.add("this that how we be will notacommonword_1");
         fakeTitles.add("this we that a be I can");
         fakeTitles.add("a then how this what a a a a notacommonword_2");
+        return fakeTitles;
+    }
+
+    public List<String> getTestTitlesWithMixedCase() {
+        ArrayList<String> fakeTitles = new ArrayList<>();
+        fakeTitles.add("ShouldBe2nd ShouldBe2nd");
+        fakeTitles.add("shouldbe1st");
+        fakeTitles.add("sHouldBe1st SHOULDbe1st");
         return fakeTitles;
     }
 }
