@@ -16,6 +16,7 @@ public class TextSummariser {
 
         String[] wordArray = words.split(" ");
         for (String w : wordArray) {
+            if (Stopwords.isStopword(w)) continue;
 
             Integer numOcurrences = map.get(w);
             numOcurrences = (numOcurrences == null) ? 1 : ++numOcurrences;

@@ -82,7 +82,7 @@ public class TextSummariserTest {
     }
 
     @Test
-    public void shouldIgnoreCommonEnglishWordsWhenGeneratingIssueTitleFromForumPostTitles() {
+    public void shouldIgnoreCommonEnglishWordsWhenGeneratingIssueTitleFromForumPosts() {
         List<String> fakeTitles = getTestTitlesWithCommonWords();
         Cluster c = initialiseClusterWithMockPostTitles(fakeTitles);
         String summarisedTitle = forum.summariseClusterTitle(c, 2);
