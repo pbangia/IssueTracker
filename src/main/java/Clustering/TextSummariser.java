@@ -35,7 +35,8 @@ public class TextSummariser {
                 return secondWordCount.compareTo(firstWordCount);
             }
         });
+        int maxSize = Math.min(numOfWords, sortedWords.size());
 
-        return sortedWords.subList(0, numOfWords);
+        return sortedWords.subList(0, maxSize);
     }
 }
