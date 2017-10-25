@@ -54,9 +54,39 @@ public class RegistrationTest {
 
         issueTracker = new IssueTracker(connection, morphia);
 
-        auth = Mockito.spy(issueTracker.getRegistrationService());
+        auth = spy(issueTracker.getRegistrationService());
 
     }
+
+    @Test
+    public void shouldCreateNewUserWhenRegisteringAsAdminIfNewUser(){
+
+        doReturn(null).when(auth).findUser(TEST_USERNAME);
+
+        assertTrue(auth.register(TEST_USERNAME, TEST_PASSWORD,TEST_ROLE_ADMIN)!=null);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(ds).save(userCaptor.capture());
+
+        User capturedUser = userCaptor.getValue();
+        assertEquals(capturedUser.getUsername(), TEST_USERNAME);
+        assertEquals(capturedUser.getPassword(), TEST_PASSWORD);
+        assertEquals(capturedUser.getRole().toString(), TEST_ROLE_ADMIN);
+
+    }
+
+    @Test
+    public void shouldThrowInvalidUsernameExceptionWhenRegisteringIfUsernameAlreadyExists(){
+
+        exception.expect(InvalidUsernameException.class);
+        exception.expectMessage("Username already exists");
+
+        User u = mock(User.class);
+        doReturn(u).when(auth).findUser(TEST_USERNAME);
+
+        auth.register(TEST_USERNAME, TEST_PASSWORD,TEST_ROLE_ADMIN);
+    }
+
 
     @Test
     public void shouldThrowPasswordFormatExceptionIfPasswordLengthLessThan8() {
@@ -109,35 +139,6 @@ public class RegistrationTest {
         assertEquals(capturedUser.getUsername(), TEST_USERNAME);
         assertEquals(capturedUser.getPassword(), TEST_PASSWORD);
         assertEquals(capturedUser.getRole().toString(), TEST_ROLE_DEV);
-    }
-
-    @Test
-    public void shouldCreateNewUserWhenRegisteringAsAdminIfNewUser(){
-
-        doReturn(null).when(auth).findUser(TEST_USERNAME);
-
-        assertTrue(auth.register(TEST_USERNAME, TEST_PASSWORD,TEST_ROLE_ADMIN)!=null);
-
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        verify(ds).save(userCaptor.capture());
-
-        User capturedUser = userCaptor.getValue();
-        assertEquals(capturedUser.getUsername(), TEST_USERNAME);
-        assertEquals(capturedUser.getPassword(), TEST_PASSWORD);
-        assertEquals(capturedUser.getRole().toString(), TEST_ROLE_ADMIN);
-
-    }
-
-    @Test
-    public void shouldThrowInvalidUsernameExceptionWhenRegisteringIfUsernameAlreadyExists(){
-
-        exception.expect(InvalidUsernameException.class);
-        exception.expectMessage("Username already exists");
-
-        User u = mock(User.class);
-        doReturn(u).when(auth).findUser(TEST_USERNAME);
-
-        auth.register(TEST_USERNAME, TEST_PASSWORD,TEST_ROLE_ADMIN);
     }
 
     @Test

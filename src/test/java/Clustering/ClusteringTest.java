@@ -1,7 +1,6 @@
 package Clustering;
 
 import Authentication.LoginService;
-import Authentication.RegistrationService;
 import app.IssueTracker;
 import com.mongodb.*;
 import exceptions.AssignmentException;
@@ -310,7 +309,7 @@ public class ClusteringTest {
         Map<String, Cluster> testClusterMap = new HashMap<>();
         testClusterMap.put(clusterToDelete.getClusterID(), clusterToDelete);
 
-        //get forum service to use this mocked data
+        //set forum service to use this mocked data
         forum.setClusters(spy(testClusterMap));
 
         // Delete cluster and check if existing forum posts assigned to new single clusters
