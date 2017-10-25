@@ -221,4 +221,7 @@ public class ForumService {
     public Map<Integer,ForumPost> getPostsMap() {
         return postsMap;
     }
+    public String summariseClusterTitle(Cluster c, int i) {
+        return "";
+    }
 }
