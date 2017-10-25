@@ -369,7 +369,6 @@ public class ClusteringTest {
             // Load cluster info
             ForumService forum = issueTracker.getForumService();
             Map<String, Cluster> clusters = forum.getRelatedIssues();
-            Map<Integer, ForumPost> forumposts = forum.getForumPostsMap();
 
             // Use cluster info
             for (Cluster c: clusters.values()) {
