@@ -10,7 +10,7 @@ import java.util.*;
 public class TextSummariser {
 
     public Map<String, Integer> getWordCountMap(String words){
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         words = words.replace(",","");
         words = words.replace("\"","");
 
