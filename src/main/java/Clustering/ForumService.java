@@ -102,10 +102,21 @@ public class ForumService {
         System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
         System.out.println("All clusters (with forum post IDs): "+clusters.toString());
 
-        //TODO: split saving clusters below into another unit test
-//        saveForumPosts();
-//        saveClusters();
+        setClusterTitles();
+
         return clusters;
+    }
+
+    public void setClusterTitles() {
+        for (Cluster c: clusters.values()) {
+            c.setTitle(summariseClusterTitle(c, 5));
+            ds.save(c);
+        }
+    }
+
+    private void saveState() {
+        saveForumPosts();
+        saveClusters();
     }
 
     public void saveClusters() {
@@ -135,14 +146,6 @@ public class ForumService {
             System.out.println(eval.clusterResultsToString());
 
         } catch (Exception e) { e.printStackTrace(); }
-    }
-
-    public Cluster getCluster(String i) {
-        return clusters.get(i);
-    }
-
-    public void setAccessPrivilege(UserRole accessPrivilege) {
-        this.accessPrivilege = accessPrivilege;
     }
 
     public void addForumPostToCluster(ForumPost forumPost, String id) {
@@ -183,6 +186,41 @@ public class ForumService {
         }
     }
 
+    public String summariseClusterTitle(Cluster c, int length) {
+        ArrayList<Integer> postIDs = new ArrayList<>(c.getPostIDs());
+        StringBuilder sb = new StringBuilder();
+
+        for (int id: postIDs) {
+            ForumPost fp = getForumPost(id);
+            sb.append(fp.getTitle()+" ");
+        }
+
+        TextSummariser summariser = new TextSummariser();
+        List<String> wordList = summariser.getSortedTopWords(sb.toString(), length);
+        String summary = String.join(" ", wordList);
+
+        return summary;
+    }
+
+    public ForumPost getForumPost(int id) {
+        return ds.find(ForumPost.class).field("_id").equal(id).get();
+    }
+
+    public List<Cluster> getSortedClusters(ClusterSortBy category, boolean asc) {
+        List<Cluster> list = getClustersAsList();
+        Collections.sort(list, category);
+        if (asc) Collections.reverse(list);
+        return list;
+    }
+
+    public Cluster getCluster(String i) {
+        return clusters.get(i);
+    }
+
+    public void setAccessPrivilege(UserRole accessPrivilege) {
+        this.accessPrivilege = accessPrivilege;
+    }
+
     public UserRole getAccessPrivilege() {
         return accessPrivilege;
     }
@@ -195,12 +233,6 @@ public class ForumService {
         return new ClusterEvaluation();
     }
 
-    public List<Cluster> getSortedClusters(ClusterSortBy category, boolean asc) {
-        List<Cluster> list = getClustersAsList();
-        Collections.sort(list, category);
-        if (asc) Collections.reverse(list);
-        return list;
-    }
 
     public List<Cluster> getClustersAsList() {
         return new ArrayList<>(clusters.values());

@@ -76,6 +76,7 @@ public class ClusteringTest {
         ClusterEvaluation eval = spy(new ClusterEvaluation());
         when(forum.getEval()).thenReturn(eval);
         doNothing().when(eval).evaluateClusterer(any(Instances.class)); // Throws generic exception
+        doNothing().when(forum).setClusterTitles();
 
         //perform expected mapping on test input
         doReturn(10).when(eval).getNumClusters();
@@ -86,8 +87,6 @@ public class ClusteringTest {
         List<HashSet<Integer>> expectedIDs = getExpectedIDs();
         Map<String, Cluster> clusters = forum.getRelatedIssues();
         Cluster[] clusterIndexes = forum.clusterIndexes;
-//        Iterator iterator = clusters.entrySet().iterator();
-//        List<Cluster> ordered = new ArrayList<Cluster>(clusters.values());
 
         //Check equal number of clusters
         assertEquals(expectedIDs.size(), clusters.size());
