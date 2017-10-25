@@ -221,7 +221,24 @@ public class ForumService {
     public Map<Integer,ForumPost> getPostsMap() {
         return postsMap;
     }
-    public String summariseClusterTitle(Cluster c, int i) {
-        return "";
+
+    public String summariseClusterTitle(Cluster c, int length) {
+        ArrayList<Integer> postIDs = new ArrayList<>(c.getPostIDs());
+        StringBuilder sb = new StringBuilder();
+
+        for (int id: postIDs) {
+            ForumPost fp = getForumPost(id);
+            sb.append(fp.getTitle()+" ");
+        }
+
+        TextSummariser summariser = new TextSummariser();
+        List<String> wordList = summariser.getSortedTopWords(sb.toString(), length);
+        String summary = String.join(" ", wordList);
+
+        return summary;
+    }
+
+    public ForumPost getForumPost(int id) {
+        return ds.find(ForumPost.class).field("_id").equal(id).get();
     }
 }

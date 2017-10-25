@@ -73,6 +73,7 @@ public class TextSummariserTest {
             int fakeID = id++;
             when(f.getTitle()).thenReturn(title);
             when(f.getQuestionID()).thenReturn(fakeID);
+            doReturn(f).when(forum).getForumPost(fakeID);
             fakePostIds.add(fakeID);
         }
 
