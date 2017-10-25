@@ -103,9 +103,21 @@ public class ForumService {
         System.out.println("All clusters (with forum post IDs): "+clusters.toString());
 
         //TODO: split saving clusters below into another unit test
-//        saveForumPosts();
-//        saveClusters();
+        setClusterTitles();
+
         return clusters;
+    }
+
+    public void setClusterTitles() {
+        for (Cluster c: clusters.values()) {
+            c.setTitle(summariseClusterTitle(c, 5));
+            ds.save(c);
+        }
+    }
+
+    private void saveState() {
+        saveForumPosts();
+        saveClusters();
     }
 
     public void saveClusters() {
