@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.converters.StringConverter;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -63,6 +65,20 @@ public class TextSummariserTest {
 
     }
 
+    @Test
+    public void shouldSummariseTitleWithSpecifiedLengthGreaterThanMaxLengthOfPostTitles() {
+        Cluster c = initialiseClusterWithMockPostTitles();
+
+        int lengthGreaterThanNumberOfWords = 10000;
+
+        String summarisedTitle = forum.summariseClusterTitle(c, lengthGreaterThanNumberOfWords);
+        c.setTitle(summarisedTitle);
+
+        String[] returnedWords = c.getTitle().split(" ");
+        assertTrue(returnedWords.length < lengthGreaterThanNumberOfWords);
+
+    }
+
     private Cluster initialiseClusterWithMockPostTitles(){
         Cluster c = spy(new Cluster("1000"));
         ArrayList<String> fakeTitles = getTestTitles();
@@ -89,6 +105,5 @@ public class TextSummariserTest {
         titles.add("Hi there,I am unable to login with my login credentials today.Can I know what could be the reason?");
         return titles;
     }
-
 
 }
