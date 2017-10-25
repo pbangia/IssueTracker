@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import org.mongodb.morphia.converters.StringConverter;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -56,18 +56,20 @@ public class TextSummariserTest {
 
     @Test
     public void shouldSummariseClusteredPostTitlesAndSetAsIssueTitle() {
-        Cluster c = initialiseClusterWithMockPostTitles();
+        List<String> fakeTitles = getTestTitles();
+        Cluster c = initialiseClusterWithMockPostTitles(fakeTitles);
         String summarisedTitle = forum.summariseClusterTitle(c, 5);
         c.setTitle(summarisedTitle);
 
-        String expectedSummarisedTitle = "to login Invoice be credentials";
+        String expectedSummarisedTitle = "login Invoice Report credentials query";
         assertEquals(expectedSummarisedTitle, c.getTitle());
 
     }
 
     @Test
     public void shouldSummariseTitleWithSpecifiedLengthGreaterThanMaxLengthOfPostTitles() {
-        Cluster c = initialiseClusterWithMockPostTitles();
+        List<String> fakeTitles = getTestTitles();
+        Cluster c = initialiseClusterWithMockPostTitles(fakeTitles);
 
         int lengthGreaterThanNumberOfWords = 10000;
 
@@ -79,9 +81,19 @@ public class TextSummariserTest {
 
     }
 
-    private Cluster initialiseClusterWithMockPostTitles(){
+    @Test
+    public void shouldIgnoreCommonEnglishWordsWhenGeneratingIssueTitleFromForumPostTitles() {
+        List<String> fakeTitles = getTestTitlesWithCommonWords();
+        Cluster c = initialiseClusterWithMockPostTitles(fakeTitles);
+        String summarisedTitle = forum.summariseClusterTitle(c, 2);
+        c.setTitle(summarisedTitle);
+
+        String expectedSummarisedTitle = "notacommonword_1 notacommonword_2";
+        assertEquals(expectedSummarisedTitle, c.getTitle());
+    }
+
+    private Cluster initialiseClusterWithMockPostTitles(List<String> fakeTitles){
         Cluster c = spy(new Cluster("1000"));
-        ArrayList<String> fakeTitles = getTestTitles();
         Set<Integer> fakePostIds = new HashSet<>();
         int id = 0;
         for (String title: fakeTitles){
@@ -106,4 +118,11 @@ public class TextSummariserTest {
         return titles;
     }
 
+    public List<String> getTestTitlesWithCommonWords() {
+        ArrayList<String> fakeTitles = new ArrayList<>();
+        fakeTitles.add("this that how we be will notacommonword_1");
+        fakeTitles.add("this we that a be I can");
+        fakeTitles.add("a then how this what a a a a notacommonword_2");
+        return fakeTitles;
+    }
 }
