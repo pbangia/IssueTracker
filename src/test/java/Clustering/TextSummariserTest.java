@@ -58,7 +58,7 @@ public class TextSummariserTest {
         String summarisedTitle = forum.summariseClusterTitle(c, 5);
         c.setTitle(summarisedTitle);
 
-        String expectedSummarisedTitle = "login Invoice Report credentials query";
+        String expectedSummarisedTitle = "to login Invoice be credentials";
         assertEquals(expectedSummarisedTitle, c.getTitle());
 
     }
