@@ -88,7 +88,7 @@ public class TextSummariserTest {
         String summarisedTitle = forum.summariseClusterTitle(c, 2);
         c.setTitle(summarisedTitle);
 
-        String expectedSummarisedTitle = "notacommonword_1 notacommonword_2";
+        String expectedSummarisedTitle = "TEXT SUMMARISED";
         assertEquals(expectedSummarisedTitle, c.getTitle());
     }
 
@@ -133,9 +133,9 @@ public class TextSummariserTest {
 
     public List<String> getTestTitlesWithCommonWords() {
         ArrayList<String> fakeTitles = new ArrayList<>();
-        fakeTitles.add("this that how we be will notacommonword_1");
-        fakeTitles.add("this we that a be I can");
-        fakeTitles.add("a then how this what a a a a notacommonword_2");
+        fakeTitles.add("the TEXT should only be SUMMARISED");
+        fakeTitles.add("TEXT this hello we that a a be I can a I how when");
+        fakeTitles.add("TEXT to be SUMMARISED");
         return fakeTitles;
     }
 
