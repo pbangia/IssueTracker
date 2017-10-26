@@ -31,7 +31,6 @@ public class TextSummariserTest {
 
     private User u;
     private ForumService forum;
-
     IssueTracker issueTracker;
 
     @Before
@@ -103,6 +102,19 @@ public class TextSummariserTest {
         assertEquals(expectedSummarisedTitle, c.getTitle());
     }
 
+    @Test
+    public void shouldSummariseClusteredPostContentAndSetAsIssueSummary() {
+        List<String> fakeContent = getTestContent();
+        Cluster c = initialiseClusterWithMockPostContent(fakeContent);
+        String summarisedTitle = forum.summariseClusterContent(c, 11);
+        c.setTitle(summarisedTitle);
+
+        String expectedSummarisedTitle = "fox dog jumps brown lazy higher jump lives pet talk wild";
+        assertEquals(expectedSummarisedTitle, c.getTitle());
+
+    }
+
+
     private Cluster initialiseClusterWithMockPostTitles(List<String> fakeTitles){
         Cluster c = spy(new Cluster("1000"));
         Set<Integer> fakePostIds = new HashSet<>();
@@ -111,6 +123,23 @@ public class TextSummariserTest {
             ForumPost f = mock(ForumPost.class);
             int fakeID = id++;
             when(f.getTitle()).thenReturn(title);
+            when(f.getQuestionID()).thenReturn(fakeID);
+            doReturn(f).when(forum).getForumPost(fakeID);
+            fakePostIds.add(fakeID);
+        }
+
+        doReturn(fakePostIds).when(c).getPostIDs();
+        return c;
+    }
+
+    private Cluster initialiseClusterWithMockPostContent(List<String> fakeContent){
+        Cluster c = spy(new Cluster("1000"));
+        Set<Integer> fakePostIds = new HashSet<>();
+        int id = 0;
+        for (String content: fakeContent){
+            ForumPost f = mock(ForumPost.class);
+            int fakeID = id++;
+            when(f.getContent()).thenReturn(content);
             when(f.getQuestionID()).thenReturn(fakeID);
             doReturn(f).when(forum).getForumPost(fakeID);
             fakePostIds.add(fakeID);
@@ -134,7 +163,7 @@ public class TextSummariserTest {
     public List<String> getTestTitlesWithCommonWords() {
         ArrayList<String> fakeTitles = new ArrayList<>();
         fakeTitles.add("the TEXT should only be SUMMARISED");
-        fakeTitles.add("TEXT this hello we that a a be I can a I how when");
+        fakeTitles.add("TEXT the this hello we that a a be I can a I how when");
         fakeTitles.add("TEXT to be SUMMARISED");
         return fakeTitles;
     }
@@ -145,5 +174,14 @@ public class TextSummariserTest {
         fakeTitles.add("shouldbe1st");
         fakeTitles.add("sHouldBe1st SHOULDbe1st");
         return fakeTitles;
+    }
+
+    public List<String> getTestContent() {
+        ArrayList<String> testContent = new ArrayList<>();
+        testContent.add("this should talk about a brown fox who jumps over a lazy dog");
+        testContent.add("the brown fox jumps over a dog who is very lazy");
+        testContent.add("fox lives in the wild but dog is a pet");
+        testContent.add("both fox and dog like to jump but the fox jumps higher");
+        return testContent;
     }
 }

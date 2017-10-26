@@ -202,6 +202,12 @@ public class ForumService {
         return summary;
     }
 
+    public String summariseClusterContent(Cluster c, int length) {
+
+
+        return null;
+    }
+
     public ForumPost getForumPost(int id) {
         return ds.find(ForumPost.class).field("_id").equal(id).get();
     }
