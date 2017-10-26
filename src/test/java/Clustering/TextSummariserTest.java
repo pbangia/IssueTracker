@@ -115,14 +115,26 @@ public class TextSummariserTest {
     }
 
     @Test
-    public void shouldSetADefaultClusterTitleIfClusteredForumPostsHaveEmptyTitle() {
-        List<String> emptyFakeTitles = getTestEmptyTitles();
+    public void shouldSetADefaultClusterTitleIfClusteredForumPostsHaveEmptyTitles() {
+        List<String> emptyFakeTitles = getTestEmptyText();
         Cluster c = initialiseClusterWithMockPostTitles(emptyFakeTitles);
         String summarisedTitle = forum.summariseClusterTitle(c, 5);
         c.setTitle(summarisedTitle);
 
         String expectedDefaultTitle = "Issue #1000";
         assertEquals(expectedDefaultTitle, c.getTitle());
+
+    }
+
+    @Test
+    public void shouldSetADefaultClusterSummaryIfClusteredForumPostsHaveEmptyContent() {
+        List<String> emptyFakeContent = getTestEmptyText();
+        Cluster c = initialiseClusterWithMockPostContent(emptyFakeContent);
+        String summarisedContent = forum.summariseClusterContent(c, 5);
+        c.setSummary(summarisedContent);
+
+        String expectedDefaultContent = "Issue #1000";
+        assertEquals(expectedDefaultContent, c.getSummary());
 
     }
 
@@ -197,10 +209,10 @@ public class TextSummariserTest {
         return testContent;
     }
 
-    public List<String> getTestEmptyTitles() {
-        ArrayList<String> fakeTitles = new ArrayList<>();
-        fakeTitles.add("");
-        fakeTitles.add(null);
-        return fakeTitles;
+    public List<String> getTestEmptyText() {
+        ArrayList<String> fakeEmptyTextData = new ArrayList<>();
+        fakeEmptyTextData.add("");
+        fakeEmptyTextData.add(null);
+        return fakeEmptyTextData;
     }
 }
