@@ -213,6 +213,12 @@ public class ForumService {
             sb.append(fp.getContent()+" ");
         }
 
+        String combinedText = sb.toString().trim();
+        if (combinedText.equals("null") || combinedText.isEmpty()) {
+            return "Issue #"+c.getClusterID();
+        }
+
+
         return generateSummaryText(sb.toString(), length);
     }
 
