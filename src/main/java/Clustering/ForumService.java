@@ -196,12 +196,7 @@ public class ForumService {
             sb.append(fp.getTitle()+" ");
         }
 
-        String combinedText = sb.toString().trim();
-        if (combinedText.equals("null") || combinedText.isEmpty()) {
-            return "Issue #"+c.getClusterID();
-        }
-
-        return generateSummaryText(sb.toString(), length);
+        return generateSummaryText(sb.toString().trim(), length);
     }
 
     public String summariseClusterContent(Cluster c, int length) {
@@ -213,16 +208,15 @@ public class ForumService {
             sb.append(fp.getContent()+" ");
         }
 
-        String combinedText = sb.toString().trim();
-        if (combinedText.equals("null") || combinedText.isEmpty()) {
-            return "Issue #"+c.getClusterID();
-        }
-
-
-        return generateSummaryText(sb.toString(), length);
+        return generateSummaryText(sb.toString().trim(), length);
     }
 
     public String generateSummaryText(String words, int summaryLength){
+
+        if (words.equals("null") || words.isEmpty()) {
+            return "No summary text available";
+        }
+
         TextSummariser summariser = new TextSummariser();
         List<String> wordList = summariser.getSortedTopWords(words, summaryLength);
         String summary = String.join(" ", wordList);
