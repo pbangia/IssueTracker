@@ -102,14 +102,15 @@ public class ForumService {
         System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
         System.out.println("All clusters (with forum post IDs): "+clusters.toString());
 
-        setClusterTitles();
+        setClusterText();
 
         return clusters;
     }
 
-    public void setClusterTitles() {
+    public void setClusterText() {
         for (Cluster c: clusters.values()) {
             c.setTitle(summariseClusterTitle(c, 5));
+            c.setSummary(summariseClusterTitle(c, 5));
             ds.save(c);
         }
     }
@@ -195,10 +196,30 @@ public class ForumService {
             sb.append(fp.getTitle()+" ");
         }
 
-        TextSummariser summariser = new TextSummariser();
-        List<String> wordList = summariser.getSortedTopWords(sb.toString(), length);
-        String summary = String.join(" ", wordList);
+        return generateSummaryText(sb.toString().trim(), length);
+    }
 
+    public String summariseClusterContent(Cluster c, int length) {
+        ArrayList<Integer> postIDs = new ArrayList<>(c.getPostIDs());
+        StringBuilder sb = new StringBuilder();
+
+        for (int id: postIDs) {
+            ForumPost fp = getForumPost(id);
+            sb.append(fp.getContent()+" ");
+        }
+
+        return generateSummaryText(sb.toString().trim(), length);
+    }
+
+    public String generateSummaryText(String words, int summaryLength){
+
+        if (words.equals("null") || words.isEmpty()) {
+            return "No summary text available";
+        }
+
+        TextSummariser summariser = new TextSummariser();
+        List<String> wordList = summariser.getSortedTopWords(words, summaryLength);
+        String summary = String.join(" ", wordList);
         return summary;
     }
 
