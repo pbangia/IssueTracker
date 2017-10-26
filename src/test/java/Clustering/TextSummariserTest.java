@@ -121,7 +121,7 @@ public class TextSummariserTest {
         String summarisedTitle = forum.summariseClusterTitle(c, 5);
         c.setTitle(summarisedTitle);
 
-        String expectedDefaultTitle = "NO TEXT";
+        String expectedDefaultTitle = "Issue #1000";
         assertEquals(expectedDefaultTitle, c.getTitle());
 
     }

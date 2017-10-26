@@ -196,6 +196,11 @@ public class ForumService {
             sb.append(fp.getTitle()+" ");
         }
 
+        String combinedText = sb.toString().trim();
+        if (combinedText.equals("null") || combinedText.isEmpty()) {
+            return "Issue #"+c.getClusterID();
+        }
+
         return generateSummaryText(sb.toString(), length);
     }
 
