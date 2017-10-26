@@ -76,7 +76,7 @@ public class ClusteringTest {
         ClusterEvaluation eval = spy(new ClusterEvaluation());
         when(forum.getEval()).thenReturn(eval);
         doNothing().when(eval).evaluateClusterer(any(Instances.class)); // Throws generic exception
-        doNothing().when(forum).setClusterTitles();
+        doNothing().when(forum).setClusterText();
 
         //perform expected mapping on test input
         doReturn(10).when(eval).getNumClusters();

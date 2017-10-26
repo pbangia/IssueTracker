@@ -107,10 +107,10 @@ public class TextSummariserTest {
         List<String> fakeContent = getTestContent();
         Cluster c = initialiseClusterWithMockPostContent(fakeContent);
         String summarisedTitle = forum.summariseClusterContent(c, 11);
-        c.setTitle(summarisedTitle);
+        c.setSummary(summarisedTitle);
 
-        String expectedSummarisedTitle = "fox dog jumps brown lazy higher jump lives pet talk wild";
-        assertEquals(expectedSummarisedTitle, c.getTitle());
+        String expectedSummarisedContent = "fox dog jumps brown lazy higher jump lives pet talk wild";
+        assertEquals(expectedSummarisedContent, c.getSummary());
 
     }
 
