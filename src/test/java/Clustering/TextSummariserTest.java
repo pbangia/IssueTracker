@@ -114,6 +114,18 @@ public class TextSummariserTest {
 
     }
 
+    @Test
+    public void shouldSetADefaultClusterTitleIfClusteredForumPostsHaveEmptyTitle() {
+        List<String> emptyFakeTitles = getTestEmptyTitles();
+        Cluster c = initialiseClusterWithMockPostTitles(emptyFakeTitles);
+        String summarisedTitle = forum.summariseClusterTitle(c, 5);
+        c.setTitle(summarisedTitle);
+
+        String expectedDefaultTitle = "NO TEXT";
+        assertEquals(expectedDefaultTitle, c.getTitle());
+
+    }
+
 
     private Cluster initialiseClusterWithMockPostTitles(List<String> fakeTitles){
         Cluster c = spy(new Cluster("1000"));
@@ -183,5 +195,12 @@ public class TextSummariserTest {
         testContent.add("fox lives in the wild but dog is a pet");
         testContent.add("both fox and dog like to jump but the fox jumps higher");
         return testContent;
+    }
+
+    public List<String> getTestEmptyTitles() {
+        ArrayList<String> fakeTitles = new ArrayList<>();
+        fakeTitles.add("");
+        fakeTitles.add(null);
+        return fakeTitles;
     }
 }
