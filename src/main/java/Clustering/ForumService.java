@@ -203,9 +203,19 @@ public class ForumService {
     }
 
     public String summariseClusterContent(Cluster c, int length) {
+        ArrayList<Integer> postIDs = new ArrayList<>(c.getPostIDs());
+        StringBuilder sb = new StringBuilder();
 
+        for (int id: postIDs) {
+            ForumPost fp = getForumPost(id);
+            sb.append(fp.getContent()+" ");
+        }
 
-        return null;
+        TextSummariser summariser = new TextSummariser();
+        List<String> wordList = summariser.getSortedTopWords(sb.toString(), length);
+        String summary = String.join(" ", wordList);
+
+        return summary;
     }
 
     public ForumPost getForumPost(int id) {
