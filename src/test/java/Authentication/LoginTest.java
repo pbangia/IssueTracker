@@ -35,6 +35,7 @@ public class LoginTest {
     Datastore ds;
     private String TEST_USERNAME = "testUsername";
     private String TEST_PASSWORD = "testPassword";
+    private String INCORRECT_USERNAME = "incorrect_username";
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -56,10 +57,10 @@ public class LoginTest {
     @Test
     public void userStatusShouldBeLoggedInOnSignInIfCredentialsMatch(){
         User u = mock(User.class);
-        when(u.getPassword()).thenReturn("testPassword");
-        doReturn(u).when(auth).findUser("testUsername");
+        when(u.getPassword()).thenReturn(TEST_PASSWORD);
+        doReturn(u).when(auth).findUser(TEST_USERNAME);
 
-        assertTrue(auth.login("testUsername", "testPassword"));
+        assertTrue(auth.login(TEST_USERNAME, TEST_PASSWORD));
         verify(u).setStatus(LOGGED_IN);
         verify(ds).save(u);
         assertEquals(auth.getCurrentUser(), u);
@@ -68,12 +69,12 @@ public class LoginTest {
     @Test
     public void shouldThrowInvalidUsernameExceptionOnSignInIfUsernameDoesNotExist() {
 
-        doReturn(null).when(auth).findUser("incorrect_username");
+        doReturn(null).when(auth).findUser(INCORRECT_USERNAME);
         
         exception.expect(InvalidUsernameException.class);
         exception.expectMessage("Username not exists");
         
-        auth.login("incorrect_username", TEST_PASSWORD);
+        auth.login(INCORRECT_USERNAME, TEST_PASSWORD);
     }
     
     @Test

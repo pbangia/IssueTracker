@@ -34,20 +34,22 @@ import static org.mockito.Mockito.*;
  */
 public class ClusteringTest {
     private User u;
-    private LoginService auth;
-    private DBCollection dbCollection;
     private ForumService forum;
-
-    Set<Integer> postIDs = new HashSet<>();
     IssueTracker issueTracker;
+
+    private String CLUSTER_ID = "53200";
+    private String INCORRECT_CLUSTER_ID = "999";
+    private String AUTHOR1 = "author 1";
+    private String AUTHOR2 = "author 2";
+    private String AUTHOR3 = "author 3";
+    private String AUTHOR4 = "author 4";
+    private String AUTHOR5 = "author 5";
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void init() throws UnknownHostException{
-
-
         MongoClient connection = mock(MongoClient.class);
         Morphia morphia = mock(Morphia.class);
         Datastore ds = mock(Datastore.class);
@@ -101,66 +103,35 @@ public class ClusteringTest {
 
     }
 
-    //TODO:
-    @Test
-    public void showListOfIssueTitles(){
-//        ArrayList<String> testList = getTestList();
-//
-//        List<String> issues = forum.getIssueTitles();
-//
-//        assertEquals(testList.size(),issues.size());
-//        Iterator expected = testList.iterator();
-//        for (String actualIssue: issues){
-//            assertEquals(expected.next(), actualIssue);
-//        }
-    }
-
     @Test
     public void calculateCorrectNumberOfUniqueUsersAffectedForACluster(){
-        Cluster c = new Cluster("53200");
-        c.addForumPost(1000, "author 1"); //Account for multiple posts by same author
-        c.addForumPost(1001, "author 1");
-        c.addForumPost(1002, "author 2");
-        c.addForumPost(1003, "author 3");
-        c.addForumPost(1004, "author 4");
+        Cluster c = new Cluster(CLUSTER_ID);
+        c.addForumPost(1000, AUTHOR1); //Account for multiple posts by same author
+        c.addForumPost(1001, AUTHOR1);
+        c.addForumPost(1002, AUTHOR2);
+        c.addForumPost(1003, AUTHOR3);
+        c.addForumPost(1004, AUTHOR4);
 
-        doReturn(c).when(forum).getCluster("53200");
+        doReturn(c).when(forum).getCluster(CLUSTER_ID);
 
-        Cluster returned = forum.getCluster("53200");
+        Cluster returned = forum.getCluster(CLUSTER_ID);
         assertEquals(4, returned.getNumAffectedUsers());
     }
 
     @Test
     public void calculateCorrectNumberOfPostsInACluster(){
-        Cluster c = new Cluster("53200");
-        c.addForumPost(1000, "author 1"); //Account for multiple posts by same author
-        c.addForumPost(1001, "author 1");
-        c.addForumPost(1002, "author 2");
-        c.addForumPost(1003, "author 3");
-        c.addForumPost(1004, "author 4");
+        Cluster c = new Cluster(CLUSTER_ID);
+        c.addForumPost(1000, AUTHOR1); //Account for multiple posts by same author
+        c.addForumPost(1001, AUTHOR1);
+        c.addForumPost(1002, AUTHOR2);
+        c.addForumPost(1003, AUTHOR3);
+        c.addForumPost(1004, AUTHOR4);
 
-        doReturn(c).when(forum).getCluster("53200");
+        doReturn(c).when(forum).getCluster(CLUSTER_ID);
 
-        Cluster returned = forum.getCluster("53200");
+        Cluster returned = forum.getCluster(CLUSTER_ID);
         assertEquals(5, returned.getNumPosts());
     }
-
-//    @Test
-//    public void clusterSizeIncreasesWhenNewPostAddedToCluster(){
-//        Cluster c = new Cluster(53200);
-//        doReturn(c).when(forum).getCluster(53200);
-//
-//        //Check size before
-//        Cluster cluster = forum.getCluster(53200);
-//        assertEquals(0, cluster.getNumAffectedUsers());
-//        assertEquals(0, cluster.getNumPosts());
-//
-//        //Check size after
-//        cluster.addForumPost(53201, "author 1");
-//        assertEquals(1, cluster.getNumAffectedUsers());
-//        assertEquals(1, cluster.getNumPosts());
-//
-//    }
 
     @Test
     public void shouldThrowInvalidAuthStateExceptionWhenAddingPostToClusterIfNotAdmin(){
@@ -169,28 +140,28 @@ public class ClusteringTest {
         exception.expect(InvalidAuthStateException.class);
         exception.expectMessage("Only admins have permission to add clusters");
 
-        Cluster c = spy(new Cluster("1000"));
-        doReturn(c).when(forum).getCluster("1000");
+        Cluster c = spy(new Cluster(CLUSTER_ID));
+        doReturn(c).when(forum).getCluster(CLUSTER_ID);
         ForumPost f = mock(ForumPost.class);
-        when(f.getAuthor()).thenReturn("author");
+        when(f.getAuthor()).thenReturn(AUTHOR1);
         when(f.getQuestionID()).thenReturn(90);
 
-        forum.addForumPostToCluster(f, "1000");
+        forum.addForumPostToCluster(f, CLUSTER_ID);
     }
 
     @Test
     public void postIsAddedCorrectlyToClusterWhenPerformingAddAsAdmin(){
         when(forum.getAccessPrivilege()).thenReturn(ADMIN);
 
-        Cluster c = spy(new Cluster("1000"));
-        doReturn(c).when(forum).getCluster("1000");
+        Cluster c = spy(new Cluster(CLUSTER_ID));
+        doReturn(c).when(forum).getCluster(CLUSTER_ID);
         ForumPost f = mock(ForumPost.class);
-        when(f.getAuthor()).thenReturn("author");
+        when(f.getAuthor()).thenReturn(AUTHOR1);
         when(f.getQuestionID()).thenReturn(90);
         when(f.getClusterID()).thenReturn(null);
         doReturn(c).when(forum).getCluster("90");
 
-        forum.addForumPostToCluster(f, "1000");
+        forum.addForumPostToCluster(f, CLUSTER_ID);
         verify(c).addForumPost(f.getQuestionID(), f.getAuthor());
         assertTrue(c.getPostIDs().contains(f.getQuestionID()));
         assertTrue(c.getUsersAffected().contains(f.getAuthor()));
@@ -204,13 +175,13 @@ public class ClusteringTest {
 
         //Assign cluster to post
         ForumPost f = mock(ForumPost.class);
-        when(f.getClusterID()).thenReturn("1000");
+        when(f.getClusterID()).thenReturn(CLUSTER_ID);
 
         exception.expect(AssignmentException.class);
         exception.expectMessage("Forum post is already assigned to a cluster");
 
         //Add to different cluster
-        forum.addForumPostToCluster(f, "999");
+        forum.addForumPostToCluster(f, INCORRECT_CLUSTER_ID);
     }
 
     @Test
@@ -220,12 +191,12 @@ public class ClusteringTest {
         exception.expect(InvalidAuthStateException.class);
         exception.expectMessage("Only admins have permission to remove clusters");
 
-        Cluster c = spy(new Cluster("1000"));
-        doReturn(c).when(forum).getCluster("1000");
+        Cluster c = spy(new Cluster(CLUSTER_ID));
+        doReturn(c).when(forum).getCluster(CLUSTER_ID);
         ForumPost f = mock(ForumPost.class);
-        when(f.getAuthor()).thenReturn("author");
+        when(f.getAuthor()).thenReturn(AUTHOR1);
         when(f.getQuestionID()).thenReturn(90);
-        when(f.getClusterID()).thenReturn("1000");
+        when(f.getClusterID()).thenReturn(CLUSTER_ID);
 
         forum.removeForumPostFromCluster(f);
     }
@@ -235,18 +206,18 @@ public class ClusteringTest {
         when(forum.getAccessPrivilege()).thenReturn(ADMIN);
 
         //Initialise post data to remove from cluster
-        Cluster c = spy(new Cluster("1000"));
-        doReturn(c).when(forum).getCluster("1000");
+        Cluster c = spy(new Cluster(CLUSTER_ID));
+        doReturn(c).when(forum).getCluster(CLUSTER_ID);
         ForumPost f = mock(ForumPost.class);
-        when(f.getAuthor()).thenReturn("author");
+        when(f.getAuthor()).thenReturn(AUTHOR1);
         when(f.getQuestionID()).thenReturn(90);
-        when(f.getClusterID()).thenReturn("1000");
+        when(f.getClusterID()).thenReturn(CLUSTER_ID);
         c.setNumAffectedUsers(2);
         c.setNumPosts(2);
 
-        c.setUsersAffected(new ArrayList<>(Arrays.asList(f.getAuthor(), "author2")));
+        c.setUsersAffected(new ArrayList<>(Arrays.asList(f.getAuthor(), AUTHOR2)));
         c.setPostIDs(new HashSet<>(Arrays.asList(f.getQuestionID(),91)));
-        doReturn(c).when(forum).getCluster("1000");
+        doReturn(c).when(forum).getCluster(CLUSTER_ID);
 
         forum.removeForumPostFromCluster(f);
 
@@ -266,7 +237,7 @@ public class ClusteringTest {
         exception.expectMessage("Forum post not assigned to a cluster");
 
         ForumPost f = mock(ForumPost.class);
-        when(f.getAuthor()).thenReturn("author");
+        when(f.getAuthor()).thenReturn(AUTHOR1);
         when(f.getQuestionID()).thenReturn(90);
         when(f.getClusterID()).thenReturn(null);
 
@@ -329,16 +300,16 @@ public class ClusteringTest {
 
     private Cluster initialiseClusterWithMockPosts(){
         //Initialise cluster with forum posts
-        Cluster c = spy(new Cluster("1000"));
-        doReturn(c).when(forum).getCluster("1000");
+        Cluster c = spy(new Cluster(CLUSTER_ID));
+        doReturn(c).when(forum).getCluster(CLUSTER_ID);
         ForumPost f1 = mock(ForumPost.class);
-        when(f1.getAuthor()).thenReturn("author1");
+        when(f1.getAuthor()).thenReturn(AUTHOR1);
         when(f1.getQuestionID()).thenReturn(90);
-        when(f1.getClusterID()).thenReturn("1000");
+        when(f1.getClusterID()).thenReturn(CLUSTER_ID);
         ForumPost f2 = mock(ForumPost.class);
-        when(f2.getAuthor()).thenReturn("author2");
+        when(f2.getAuthor()).thenReturn(AUTHOR2);
         when(f2.getQuestionID()).thenReturn(91);
-        when(f2.getClusterID()).thenReturn("1000");
+        when(f2.getClusterID()).thenReturn(CLUSTER_ID);
         Set<Integer> testPostIds = new HashSet<>(Arrays.asList(f1.getQuestionID(), f2.getQuestionID()));
         when(c.getPostIDs()).thenReturn(testPostIds);
 
