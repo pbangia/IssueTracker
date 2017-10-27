@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * A cluster object to represent an Issue. Contains forum post IDs of posts that have been assigned.
+ * Cluster objects are stored in the "clusters" collection of the database.
  * Created by priyankitbangia on 18/10/17.
  */
 @Entity(value = "clusters")
@@ -18,13 +20,13 @@ public class Cluster implements Serializable {
 
     @Id
     private String clusterID;
-    Set<Integer> postIDs = new HashSet<>();
-    List<String> usersAffected = new ArrayList<>();
+
+    private Set<Integer> postIDs = new HashSet<>();
+    private List<String> usersAffected = new ArrayList<>();
     private int numPosts;
-    private String title = "placeholder title";
-    private String summary = "placeholder summary";
+    private String title;
+    private String summary;
     private int numAffectedUsers;
-    private String context = "placeholder summary";
     private Set<String> assigneeIDs = new HashSet<>();
     private IssueStatus status = IssueStatus.OPEN;
 
@@ -40,6 +42,11 @@ public class Cluster implements Serializable {
         return new ObjectId().toString();
     }
 
+    /**
+     * Handles adding a forum post to this cluster. Updates other objects that are affected.
+     * @param postID ID of forum post to be assigned to this cluster
+     * @param author String representing the author of the forum post
+     */
     public void addForumPost(int postID, String author){
         postIDs.add(postID);
         numPosts=postIDs.size();
@@ -47,18 +54,16 @@ public class Cluster implements Serializable {
         usersAffected.add(author);
     }
 
+    /**
+     * Handles removing a forum post from this cluster. Updates other objects that are affected.
+     * @param forumPost
+     */
     public void removeForumPost(ForumPost forumPost) {
         postIDs.remove(forumPost.getQuestionID());
         numPosts = postIDs.size();
         usersAffected.remove(forumPost.getAuthor());
         numAffectedUsers = (usersAffected.contains(forumPost.getAuthor())) ? numAffectedUsers : numAffectedUsers - 1;
-
-        System.out.println(numAffectedUsers);
         forumPost.setClusterID(null);
-    }
-
-    public void setClusterID(String id) {
-        this.clusterID = id;
     }
 
     public Set<Integer> getPostIDs(){
@@ -89,20 +94,8 @@ public class Cluster implements Serializable {
         this.numAffectedUsers = numAffectedUsers;
     }
 
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
     public Set<String> getAssigneeIDs() {
         return assigneeIDs;
-    }
-
-    public void setAssigneeIDs(Set<String> assigneeIDs) {
-        this.assigneeIDs = assigneeIDs;
     }
 
     public IssueStatus getStatus() {
@@ -142,5 +135,8 @@ public class Cluster implements Serializable {
         return usersAffected;
     }
 
+    /**
+     * An enum which represents the state of the Issue.
+     */
     public enum IssueStatus { OPEN, CLOSED, IN_PROGRESS };
 }

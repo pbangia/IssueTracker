@@ -356,9 +356,9 @@ public class ClusteringTest {
 
         try {
             IssueTracker issueTracker = new IssueTracker();
-            issueTracker.getDs().getCollection(User.class).drop(); //clear db to be able to run sample test
-            issueTracker.getDs().getCollection(ForumPost.class).drop();
-            issueTracker.getDs().getCollection(Cluster.class).drop();
+            issueTracker.getDatastore().getCollection(User.class).drop(); //clear db to be able to run sample test
+            issueTracker.getDatastore().getCollection(ForumPost.class).drop();
+            issueTracker.getDatastore().getCollection(Cluster.class).drop();
 
             // Authenticate
             issueTracker.register("user1","password", ADMIN);

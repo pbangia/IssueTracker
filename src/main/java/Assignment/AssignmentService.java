@@ -1,6 +1,5 @@
 package Assignment;
 
-import java.net.UnknownHostException;
 import java.util.Set;
 
 import exceptions.*;
@@ -17,21 +16,24 @@ import models.UserStatus;
 
 import static models.Cluster.IssueStatus.IN_PROGRESS;
 
+/**
+ * A service which manages the assignment of Issues between admins and developers.
+ */
 public class AssignmentService {
-	private MongoClient connection;
-	private Datastore ds;
-	
-	public AssignmentService() throws UnknownHostException {
-		// connect to mongodb
-		this(new MongoClient("localhost", 27017), new Morphia());
-	}
+	private Datastore datastore;
 
 	public AssignmentService(MongoClient newConnection, Morphia dbMapper) {
-		connection = newConnection;
-		ds = dbMapper.createDatastore(connection, "testdb");
+		datastore = dbMapper.createDatastore(newConnection, "testdb");
 	}
-	
-	public boolean assignIssue(User assigner, String clusterID, String assigneeID) {
+
+	/**
+	 * Handles the assigning of an issue to a developer if permissions allow.
+	 * @param assigner User object of the users who is assigning another user
+	 * @param clusterID string of the issue ID to assign to
+	 * @param assigneeID string of the ID of the assignee
+     * @return a boolean representing successful assignment
+     */
+    public boolean assignIssue(User assigner, String clusterID, String assigneeID) {
 		User assignee = findUser(assigneeID);
 		Cluster cluster = findCluster(clusterID);
 		
@@ -52,16 +54,24 @@ public class AssignmentService {
 		}
 		
 		Set<String> assignees = cluster.getAssigneeIDs();
+
 		if (!assignees.contains(assignee.getUsername())) {
 			assignees.add(assignee.getUsername());
 			cluster.setStatus(IN_PROGRESS);
-			ds.save(cluster);
+			datastore.save(cluster);
 			return true;
 		} else {
 			throw new AssignmentException("The developer has already been assigned to the issue");
 		}
 	}
-	
+
+    /**
+	 * Handles the unassigning of a developer by an Admin from an issue.
+	 * @param currentUser the current User object of the user that is logged in
+	 * @param clusterID cluster ID of the cluster to be unassigned
+	 * @param assigneeID the string ID of user to be unassigned
+	 * @return a boolean representing successful unassignment
+     */
     public boolean unassignIssue(User currentUser, String clusterID, String assigneeID) {
 		Cluster cluster = findCluster(clusterID);
 		
@@ -79,10 +89,16 @@ public class AssignmentService {
 		}
 		
 		assignees.remove(assigneeID);
-		ds.save(cluster);
+		datastore.save(cluster);
 		return true;
 	}
-    
+
+    /**
+	 * Handles the marking of an issue as resolved if permissions allow.
+	 * @param currentUser current user object of the user that is signed in
+	 * @param clusterID cluster ID of the cluster to be marked as resolved
+	 * @return a boolean representing successful resolving
+     */
     public boolean resolveIssue(User currentUser, String clusterID) {
     	if (UserRole.ADMIN == currentUser.getRole()) {
 			throw new InvalidAuthStateException("Only Developers have the permission to perform this operation");
@@ -94,17 +110,27 @@ public class AssignmentService {
 		}
 		
 		cluster.setStatus(IssueStatus.CLOSED);
-		ds.save(cluster);
+		datastore.save(cluster);
 	
 		return true;
 	}
-	
-	public User findUser(String username) {
-		return ds.find(User.class).field("_id").equal(username).get();
+
+	/**
+	 * DB wrapper method to be called when querying DB for user objects by ID.
+	 * @param id id of user object to retrieve
+	 * @return a User object that matches the specified ID
+	 */
+    public User findUser(String id) {
+		return datastore.find(User.class).field("_id").equal(id).get();
 	}
-	
-	public Cluster findCluster(String id) {
-		return ds.find(Cluster.class).field("_id").equal(id).get();
+
+	/**
+	 * DB wrapper method to be called when querying DB for cluster objects by ID.
+	 * @param id id of Cluster object to retrieve
+	 * @return a Cluster object that matches the specified ID
+     */
+    public Cluster findCluster(String id) {
+		return datastore.find(Cluster.class).field("_id").equal(id).get();
 	}
 	
 }

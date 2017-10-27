@@ -5,6 +5,7 @@ import weka.core.Stopwords;
 import java.util.*;
 
 /**
+ * Processes a string of words and creates a summarised string.
  * Created by priyankitbangia on 25/10/17.
  */
 public class TextSummariser {
@@ -25,7 +26,13 @@ public class TextSummariser {
         return map;
     }
 
-    public List<String> getSortedTopWords(String words, int numOfWords){
+    /**
+     * Takes in a string of words and extract the most popular words to form a summarised string.
+     * @param words a string of words to be processed
+     * @param numOfWords number of max words to set for the summarised string
+     * @return a list that is ordered by frequency of words
+     */
+    public String getSortedTopWords(String words, int numOfWords){
         Map<String, Integer> wordCounts = getWordCountMap(words);
         List<String> sortedWords = new ArrayList<String>(wordCounts.keySet());
         Collections.sort(sortedWords, new Comparator<String>() {
@@ -38,6 +45,7 @@ public class TextSummariser {
         });
         int maxSize = Math.min(numOfWords, sortedWords.size());
 
-        return sortedWords.subList(0, maxSize);
+        List<String> wordList = sortedWords.subList(0, maxSize);
+        return String.join(" ", wordList);
     }
 }

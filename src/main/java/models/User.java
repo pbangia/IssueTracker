@@ -4,6 +4,8 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
 /**
+ * A user object that contains user credentials.
+ * User objects are stored in the "users" collection of the database.
  * Created by priyankitbangia on 15/10/17.
  */
 @Entity(value = "users")

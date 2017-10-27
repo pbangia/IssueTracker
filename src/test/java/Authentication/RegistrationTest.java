@@ -150,22 +150,5 @@ public class RegistrationTest {
 
         auth.register(TEST_USERNAME, TEST_PASSWORD,"invalid role");
     }
-    
-    //Must set up mongoDB server first on your device
-    @Ignore
-    @Test
-    public void testRealDatabase(){
-
-        try {
-            RegistrationService r = new IssueTracker().getRegistrationService();
-            r.register("realUsername1","realPassword", "ADMIN");
-            User u = r.getDataStore().find(User.class).field("_id").equal("realUsername").get();
-            System.out.println(u.getUsername());
-        }catch (UserRegistrationException e){
-            System.out.println("User is already registered in real db");
-        }catch (UnknownHostException e){
-            e.printStackTrace();
-        }
-    }
 
 }

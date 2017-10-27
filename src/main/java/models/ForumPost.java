@@ -5,6 +5,8 @@ import org.mongodb.morphia.annotations.Id;
 import weka.core.Instance;
 
 /**
+ * A forum post object that contains the fields of forum post data.
+ * ForumPost objects are stored in the "forumposts" collection of the database.
  * Created by priyankitbangia on 18/10/17.
  */
 @Entity(value = "forumposts")
@@ -21,6 +23,7 @@ public class ForumPost {
     private String url;
     private String clusterID;
 
+    /* Default constructor required by dbMapper */
     public ForumPost(){}
 
     public ForumPost(Instance rawData){
@@ -33,10 +36,6 @@ public class ForumPost {
         url = rawData.stringValue(6);
     }
 
-    public ForumPost(String[] fields){
-
-    }
-
     public ForumPost(int id) {
         questionID=id;
     }
@@ -46,60 +45,20 @@ public class ForumPost {
         return Integer.toString(questionID);
     }
 
-    public int getDetailsID() {
-        return detailsID;
-    }
-
-    public void setDetailsID(int detailsID) {
-        this.detailsID = detailsID;
-    }
-
     public int getQuestionID() {
         return questionID;
-    }
-
-    public void setQuestionID(int questionID) {
-        this.questionID = questionID;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public String getContent() {
         return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getClusterID() {

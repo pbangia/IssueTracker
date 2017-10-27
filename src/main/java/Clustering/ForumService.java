@@ -15,16 +15,15 @@ import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.DBSCAN;
 import weka.core.Instances;
 import weka.filters.Filter;
-import weka.filters.unsupervised.attribute.InterquartileRange;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
-import java.net.UnknownHostException;
 import java.util.*;
 
 import static models.UserRole.ADMIN;
 
 
 /**
+ * A service to manage clustering tasks of processing forum post data.
  * Created by priyankitbangia on 18/10/17.
  */
 public class ForumService {
@@ -36,42 +35,22 @@ public class ForumService {
     Map<String, Cluster> clusters;
     public Cluster[] clusterIndexes;
 
-    private MongoClient connection;
-    private Datastore ds;
+    private Datastore datastore;
     private UserRole accessPrivilege;
     private String POST_FILE_NAME = "data/testforumPosts.arff";
     private String SENTENCE_FILE_NAME = "data/testforumSentences.arff";
-    //private DB db;
-    //private DBCollection dbCollection;
-
-    public ForumService() throws UnknownHostException {
-        this(new MongoClient("localhost", 27017), new Morphia());
-    }
 
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
         postData = new ForumPostReader().loadData(POST_FILE_NAME);
         postsList = getAllPosts();
 
-        connection = newConnection;
-        ds = dbMapper.createDatastore(connection, "testdb");
+        datastore = dbMapper.createDatastore(newConnection, "testdb");
     }
 
-    public List<String> getIssueTitles() {
-        ArrayList<String> titles = new ArrayList<>();
-        for (ForumPost post: postsList) titles.add(post.getTitle());
-        return titles;
-    }
-
-    public ArrayList<ForumPost> getAllPosts(){
-        ArrayList<ForumPost> posts = new ArrayList<>();
-        for (int i = 0; i< postData.numInstances(); i++){
-            ForumPost post = new ForumPost(postData.instance(i));
-            posts.add(post);
-            postsMap.put(post.getQuestionID(), post);
-        }
-        return posts;
-    }
-
+    /**
+     * Generates related issues an parses information from weka clustering APIs into java objects to store in memory.
+     * @return  a map of cluster objects with their IDs as keys.
+     */
     public Map<String, Cluster> getRelatedIssues(){
 
         //run cluster algorithm
@@ -95,8 +74,8 @@ public class ForumService {
             Cluster c = clusterIndexes[clusterNum];
             post.setClusterID(c.getClusterID());
             c.addForumPost(post.getQuestionID(), post.getAuthor());
-            ds.save(c);
-            ds.save(post);
+            datastore.save(c);
+            datastore.save(post);
         }
 
         System.out.println("Cluster assignments: "+ Arrays.toString(eval.getClusterAssignments()));
@@ -107,31 +86,9 @@ public class ForumService {
         return clusters;
     }
 
-    public void setClusterText() {
-        for (Cluster c: clusters.values()) {
-            c.setTitle(summariseClusterTitle(c, 5));
-            c.setSummary(summariseClusterTitle(c, 5));
-            ds.save(c);
-        }
-    }
-
-    private void saveState() {
-        saveForumPosts();
-        saveClusters();
-    }
-
-    public void saveClusters() {
-        for (Cluster c: clusters.values()) {
-            ds.save(c);
-        }
-    }
-
-    public void saveForumPosts() {
-        for (ForumPost f: postsList) {
-            ds.save(f);
-        }
-    }
-
+    /**
+     * Cluster all forum posts that have been loaded in memory. Uses the Weka clustering APIs.
+     */
     public void clusterPosts() {
         try {
             StringToWordVector s = new StringToWordVector();
@@ -149,31 +106,73 @@ public class ForumService {
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    public void addForumPostToCluster(ForumPost forumPost, String id) {
-        if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to add clusters");
-        if (forumPost.getClusterID() != null) throw new AssignmentException("Forum post is already assigned to a cluster");
-        Cluster c = getCluster(id);
-        c.addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
-        forumPost.setClusterID(id);
-
-        ds.save(c);
-        ds.save(forumPost);
+    /**
+     * Converts 'Instances' objects from the Weka library output, to build a list of Forum Post objects.
+     * Stores a reference to the forum post objects in a map.
+     * @return an arraylist of all forum posts.
+     */
+    public ArrayList<ForumPost> getAllPosts(){
+        ArrayList<ForumPost> posts = new ArrayList<>();
+        for (int i = 0; i< postData.numInstances(); i++){
+            ForumPost post = new ForumPost(postData.instance(i));
+            posts.add(post);
+            postsMap.put(post.getQuestionID(), post);
+        }
+        return posts;
     }
 
+    /**
+     * Iterates through all clusters, sets their summarised titles and content.
+     * Saves state of cluster objects after title and content summaries have been set.
+     */
+    public void setClusterText() {
+        for (Cluster c: clusters.values()) {
+            c.setTitle(summariseClusterTitle(c, 5));
+            c.setSummary(summariseClusterTitle(c, 5));
+            datastore.save(c);
+        }
+    }
+
+    /**
+     * Takes forum post object and cluster id, adds forum post reference to the cluster of specified cluster id.
+     * Checks if permission is allowed, and if a cluster object of the specified cluster id exists.
+     * @param forumPost forum post object to be added
+     * @param clusterId ID of cluster object to add forum post to
+     */
+    public void addForumPostToCluster(ForumPost forumPost, String clusterId) {
+        if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to add clusters");
+        if (forumPost.getClusterID() != null) throw new AssignmentException("Forum post is already assigned to a cluster");
+        Cluster c = getCluster(clusterId);
+        c.addForumPost(forumPost.getQuestionID(), forumPost.getAuthor());
+        forumPost.setClusterID(clusterId);
+
+        datastore.save(c);
+        datastore.save(forumPost);
+    }
+
+    /**
+     * Removes the specified forum post from it's cluster if permission allows and if it is currently assigned.
+     * @param forumPost the forum post object to remove
+     */
     public void removeForumPostFromCluster(ForumPost forumPost) {
         if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to remove clusters");
         if (forumPost.getClusterID() == null) throw new AssignmentException("Forum post not assigned to a cluster");
         Cluster cluster = getCluster(forumPost.getClusterID());
         cluster.removeForumPost(forumPost);
 
-        ds.save(forumPost);
-        ds.save(cluster);
+        datastore.save(forumPost);
+        datastore.save(cluster);
     }
 
+    /**
+     * Deletes a cluster object if permission allows. Removes existing forum posts from this cluster, places them into
+     * their own individual new clusters.
+     * @param c the cluster object to be deleted
+     */
     public void deleteCluster(Cluster c) {
         if (getAccessPrivilege()!= ADMIN) throw new InvalidAuthStateException("Only admins have permission to remove clusters");
         if (!clusters.containsKey(c.getClusterID())) throw new ClusterException("Cluster ID does not exist");
-        ds.delete(c);
+        datastore.delete(c);
         clusters.remove(c.getClusterID());
         for (int fid : c.getPostIDs()) {
             Cluster newCluster = new Cluster();
@@ -182,11 +181,18 @@ public class ForumService {
             ForumPost fp = postsMap.get(fid);
             fp.setClusterID(newCluster.getClusterID());
             newCluster.addForumPost(fp.getQuestionID(), fp.getAuthor());
-            ds.save(fp);
-            ds.save(newCluster);
+            datastore.save(fp);
+            datastore.save(newCluster);
         }
     }
 
+    /**
+     * Combines all titles from forum posts within a cluster object.
+     * Summarises the key words into a string of a specified number of words.
+     * @param c cluster object containing the forum posts to summarise
+     * @param length length of words to set for summarised string
+     * @return a string of specified number of words representing issue title
+     */
     public String summariseClusterTitle(Cluster c, int length) {
         ArrayList<Integer> postIDs = new ArrayList<>(c.getPostIDs());
         StringBuilder sb = new StringBuilder();
@@ -199,6 +205,13 @@ public class ForumService {
         return generateSummaryText(sb.toString().trim(), length);
     }
 
+    /**
+     * Combines all forum post descriptions within a cluster object.
+     * Summarises key words into a string of a specified number of words.
+     * @param c cluster object containing the forum posts to summarise
+     * @param length length of words to set for summarised string
+     * @return a string of specified number of words representing issue content
+     */
     public String summariseClusterContent(Cluster c, int length) {
         ArrayList<Integer> postIDs = new ArrayList<>(c.getPostIDs());
         StringBuilder sb = new StringBuilder();
@@ -211,6 +224,12 @@ public class ForumService {
         return generateSummaryText(sb.toString().trim(), length);
     }
 
+    /**
+     * Performs key word extraction on a given string by passing input to the text summariser.
+     * @param words string representing the words to summarise
+     * @param summaryLength number of key words to set
+     * @return a string of specified length representing a summarised string
+     */
     public String generateSummaryText(String words, int summaryLength){
 
         if (words.equals("null") || words.isEmpty()) {
@@ -218,13 +237,17 @@ public class ForumService {
         }
 
         TextSummariser summariser = new TextSummariser();
-        List<String> wordList = summariser.getSortedTopWords(words, summaryLength);
-        String summary = String.join(" ", wordList);
-        return summary;
+        return summariser.getSortedTopWords(words, summaryLength);
+
     }
 
+    /**
+     * DB wrapper method to be called when querying DB for forum post objects by ID.
+     * @param id id of forum post to retrieve
+     * @return a ForumPost object that matches the specified ID
+     */
     public ForumPost getForumPost(int id) {
-        return ds.find(ForumPost.class).field("_id").equal(id).get();
+        return datastore.find(ForumPost.class).field("_id").equal(id).get();
     }
 
     public List<Cluster> getSortedClusters(ClusterSortBy category, boolean asc) {
@@ -233,6 +256,23 @@ public class ForumService {
         if (asc) Collections.reverse(list);
         return list;
     }
+
+//    private void saveState() {
+//        saveForumPosts();
+//        saveClusters();
+//    }
+//
+//    public void saveClusters() {
+//        for (Cluster c: clusters.values()) {
+//            datastore.save(c);
+//        }
+//    }
+//
+//    public void saveForumPosts() {
+//        for (ForumPost f: postsList) {
+//            datastore.save(f);
+//        }
+//    }
 
     public Cluster getCluster(String i) {
         return clusters.get(i);
@@ -254,7 +294,6 @@ public class ForumService {
         return new ClusterEvaluation();
     }
 
-
     public List<Cluster> getClustersAsList() {
         return new ArrayList<>(clusters.values());
     }
@@ -271,7 +310,4 @@ public class ForumService {
         return clusters;
     }
 
-    public Map<Integer,ForumPost> getPostsMap() {
-        return postsMap;
-    }
 }

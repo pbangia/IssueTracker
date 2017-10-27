@@ -3,7 +3,7 @@ package models;
 import java.util.Comparator;
 
 /**
- * Created by g.tiongco on 23/10/17.
+ * Enum which handles which comparator to use for comparing Cluster objects when sorting by priority.
  */
 public enum ClusterSortBy implements Comparator<Cluster> {
     NUMPOSTS {
