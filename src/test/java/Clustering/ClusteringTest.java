@@ -386,6 +386,7 @@ public class ClusteringTest {
 
             // Authenticate
             issueTracker.register("user1","password", ADMIN);
+            issueTracker.register("user2","password", DEVELOPER);
             issueTracker.login("user1","password");
 
             // Load cluster info
@@ -393,8 +394,10 @@ public class ClusteringTest {
             Map<String, Cluster> clusters = forum.getRelatedIssues();
 
             // Use cluster info
+            User user = issueTracker.getLoginService().getCurrentUser();
             for (Cluster c: clusters.values()) {
-                System.out.println(c.getClusterID());
+                issueTracker.getAssignmentService().assignIssue(user,c.getClusterID(),"user2");
+                System.out.println("Cluster ID: " + c.getClusterID());
             }
 
             /* Check mongo db server entries. execute the commands in the server shell:
