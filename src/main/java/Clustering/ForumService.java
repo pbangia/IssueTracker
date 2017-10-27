@@ -38,7 +38,6 @@ public class ForumService {
     private Datastore datastore;
     private UserRole accessPrivilege;
     private String POST_FILE_NAME = "data/testforumPosts.arff";
-    private String SENTENCE_FILE_NAME = "data/testforumSentences.arff";
 
     public ForumService(MongoClient newConnection, Morphia dbMapper) {
         postData = new ForumPostReader().loadData(POST_FILE_NAME);
@@ -256,23 +255,6 @@ public class ForumService {
         if (asc) Collections.reverse(list);
         return list;
     }
-
-//    private void saveState() {
-//        saveForumPosts();
-//        saveClusters();
-//    }
-//
-//    public void saveClusters() {
-//        for (Cluster c: clusters.values()) {
-//            datastore.save(c);
-//        }
-//    }
-//
-//    public void saveForumPosts() {
-//        for (ForumPost f: postsList) {
-//            datastore.save(f);
-//        }
-//    }
 
     public Cluster getCluster(String i) {
         return clusters.get(i);

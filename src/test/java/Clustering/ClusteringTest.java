@@ -321,39 +321,6 @@ public class ClusteringTest {
         return c;
     }
 
-    @Ignore
-    @Test
-    public void testRealDatabaseWithClusterPersistence(){
-
-        try {
-            IssueTracker issueTracker = new IssueTracker();
-            issueTracker.getDatastore().getCollection(User.class).drop(); //clear db to be able to run sample test
-            issueTracker.getDatastore().getCollection(ForumPost.class).drop();
-            issueTracker.getDatastore().getCollection(Cluster.class).drop();
-
-            // Authenticate
-            issueTracker.register("user1","password", ADMIN);
-            issueTracker.login("user1","password");
-
-            // Load cluster info
-            ForumService forum = issueTracker.getForumService();
-            Map<String, Cluster> clusters = forum.getRelatedIssues();
-
-            // Use cluster info
-            for (Cluster c: clusters.values()) {
-                System.out.println(c.getClusterID());
-            }
-
-
-
-            
-        }catch (UserRegistrationException e){
-            System.out.println("User is already registered in real db");
-        }catch (UnknownHostException e){
-            e.printStackTrace();
-        }
-    }
-
     public ArrayList<ForumPost> getTestPosts(){
         ArrayList<ForumPost> posts = new ArrayList<>();
         posts.add(new ForumPost(44330));
@@ -400,5 +367,50 @@ public class ClusteringTest {
         idList.add(new HashSet<Integer>(Arrays.asList(44338)));
         idList.add(new HashSet<Integer>(Arrays.asList(44339)));
         return idList;
+    }
+
+    /**
+     * Test to run real environment. Ensures implementation works in production and data
+     * persists. Requires setup of a Mongo server connected to local host.
+     * Follow instructions below to examine entries made in the MongoDB.
+     */
+    @Ignore
+    @Test
+    public void testRealDatabaseWithClusterPersistence(){
+
+        try {
+            IssueTracker issueTracker = new IssueTracker();
+            issueTracker.getDatastore().getCollection(User.class).drop(); //clear db to be able to run sample test
+            issueTracker.getDatastore().getCollection(ForumPost.class).drop();
+            issueTracker.getDatastore().getCollection(Cluster.class).drop();
+
+            // Authenticate
+            issueTracker.register("user1","password", ADMIN);
+            issueTracker.login("user1","password");
+
+            // Load cluster info
+            ForumService forum = issueTracker.getForumService();
+            Map<String, Cluster> clusters = forum.getRelatedIssues();
+
+            // Use cluster info
+            for (Cluster c: clusters.values()) {
+                System.out.println(c.getClusterID());
+            }
+
+            /* Check mongo db server entries. execute the commands in the server shell:
+             * 1. use testdb
+             * 2. db.users.find()       -> lists all users persisted in db
+             * 3. db.clusters.find()    -> lists all clusters persisted in db
+             * 4. db.forumposts.find()  -> lists all forum posts persisted in db
+             *
+             * Querying clusters by ID example: db.clusters.find( "_id" : "<INSERT ID>" )
+             * Querying forum posts by assigned Cluster ID example: db.forumposts.find( "clusterID" : "<INSERT CID>" )
+             */
+
+        }catch (UserRegistrationException e){
+            System.out.println("User is already registered in real db");
+        }catch (UnknownHostException e){
+            e.printStackTrace();
+        }
     }
 }
